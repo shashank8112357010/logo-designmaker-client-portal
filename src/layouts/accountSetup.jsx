@@ -32,6 +32,6 @@ export function AccountSetup() {
   );
 }
 
-// AccountSetup.displayName = "/src/layout/accountSetup.jsx";
+AccountSetup.displayName = "/src/layout/accountSetup.jsx";
 
 export default AccountSetup;

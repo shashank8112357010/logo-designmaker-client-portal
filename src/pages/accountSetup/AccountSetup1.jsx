@@ -2,6 +2,7 @@ import { useState } from "react";
 import LeftSide from "../../components/LeftSide";
 import { DotGroup } from "../../components/Dot";
 import { useNavigate } from "react-router-dom";
+import {ArrowLeftIcon} from "@heroicons/react/24/outline";
 
 function AccountSetup1() {
     const [firstName, setFirstName] = useState("");
@@ -23,7 +24,10 @@ function AccountSetup1() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        navigate("/accountsetup2");
+        navigate("/accountsetup/step-2");
+    };
+    const handleGoBack = () => {
+        navigate("/auth/sign-up");
     };
 
     return (
@@ -43,10 +47,11 @@ function AccountSetup1() {
                 <div className="w-full bg-white h-2 mt-4 rounded-lg">
                     <div className="bg-primaryGreen h-2 rounded-lg" style={{ width: '20%' }}></div>
                 </div>
-                <div className="flex flex-col items-start justify-center mt-12 max-h-screen mx-32">
-                    <div className="text-center">
-                        <p className="text-2xl font-bold text-white">Tell us a bit about you</p>
-                        <p></p>
+                    <ArrowLeftIcon className="text-gray-100 w-5 h-5 mt-5 ml-1 cursor-pointer" onClick={handleGoBack}/>
+                <div className="flex flex-col items-start justify-center mt-8 max-h-screen mx-32">
+                    <div>
+                        <p className="text-3xl font-bold text-white">Tell us a bit about you</p>
+                        <p className="text-customGray mt-2">That will help us better account setup for you</p>
                     </div>
                     <form className="md:mt-8 mb-2 w-auto max-w-screen-lg md:w-full" onSubmit={handleSubmit}>
                         <div className="flex justify-between">

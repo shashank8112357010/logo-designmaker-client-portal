@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DotGroup } from '../../components/Dot';
 import LeftSide from '../../components/LeftSide';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 function AccountSetupStep2() {
     const [brandName, setBrandName] = useState("");
@@ -18,7 +19,10 @@ function AccountSetupStep2() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        navigate('/account-setup-step-3');
+        navigate("/accountsetup/step-3");
+    };
+    const handleGoBack = () => {
+        navigate(-1);
     };
 
     return (
@@ -38,10 +42,11 @@ function AccountSetupStep2() {
                 <div className="w-full bg-white h-2 mt-4 rounded-lg">
                     <div className="bg-primaryGreen h-2 rounded-lg" style={{ width: '40%' }}></div>
                 </div>
-                <div className="flex flex-col items-start justify-center mt-12 max-h-screen mx-32">
+                <ArrowLeftIcon className="text-gray-100 w-5 h-5 mt-5 ml-1 cursor-pointer" onClick={handleGoBack}/>
+                <div className="flex flex-col items-start justify-center mt-8 max-h-screen mx-32">
                     <div className="">
-                        <p className="text-2xl font-bold text-white">Make your Designs in a few steps</p>
-                        <p className="text-white mt-2">Let's get to know you better and create a design you love.</p>
+                        <p className="text-3xl font-bold text-white">Make your Designs in a few steps</p>
+                        <p className="text-customGray mt-2">Let's get to know you better and create a design you love.</p>
                     </div>
                     <form className="md:mt-8 mb-2 w-auto max-w-screen-lg md:w-full" onSubmit={handleSubmit}>
                         <div className="mb-6">
@@ -51,12 +56,12 @@ function AccountSetupStep2() {
                                 value={brandName}
                                 onChange={handleBrandNameChange}
                                 placeholder="Please Add your Brand name"
-                                className="w-full p-3 bg-primaryBlack border-none text-gray-600 rounded-lg"
+                                className="w-full p-3 bg-primaryBlack border-none text-gray-100 rounded-lg"
                                 required
                             />
                         </div>
                         <div className="mb-6">
-                            <label className="text-white text-base font-medium mb-1">Add your slogan <span className="text-gray-400">Or add it later</span></label>
+                            <label className="text-white text-base font-medium mb-1">Add your slogan <span className="text-customGray">Or add it later</span></label>
                             <input
                                 type="text"
                                 value={slogan}

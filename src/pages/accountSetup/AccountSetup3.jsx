@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { DotGroup } from '../../components/Dot';
 import LeftSide from '../../components/LeftSide';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+import Select from '../../components/Select';
 
 function AccountSetupStep3() {
     const [designType, setDesignType] = useState("");
     const [targetNiche, setTargetNiche] = useState("");
     const [otherDetails, setOtherDetails] = useState("");
+    const navigate = useNavigate();
 
-    const handleDesignTypeChange = (e) => {
-        setDesignType(e.target.value);
-    };
+    const handleDesignTypeChange = (values) => this.setDesignType(values)
 
     const handleTargetNicheChange = (e) => {
         setTargetNiche(e.target.value);
@@ -21,7 +23,36 @@ function AccountSetupStep3() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        navigate("/accountsetup/step-4");
     };
+    const handleGoBack = () => {
+        navigate(-1);
+    };
+    const tags1 = [
+        "Tutorial",
+        "HowTo",
+        "DIY",
+        "Review",
+        "Tech",
+        "Gaming",
+        "Travel",
+        "Fitness",
+        "Cooking",
+        "Vlog",
+    ];
+
+    const tags2 = [
+        "Apple",
+        "Banana",
+        "Cherry",
+        "Date",
+        "Fig",
+        "Grape",
+        "Kiwi",
+        "Lemon",
+        "Mango",
+        "Nectarine",
+    ];
 
     return (
         <section className="relative bg-secondaryBlack min-h-screen flex">
@@ -40,7 +71,8 @@ function AccountSetupStep3() {
                 <div className="w-full bg-white h-2 mt-4 rounded-lg">
                     <div className="bg-primaryGreen h-2 rounded-lg" style={{ width: '60%' }}></div>
                 </div>
-                <div className="flex flex-col items-start justify-center mt-12 max-h-screen mx-32">
+                <ArrowLeftIcon className="text-gray-100 w-5 h-5 mt-5 ml-1 cursor-pointer" onClick={handleGoBack} />
+                <div className="flex flex-col items-start justify-center mt-8 max-h-screen mx-32">
                     <div className="">
                         <p className="text-3xl font-bold text-white">Tell us about your design requirements</p>
                         <p className="text-customGray mt-2">Share your story to get a design that shows and tells it best.</p>
@@ -48,38 +80,18 @@ function AccountSetupStep3() {
                     <form className="md:mt-8 mb-2 w-auto max-w-screen-lg md:w-full" onSubmit={handleSubmit}>
                         <div className="mb-6">
                             <label className="text-white text-base font-medium mb-1">What type of design do you need?</label>
-                            <select
-                                value={designType}
-                                onChange={handleDesignTypeChange}
-                                className="w-full p-3 bg-primaryBlack border-none text-gray-600 rounded-lg appearance-none"
-                                required
-                            >
-                                <option value="">Select Design Type</option>
-                                <option value="Logo">Logo</option>
-                                <option value="Banner">Banner</option>
-                                <option value="Poster">Poster</option>
-                            </select>
+                            <Select options={tags1} />
                         </div>
                         <div className="mb-6">
                             <label className="text-white text-base font-medium mb-1">Which niche are you targeting?</label>
-                            <select
-                                value={targetNiche}
-                                onChange={handleTargetNicheChange}
-                                className="w-full p-3 bg-primaryBlack border-none text-gray-600 rounded-lg appearance-none"
-                                required
-                            >
-                                <option value="">Select Target Niche</option>
-                                <option value="Fashion">Fashion</option>
-                                <option value="Technology">Technology</option>
-                                <option value="Food">Food</option>
-                            </select>
+                           <Select options={tags2} />
                         </div>
                         <div className="mb-6">
                             <label className="text-white text-base font-medium mb-1">If 'Other' selected, please specify</label>
                             <textarea
                                 value={otherDetails}
                                 onChange={handleOtherDetailsChange}
-                                placeholder="Specify other details"
+                                placeholder="Please Add your Description"
                                 className="w-full p-3 bg-primaryBlack border-none text-gray-600 rounded-lg resize-none"
                                 style={{ height: '100px' }}
                             />

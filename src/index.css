@@ -33,3 +33,44 @@ input[type="checkbox"]:checked::after {
   border-width: 0 0.1rem 0.1rem 0;
   transform: translate(-50%, -50%) rotate(45deg);
 }
+input:focus {
+  @apply outline-none;
+}
+
+.btn {
+  @apply bg-rose-500 text-white py-2 px-6 mt-4 rounded-full shadow-lg shadow-rose-200;
+}
+
+.card {
+  @apply bg-primaryBlack shadow-md rounded-md text-white;
+}
+.custom-scrollbar {
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 0px; /* For Chrome, Safari, and Opera */
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;700&family=Lato:wght@400;700&family=Merriweather:wght@400;700&family=Playfair+Display:wght@400;700&family=Poppins:wght@400;700&family=Source+Sans+Pro:wght@400;700&family=Montserrat:wght@400;700&display=swap');
+
+.font-roboto {
+    font-family: 'Roboto', sans-serif;
+}
+
+.font-open-sans {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.font-poppins {
+  font-family: 'Poppins', sans-serif;
+}
+
+.font-montserrat {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.font-merriweather {
+  font-family: 'Merriweather', serif;
+}
