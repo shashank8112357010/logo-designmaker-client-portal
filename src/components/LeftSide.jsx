@@ -3,7 +3,7 @@ import { BigDotGroup, DotGroup } from './Dot';
 
 const LeftSide = () => {
     return (
-        <div className="hidden md:flex w-1/3 bg-primaryBlack fixed top-0 left-0 h-full p-10 flex-col justify-between">
+        <div className="hidden mmd:flex w-1/3 bg-primaryBlack fixed top-0 left-0 h-full p-10 flex-col justify-between">
             <div className="hidden md:flex absolute top-1 right-0 mr-[1px]">
                 <DotGroup />
             </div>

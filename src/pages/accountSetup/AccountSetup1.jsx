@@ -33,11 +33,11 @@ function AccountSetup1() {
     return (
         <section className="relative bg-secondaryBlack min-h-screen flex">
             <LeftSide />
-            <div className="md:left-1/3 w-full md:w-2/3 p-10 relative overflow-hidden">
-                <div className="hidden fixed top-1 left-1/3 ml-5 md:flex flex-col space-y-2">
+            <div className="mmd:left-1/3 w-full mmd:w-2/3 p-10 relative overflow-hidden">
+                <div className="hidden fixed top-1 left-1/3 ml-5 mmd:flex flex-col space-y-2">
                     <DotGroup />
                 </div>
-                <div className="hidden fixed top-1 left-1/3 ml-1.5 md:flex flex-col space-y-2">
+                <div className="hidden fixed top-1 left-1/3 ml-1.5 mmd:flex flex-col space-y-2">
                     <DotGroup />
                 </div>
                 <div className="flex justify-between items-center">
@@ -48,14 +48,14 @@ function AccountSetup1() {
                     <div className="bg-primaryGreen h-2 rounded-lg" style={{ width: '20%' }}></div>
                 </div>
                     <ArrowLeftIcon className="text-gray-100 w-5 h-5 mt-5 ml-1 cursor-pointer" onClick={handleGoBack}/>
-                <div className="flex flex-col items-start justify-center mt-8 max-h-screen mx-32">
+                <div className="flex flex-col mmd:items-start justify-center mt-8 max-h-screen sm:mx-32">
                     <div>
                         <p className="text-3xl font-bold text-white">Tell us a bit about you</p>
                         <p className="text-customGray mt-2">That will help us better account setup for you</p>
                     </div>
-                    <form className="md:mt-8 mb-2 w-auto max-w-screen-lg md:w-full" onSubmit={handleSubmit}>
-                        <div className="flex justify-between">
-                            <div className="mb-6 w-1/2">
+                    <form className="mt-8 mb-2 max-w-screen-lg w-full" onSubmit={handleSubmit}>
+                        <div className="mmd:flex justify-between">
+                            <div className="mb-6 mmd:w-1/2">
                                 <label className="text-white text-base font-medium mb-1">First name*</label>
                                 <input
                                     type="text"
@@ -66,7 +66,7 @@ function AccountSetup1() {
                                     required
                                 />
                             </div>
-                            <div className="mb-6 ml-5 w-1/2">
+                            <div className="mb-6 mmd:ml-5 mmd:w-1/2">
                                 <label className="text-white text-base font-medium mb-1">Last name*</label>
                                 <input
                                     type="text"

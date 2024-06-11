@@ -28,11 +28,11 @@ function AccountSetupStep2() {
     return (
         <section className="relative bg-secondaryBlack min-h-screen flex">
             <LeftSide />
-            <div className="md:left-1/3 w-full md:w-2/3 p-10 relative overflow-hidden">
-                <div className="hidden fixed top-1 left-1/3 ml-5 md:flex flex-col space-y-2">
+            <div className="mmd:left-1/3 w-full mmd:w-2/3 p-10 relative overflow-hidden">
+                <div className="hidden fixed top-1 left-1/3 ml-5 mmd:flex flex-col space-y-2">
                     <DotGroup />
                 </div>
-                <div className="hidden fixed top-1 left-1/3 ml-1.5 md:flex flex-col space-y-2">
+                <div className="hidden fixed top-1 left-1/3 ml-1.5 mmd:flex flex-col space-y-2">
                     <DotGroup />
                 </div>
                 <div className="flex justify-between items-center">
@@ -48,7 +48,7 @@ function AccountSetupStep2() {
                         <p className="text-3xl font-bold text-white">Make your Designs in a few steps</p>
                         <p className="text-customGray mt-2">Let's get to know you better and create a design you love.</p>
                     </div>
-                    <form className="md:mt-8 mb-2 w-auto max-w-screen-lg md:w-full" onSubmit={handleSubmit}>
+                    <form className="mt-8 mb-2 w-auto max-w-screen-lg md:w-full" onSubmit={handleSubmit}>
                         <div className="mb-6">
                             <label className="text-white text-base font-medium mb-1">Add your brand name*</label>
                             <input
