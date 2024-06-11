@@ -27,7 +27,7 @@ function SignIn() {
   };
 
   return (
-    <section className="relative bg-secondaryBlack min-h-screen flex h-[100vh]">
+    <section className="relative bg-secondaryBlack min-h-screen overflow-hidden">
       <LeftSide />
       <div className="mmd:left-1/3 w-full mmd:w-2/3 p-10 relative overflow-hidden">
         <div className="hidden fixed top-1 left-1/3 ml-5 mmd:flex flex-col space-y-2">
@@ -36,12 +36,12 @@ function SignIn() {
         <div className="hidden fixed top-1 left-1/3 ml-1.5 mmd:flex flex-col space-y-2">
           <DotGroup />
         </div>
-        <div className="flex flex-col items-center justify-center mt-2 max-h-screen">
+        <div className="flex flex-col items-center justify-center mt-2 overflow-hidden">
           <div className="text-center">
             <h3 className="text-white text-2xl font-bold mb-4">Login to your account</h3>
             <p className="text-sm font-normal text-gray-400">Welcome back! Please enter your credentials to log in.</p>
           </div>
-          <form className="md:mt-8 mb-2 w-auto max-w-screen-lg md:w-1/2" onSubmit={handleSubmit}>
+          <form className="mt-8 mb-2 w-auto md:w-1/2" onSubmit={handleSubmit}>
             <div className="mb-6">
               <label className="text-white text-base font-medium mb-1">Email*</label>
               <input

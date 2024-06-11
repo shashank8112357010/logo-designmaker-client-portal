@@ -4,11 +4,11 @@ import LeftSide from '../../components/LeftSide';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 function AccountSetupStep4({ formData, handleNextStep, handlePreviousStep }) {
-    const [selectedFonts, setSelectedFonts] = useState(formData.selectedFonts);
+    const [selectedFonts, setSelectedFonts] = useState(formData?.selectedFonts || []);
 
     const handleFontSelect = (font) => {
         setSelectedFonts(prev =>
-            prev.includes(font) ? prev.filter(f => f !== font) : [...prev, font]
+            prev?.includes(font) ? prev.filter(f => f !== font) : [...prev, font]
         );
     };
 
@@ -54,7 +54,7 @@ function AccountSetupStep4({ formData, handleNextStep, handlePreviousStep }) {
                                 {fontOptions.map((font, index) => (
                                     <div
                                         key={index}
-                                        className={`p-6 bg-primaryBlack rounded-lg flex justify-center cursor-pointer ${selectedFonts.includes(font.name) ? 'ring-2 ring-primaryGreen' : ''}`}
+                                        className={`p-6 bg-primaryBlack rounded-lg flex justify-center cursor-pointer ${selectedFonts?.includes(font.name) ? 'ring-2 ring-primaryGreen' : ''}`}
                                         onClick={() => handleFontSelect(font.name)}
                                     >
                                         <div key={index} className={`h-24 w-40 flex items-center justify-center bg-gray-800 rounded-lg ${font.class}`}>
@@ -65,7 +65,7 @@ function AccountSetupStep4({ formData, handleNextStep, handlePreviousStep }) {
                             </div>
                         </div>
                         <div className="flex flex-wrap gap-2 mb-4">
-                            {selectedFonts.map((font, index) => {
+                            {selectedFonts?.map((font, index) => {
                                 const fontClass = fontOptions.find(f => f.name === font)?.class || '';
                                 return (
                                     <span key={index} className={`p-2 bg-primaryBlack rounded-lg ${fontClass}`}>

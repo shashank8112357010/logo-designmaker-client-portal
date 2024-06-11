@@ -49,7 +49,7 @@ export function SignUp() {
     }
   };
   return (
-    <section className="relative bg-secondaryBlack min-h-screen mmd:flex">
+    <section className="relative bg-secondaryBlack min-h-screen flex">
       <LeftSide />
       <div className="mmd:left-1/3 w-full h-full mmd:w-2/3 mmd:mt-2 overflow-y-auto p-10 mmd:relative">
         <div className=" hidden fixed top-1 left-1/3 ml-5 mmd:flex flex-col  space-y-2">

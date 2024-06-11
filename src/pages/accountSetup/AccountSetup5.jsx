@@ -9,7 +9,7 @@ const ColorPalette = ({ palette, isSelected, onClick }) => (
         onClick={onClick}
     >
         <div className="flex justify-center">
-            {palette.colors.map((color, index) => (
+            {palette?.colors?.map((color, index) => (
                 <div key={index} className="h-24 w-6" style={{ backgroundColor: color }}></div>
             ))}
         </div>
@@ -17,14 +17,14 @@ const ColorPalette = ({ palette, isSelected, onClick }) => (
     </div>
 );
 
-function AccountSetupStep5({ formData, handleNextStep, handlePreviousStep }) {
-    const [selectedPalettes, setSelectedPalettes] = useState(formData.selectedPalettes);
+function AccountSetupStep5({ formData = {}, handleNextStep, handlePreviousStep }) {
+    const [selectedPalettes, setSelectedPalettes] = useState(formData.selectedPalettes || []);
 
     const navigate=useNavigate();
 
     const handlePaletteSelect = (paletteName) => {
         setSelectedPalettes(prev =>
-            prev.includes(paletteName) ? prev.filter(name => name !== paletteName) : [...prev, paletteName]
+            prev?.includes(paletteName) ? prev.filter(name => name !== paletteName) : [...prev, paletteName]
         );
     };
 
@@ -69,11 +69,11 @@ function AccountSetupStep5({ formData, handleNextStep, handlePreviousStep }) {
                         <div className="mb-6">
                             <label className="text-customGray text-base font-medium mb-1">Choose from the Colour options given below</label>
                             <div className="grid grid-cols-2 gap-4 mt-4">
-                                {colorPalettes.map((palette, index) => (
+                                {colorPalettes?.map((palette, index) => (
                                     <ColorPalette
                                         key={index}
                                         palette={palette}
-                                        isSelected={selectedPalettes.includes(palette.name)}
+                                        isSelected={selectedPalettes?.includes(palette.name)}
                                         onClick={() => handlePaletteSelect(palette.name)}
                                     />
                                 ))}

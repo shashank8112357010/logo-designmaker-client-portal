@@ -44,14 +44,6 @@ input:focus {
 .card {
   @apply bg-primaryBlack shadow-md rounded-md text-white;
 }
-.custom-scrollbar {
-  scrollbar-width: none; /* For Firefox */
-  -ms-overflow-style: none; /* For Internet Explorer and Edge */
-}
-
-.custom-scrollbar::-webkit-scrollbar {
-  width: 0px; /* For Chrome, Safari, and Opera */
-}
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;700&family=Lato:wght@400;700&family=Merriweather:wght@400;700&family=Playfair+Display:wght@400;700&family=Poppins:wght@400;700&family=Source+Sans+Pro:wght@400;700&family=Montserrat:wght@400;700&display=swap');
 
