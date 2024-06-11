@@ -4,8 +4,8 @@ import LeftSide from '../../components/LeftSide';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 function AccountSetupStep2({ formData, handleNextStep, handlePreviousStep }) {
-    const [brandName, setBrandName] = useState(formData.brandName);
-    const [slogan, setSlogan] = useState(formData.slogan);
+    const [brandName, setBrandName] = useState(formData?.brandName);
+    const [slogan, setSlogan] = useState(formData?.slogan);
 
     const handleBrandNameChange = (e) => {
         setBrandName(e.target.value);

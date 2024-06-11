@@ -5,9 +5,9 @@ import { useNavigate } from "react-router-dom";
 import {ArrowLeftIcon} from "@heroicons/react/24/outline";
 
 function AccountSetup1({ formData, handleNextStep }) {
-    const [firstName, setFirstName] = useState(formData.firstName);
-    const [lastName, setLastName] = useState(formData.lastName);
-    const [businessName, setBusinessName] = useState(formData.businessName);
+    const [firstName, setFirstName] = useState(formData?.firstName);
+    const [lastName, setLastName] = useState(formData?.lastName);
+    const [businessName, setBusinessName] = useState(formData?.businessName);
     const navigate = useNavigate();
 
     const handleFirstNameChange = (e) => {

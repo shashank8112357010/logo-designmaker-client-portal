@@ -5,9 +5,9 @@ import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import Select from '../../components/Select';
 
 function AccountSetupStep3({ formData, handleNextStep, handlePreviousStep }) {
-    const [designType, setDesignType] = useState(formData.designType);
-    const [targetNiche, setTargetNiche] = useState(formData.targetNiche);
-    const [otherDetails, setOtherDetails] = useState(formData.otherDetails);
+    const [designType, setDesignType] = useState(formData?.designType);
+    const [targetNiche, setTargetNiche] = useState(formData?.targetNiche);
+    const [otherDetails, setOtherDetails] = useState(formData?.otherDetails);
 
     const handleSubmit = (e) => {
         e.preventDefault();
