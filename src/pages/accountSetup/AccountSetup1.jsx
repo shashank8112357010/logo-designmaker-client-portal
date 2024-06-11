@@ -4,10 +4,10 @@ import { DotGroup } from "../../components/Dot";
 import { useNavigate } from "react-router-dom";
 import {ArrowLeftIcon} from "@heroicons/react/24/outline";
 
-function AccountSetup1() {
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [businessName, setBusinessName] = useState("");
+function AccountSetup1({ formData, handleNextStep }) {
+    const [firstName, setFirstName] = useState(formData.firstName);
+    const [lastName, setLastName] = useState(formData.lastName);
+    const [businessName, setBusinessName] = useState(formData.businessName);
     const navigate = useNavigate();
 
     const handleFirstNameChange = (e) => {
@@ -24,7 +24,7 @@ function AccountSetup1() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        navigate("/accountsetup/step-2");
+        handleNextStep({ firstName, lastName, businessName });
     };
     const handleGoBack = () => {
         navigate("/auth/sign-up");
@@ -62,7 +62,7 @@ function AccountSetup1() {
                                     value={firstName}
                                     onChange={handleFirstNameChange}
                                     placeholder="Neilson"
-                                    className="w-full p-3 bg-primaryBlack border-none text-gray-600 rounded-lg"
+                                    className="w-full p-3 bg-primaryBlack border-none text-white rounded-lg"
                                     required
                                 />
                             </div>
@@ -73,7 +73,7 @@ function AccountSetup1() {
                                     value={lastName}
                                     onChange={handleLastNameChange}
                                     placeholder="wang"
-                                    className="w-full p-3 bg-primaryBlack border-none text-gray-600 rounded-lg"
+                                    className="w-full p-3 bg-primaryBlack border-none text-white rounded-lg"
                                     required
                                 />
                             </div>
@@ -85,7 +85,7 @@ function AccountSetup1() {
                                 value={businessName}
                                 onChange={handleBusinessNameChange}
                                 placeholder="Venturecapitals"
-                                className="w-full p-3 bg-primaryBlack border-none text-gray-600 rounded-lg"
+                                className="w-full p-3 bg-primaryBlack border-none text-white rounded-lg"
                             />
                         </div>
                         <div className="flex items-center justify-start">

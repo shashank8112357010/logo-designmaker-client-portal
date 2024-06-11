@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { DotGroup } from '../../components/Dot';
 import LeftSide from '../../components/LeftSide';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
-function AccountSetupStep4() {
-    const [selectedFonts, setSelectedFonts] = useState([]);
-    const navigate = useNavigate();
+function AccountSetupStep4({ formData, handleNextStep, handlePreviousStep }) {
+    const [selectedFonts, setSelectedFonts] = useState(formData.selectedFonts);
 
     const handleFontSelect = (font) => {
         setSelectedFonts(prev =>
@@ -16,11 +14,7 @@ function AccountSetupStep4() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        navigate("/accountsetup/step-5");
-    };
-
-    const handleGoBack = () => {
-        navigate(-1);
+        handleNextStep({ selectedFonts });
     };
 
     const fontOptions = [
@@ -47,7 +41,7 @@ function AccountSetupStep4() {
                 <div className="w-full bg-white h-2 mt-4 rounded-lg">
                     <div className="bg-primaryGreen h-2 rounded-lg" style={{ width: '80%' }}></div>
                 </div>
-                <ArrowLeftIcon className="text-gray-100 w-5 h-5 mt-5 ml-1 cursor-pointer" onClick={handleGoBack} />
+                <ArrowLeftIcon className="text-gray-100 w-5 h-5 mt-5 ml-1 cursor-pointer" onClick={handlePreviousStep} />
                 <div className="flex flex-col items-start justify-center mt-8 max-h-screen mx-32">
                     <div className="">
                         <p className="text-3xl font-bold text-white">Have a design style in mind?</p>
@@ -63,7 +57,7 @@ function AccountSetupStep4() {
                                         className={`p-6 bg-primaryBlack rounded-lg flex justify-center cursor-pointer ${selectedFonts.includes(font.name) ? 'ring-2 ring-primaryGreen' : ''}`}
                                         onClick={() => handleFontSelect(font.name)}
                                     >
-                                        <div  key={index} className={`h-24 w-40 flex items-center justify-center bg-gray-800 rounded-lg ${font.class}`}>
+                                        <div key={index} className={`h-24 w-40 flex items-center justify-center bg-gray-800 rounded-lg ${font.class}`}>
                                             <p className="text-white">{font.name}</p>
                                         </div>
                                     </div>

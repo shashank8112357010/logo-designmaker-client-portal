@@ -1,32 +1,17 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { DotGroup } from '../../components/Dot';
 import LeftSide from '../../components/LeftSide';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import Select from '../../components/Select';
 
-function AccountSetupStep3() {
-    const [designType, setDesignType] = useState("");
-    const [targetNiche, setTargetNiche] = useState("");
-    const [otherDetails, setOtherDetails] = useState("");
-    const navigate = useNavigate();
-
-    const handleDesignTypeChange = (values) => this.setDesignType(values)
-
-    const handleTargetNicheChange = (e) => {
-        setTargetNiche(e.target.value);
-    };
-
-    const handleOtherDetailsChange = (e) => {
-        setOtherDetails(e.target.value);
-    };
+function AccountSetupStep3({ formData, handleNextStep, handlePreviousStep }) {
+    const [designType, setDesignType] = useState(formData.designType);
+    const [targetNiche, setTargetNiche] = useState(formData.targetNiche);
+    const [otherDetails, setOtherDetails] = useState(formData.otherDetails);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        navigate("/accountsetup/step-4");
-    };
-    const handleGoBack = () => {
-        navigate(-1);
+        handleNextStep({ designType,targetNiche,otherDetails});
     };
     const tags1 = [
         "Tutorial",
@@ -71,7 +56,7 @@ function AccountSetupStep3() {
                 <div className="w-full bg-white h-2 mt-4 rounded-lg">
                     <div className="bg-primaryGreen h-2 rounded-lg" style={{ width: '60%' }}></div>
                 </div>
-                <ArrowLeftIcon className="text-gray-100 w-5 h-5 mt-5 ml-1 cursor-pointer" onClick={handleGoBack} />
+                <ArrowLeftIcon className="text-gray-100 w-5 h-5 mt-5 ml-1 cursor-pointer" onClick={handlePreviousStep} />
                 <div className="flex flex-col items-start justify-center mt-8 max-h-screen mx-32">
                     <div className="">
                         <p className="text-3xl font-bold text-white">Tell us about your design requirements</p>
@@ -80,19 +65,19 @@ function AccountSetupStep3() {
                     <form className="md:mt-8 mb-2 w-auto max-w-screen-lg md:w-full" onSubmit={handleSubmit}>
                         <div className="mb-6">
                             <label className="text-white text-base font-medium mb-1">What type of design do you need?</label>
-                            <Select options={tags1} />
+                            <Select options={tags1} value={designType} onChange={setDesignType} />
                         </div>
                         <div className="mb-6">
                             <label className="text-white text-base font-medium mb-1">Which niche are you targeting?</label>
-                           <Select options={tags2} />
+                           <Select options={tags2} value={targetNiche} onChange={setTargetNiche} />
                         </div>
                         <div className="mb-6">
                             <label className="text-white text-base font-medium mb-1">If 'Other' selected, please specify</label>
                             <textarea
                                 value={otherDetails}
-                                onChange={handleOtherDetailsChange}
+                                onChange={(e) => {setOtherDetails(e.target.value);}}
                                 placeholder="Please Add your Description"
-                                className="w-full p-3 bg-primaryBlack border-none text-gray-600 rounded-lg resize-none"
+                                className="w-full p-3 bg-primaryBlack border-none text-white rounded-lg resize-none"
                                 style={{ height: '100px' }}
                             />
                         </div>

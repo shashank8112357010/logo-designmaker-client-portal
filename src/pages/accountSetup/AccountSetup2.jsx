@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { DotGroup } from '../../components/Dot';
 import LeftSide from '../../components/LeftSide';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
-function AccountSetupStep2() {
-    const [brandName, setBrandName] = useState("");
-    const [slogan, setSlogan] = useState("");
-    const navigate = useNavigate();
+function AccountSetupStep2({ formData, handleNextStep, handlePreviousStep }) {
+    const [brandName, setBrandName] = useState(formData.brandName);
+    const [slogan, setSlogan] = useState(formData.slogan);
 
     const handleBrandNameChange = (e) => {
         setBrandName(e.target.value);
@@ -19,10 +17,7 @@ function AccountSetupStep2() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        navigate("/accountsetup/step-3");
-    };
-    const handleGoBack = () => {
-        navigate(-1);
+        handleNextStep({ brandName,slogan});
     };
 
     return (
@@ -42,7 +37,7 @@ function AccountSetupStep2() {
                 <div className="w-full bg-white h-2 mt-4 rounded-lg">
                     <div className="bg-primaryGreen h-2 rounded-lg" style={{ width: '40%' }}></div>
                 </div>
-                <ArrowLeftIcon className="text-gray-100 w-5 h-5 mt-5 ml-1 cursor-pointer" onClick={handleGoBack}/>
+                <ArrowLeftIcon className="text-gray-100 w-5 h-5 mt-5 ml-1 cursor-pointer" onClick={handlePreviousStep}/>
                 <div className="flex flex-col items-start justify-center mt-8 max-h-screen mx-32">
                     <div className="">
                         <p className="text-3xl font-bold text-white">Make your Designs in a few steps</p>
@@ -56,7 +51,7 @@ function AccountSetupStep2() {
                                 value={brandName}
                                 onChange={handleBrandNameChange}
                                 placeholder="Please Add your Brand name"
-                                className="w-full p-3 bg-primaryBlack border-none text-gray-100 rounded-lg"
+                                className="w-full p-3 bg-primaryBlack border-none text-white rounded-lg"
                                 required
                             />
                         </div>
@@ -67,7 +62,7 @@ function AccountSetupStep2() {
                                 value={slogan}
                                 onChange={handleSloganChange}
                                 placeholder="Please Add your Slogan"
-                                className="w-full p-3 bg-primaryBlack border-none text-gray-600 rounded-lg"
+                                className="w-full p-3 bg-primaryBlack border-none text-white rounded-lg"
                             />
                         </div>
                         <div className="flex items-center justify-start">

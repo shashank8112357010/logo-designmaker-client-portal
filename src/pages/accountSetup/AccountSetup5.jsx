@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { DotGroup } from '../../components/Dot';
 import LeftSide from '../../components/LeftSide';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
-
-// ColorPalette Component to render each palette
+import { useNavigate } from 'react-router-dom';
 const ColorPalette = ({ palette, isSelected, onClick }) => (
     <div
         className={`p-4 bg-primaryBlack rounded-lg flex flex-col justify-center cursor-pointer last: ${isSelected ? 'ring-2 ring-primaryGreen' : ''}`}
@@ -19,9 +17,10 @@ const ColorPalette = ({ palette, isSelected, onClick }) => (
     </div>
 );
 
-function AccountSetupStep5() {
-    const [selectedPalettes, setSelectedPalettes] = useState([]);
-    const navigate = useNavigate();
+function AccountSetupStep5({ formData, handleNextStep, handlePreviousStep }) {
+    const [selectedPalettes, setSelectedPalettes] = useState(formData.selectedPalettes);
+
+    const navigate=useNavigate();
 
     const handlePaletteSelect = (paletteName) => {
         setSelectedPalettes(prev =>
@@ -31,11 +30,9 @@ function AccountSetupStep5() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        navigate("/accountsetup/step-5");
-    };
-
-    const handleGoBack = () => {
-        navigate(-1);
+        handleNextStep({ selectedPalettes});
+        console.log('Selected Palettes on Submit:', selectedPalettes); 
+        navigate('/dashboard/home');
     };
 
     const colorPalettes = [
@@ -62,7 +59,7 @@ function AccountSetupStep5() {
                 <div className="w-full bg-white h-2 mt-4 rounded-lg">
                     <div className="bg-primaryGreen h-2 rounded-lg" style={{ width: '100%' }}></div>
                 </div>
-                <ArrowLeftIcon className="text-gray-100 w-5 h-5 mt-5 ml-1 cursor-pointer" onClick={handleGoBack} />
+                <ArrowLeftIcon className="text-gray-100 w-5 h-5 mt-5 ml-1 cursor-pointer" onClick={handlePreviousStep} />
                 <div className="flex flex-col items-start justify-center mt-8 max-h-screen mx-32">
                     <div className="">
                         <p className="text-3xl font-bold text-white">Have a design style in mind?</p>
@@ -82,9 +79,17 @@ function AccountSetupStep5() {
                                 ))}
                             </div>
                         </div>
+                        <div className="flex flex-wrap gap-2 mb-4">
+                            {selectedPalettes.map((palette, index) => {
+                                return (
+                                    <span key={index} className="p-2 bg-primaryBlack rounded-lg">
+                                        <p className="text-white">{palette}</p>
+                                    </span>
+                                );
+                            })}
+                        </div>
                         <div className="flex items-center justify-start">
-                            <button type="submit" className="mt-1 p-3 bg-primaryGreen text-primaryBlack font-bold rounded-lg lg:w-[15%]">Next</button>
-                            <button type="button" className="mt-1 p-3 text-gray-400 font-medium mx-10">Skip</button>
+                            <button type="submit" className="mt-1 p-3 bg-primaryGreen text-primaryBlack font-bold rounded-lg lg:w-[15%]">Submit</button>
                         </div>
                     </form>
                 </div>
