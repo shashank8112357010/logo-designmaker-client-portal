@@ -26,6 +26,11 @@ function AccountSetup1({ formData, handleNextStep }) {
         e.preventDefault();
         handleNextStep({ firstName, lastName, businessName });
     };
+
+    const handleSkip = () => {
+        handleNextStep({ firstName: null, lastName: null, businessName: null });
+    };
+
     const handleGoBack = () => {
         navigate("/auth/sign-up");
     };
@@ -90,7 +95,7 @@ function AccountSetup1({ formData, handleNextStep }) {
                         </div>
                         <div className="flex items-center justify-start">
                             <button type="submit" className="mt-1 p-3 bg-primaryGreen text-primaryBlack font-bold rounded-lg lg:w-[15%]">Next</button>
-                            <button type="button" className="mt-1 p-3 text-gray-400 font-medium mx-10">Skip</button>
+                            <button type="button" className="mt-1 p-3 text-gray-400 font-medium mx-10" onClick={handleSkip}>Skip</button>
                         </div>
                     </form>
                 </div>

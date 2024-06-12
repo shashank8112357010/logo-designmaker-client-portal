@@ -19,6 +19,9 @@ function AccountSetupStep2({ formData, handleNextStep, handlePreviousStep }) {
         e.preventDefault();
         handleNextStep({ brandName, slogan });
     };
+    const handleSkip = () => {
+        handleNextStep({ firstName: null, lastName: null, businessName: null });
+    };
 
     return (
         <section className="relative bg-secondaryBlack flex">
@@ -67,7 +70,7 @@ function AccountSetupStep2({ formData, handleNextStep, handlePreviousStep }) {
                         </div>
                         <div className="flex items-center justify-start">
                             <button type="submit" className="mt-6 p-3 bg-primaryGreen text-primaryBlack font-bold rounded-lg lg:w-[15%]">Next</button>
-                            <button type="button" className="mt-6 p-3 text-gray-400 font-medium mx-10">Skip</button>
+                            <button type="button" className="mt-6 p-3 text-gray-400 font-medium mx-10" onClick={handleSkip}>Skip</button>
                         </div>
                     </form>
                 </div>

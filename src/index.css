@@ -112,3 +112,9 @@ input:focus {
   background-color: red; /* Red color for the active tile indicator */
   border-radius: 0;
 }
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-x: hidden;
+}
