@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 export function CheckEmail({ email }) {
   return (
-    <div className=" flex flex-col items-start justify-center mx-20 my-20">
+    <div className=" flex flex-col items-start my-20  mx-20 no-scrollbar bg-secondaryBlack h-screen">
       <h2 className="text-white text-3xl font-bold mb-4">
         Check your mail
       </h2>

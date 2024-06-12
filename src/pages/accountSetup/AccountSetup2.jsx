@@ -17,13 +17,13 @@ function AccountSetupStep2({ formData, handleNextStep, handlePreviousStep }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        handleNextStep({ brandName,slogan});
+        handleNextStep({ brandName, slogan });
     };
 
     return (
-        <section className="relative bg-secondaryBlack min-h-screen flex">
+        <section className="relative bg-secondaryBlack flex">
             <LeftSide />
-            <div className="mmd:left-1/3 w-full mmd:w-2/3 p-10 relative overflow-hidden">
+            <div className="mmd:left-1/3 w-full mmd:w-2/3 p-10 mmd:absolute overflow-hidden bg-secondaryBlack h-screen">
                 <div className="hidden fixed top-1 left-1/3 ml-5 mmd:flex flex-col space-y-2">
                     <DotGroup />
                 </div>
@@ -37,8 +37,8 @@ function AccountSetupStep2({ formData, handleNextStep, handlePreviousStep }) {
                 <div className="w-full bg-white h-2 mt-4 rounded-lg">
                     <div className="bg-primaryGreen h-2 rounded-lg" style={{ width: '40%' }}></div>
                 </div>
-                <ArrowLeftIcon className="text-gray-100 w-5 h-5 mt-5 ml-1 cursor-pointer" onClick={handlePreviousStep}/>
-                <div className="flex flex-col items-start justify-center mt-8 max-h-screen mx-32">
+                <ArrowLeftIcon className="text-gray-100 w-5 h-5 mt-5 ml-1 cursor-pointer" onClick={handlePreviousStep} />
+                <div className="flex flex-col items-start justify-center mt-8 max-h-screen  sm:mx-32">
                     <div className="">
                         <p className="text-3xl font-bold text-white">Make your Designs in a few steps</p>
                         <p className="text-customGray mt-2">Let's get to know you better and create a design you love.</p>

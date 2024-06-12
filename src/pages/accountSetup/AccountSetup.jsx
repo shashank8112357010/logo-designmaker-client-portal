@@ -10,7 +10,7 @@ import { updateFormData } from '../../store/accountSlice';
 
 function AccountSetup() {
     const [step, setStep] = useState(1);
-    const formData = useSelector((state) => state.form);
+    const formData = useSelector((state) => state.account);
     const dispatch = useDispatch();
 
     const handleNextStep = (newData) => {

@@ -48,10 +48,22 @@ export function SignUp() {
       setIsSubmitted(false);
     }
   };
+
+  const handlePhoneNumberKeyDown = (e) => {
+    const allowedKeys = [
+      'Backspace', 'ArrowLeft', 'ArrowRight', 'Delete', 'Tab'
+    ];
+    const isNumberKey = /^[0-9]+$/.test(e.key);
+
+    if (!isNumberKey && !allowedKeys.includes(e.key)) {
+      e.preventDefault();
+    }
+  };
   return (
-    <section className="relative bg-secondaryBlack min-h-screen flex">
+    <section className=" bg-secondaryBlack mmd:flex-1 no-scrollbar relative">
       <LeftSide />
-      <div className="mmd:left-1/3 w-full h-full mmd:w-2/3 mmd:mt-2 overflow-y-auto p-10 mmd:relative">
+      <div className="bg-secondaryBlack relative">
+      <div className="mmd:left-1/3 w-full bg-secondaryBlack mmd:w-2/3 p-10 absolute ">
         <div className=" hidden fixed top-1 left-1/3 ml-5 mmd:flex flex-col  space-y-2">
           <DotGroup />
         </div>
@@ -61,7 +73,7 @@ export function SignUp() {
         {isSubmitted ? (
           <CheckEmail email={email} />
         ) : (
-          <div className="flex flex-col items-center justify-center min-h-screen">
+          <div className="flex flex-col items-center justify-center bg-secondaryBlack h-screen">
             <div className="text-center">
               <h3 className="text-white text-2xl font-bold mb-4">Sign up with free trial</h3>
               <p className="text-sm font-normal text-gray-400">Empower your experience, sign up for a free account today</p>
@@ -96,6 +108,8 @@ export function SignUp() {
                     placeholder="Enter phone number"
                     className="w-full p-3 bg-primaryBlack border-none text-gray-600"
                     required
+                    pattern="\d*"
+                    onKeyDown={handlePhoneNumberKeyDown}
                   />
                   <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
                     <ShieldCheckIcon className="text-primaryGreen h-5 w-5" />
@@ -174,6 +188,7 @@ export function SignUp() {
         )
         }
       </div >
+      </div>
     </section>
   );
 }

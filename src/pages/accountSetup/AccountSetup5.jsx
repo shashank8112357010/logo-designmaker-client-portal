@@ -3,6 +3,8 @@ import { DotGroup } from '../../components/Dot';
 import LeftSide from '../../components/LeftSide';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { useNavigate } from 'react-router-dom';
+import {  useDispatch } from 'react-redux';
+import { resetFormData } from '../../store/accountSlice';
 const ColorPalette = ({ palette, isSelected, onClick }) => (
     <div
         className={`p-4 bg-primaryBlack rounded-lg flex flex-col justify-center cursor-pointer last: ${isSelected ? 'ring-2 ring-primaryGreen' : ''}`}
@@ -21,6 +23,7 @@ function AccountSetupStep5({ formData = {}, handleNextStep, handlePreviousStep }
     const [selectedPalettes, setSelectedPalettes] = useState(formData.selectedPalettes || []);
 
     const navigate=useNavigate();
+    const dispatch = useDispatch();
 
     const handlePaletteSelect = (paletteName) => {
         setSelectedPalettes(prev =>
@@ -31,6 +34,7 @@ function AccountSetupStep5({ formData = {}, handleNextStep, handlePreviousStep }
     const handleSubmit = (e) => {
         e.preventDefault();
         handleNextStep({ selectedPalettes});
+        dispatch(resetFormData());
         console.log('Selected Palettes on Submit:', selectedPalettes); 
         navigate('/dashboard/home');
     };
@@ -43,15 +47,15 @@ function AccountSetupStep5({ formData = {}, handleNextStep, handlePreviousStep }
     ];
 
     return (
-        <section className="relative bg-secondaryBlack min-h-screen flex">
-            <LeftSide />
-            <div className="md:left-1/3 w-full md:w-2/3 p-10 relative overflow-hidden">
-                <div className="hidden fixed top-1 left-1/3 ml-5 md:flex flex-col space-y-2">
-                    <DotGroup />
-                </div>
-                <div className="hidden fixed top-1 left-1/3 ml-1.5 md:flex flex-col space-y-2">
-                    <DotGroup />
-                </div>
+        <section className="relative bg-secondaryBlack flex">
+        <LeftSide />
+        <div className="mmd:left-1/3 w-full mmd:w-2/3 p-10 mmd:absolute overflow-hidden bg-secondaryBlack min-h-screen">
+            <div className="hidden fixed top-1 left-1/3 ml-5 mmd:flex flex-col space-y-2">
+                <DotGroup />
+            </div>
+            <div className="hidden fixed top-1 left-1/3 ml-1.5 mmd:flex flex-col space-y-2">
+                <DotGroup />
+            </div>
                 <div className="flex justify-between items-center">
                     <h3 className="text-white text-2xl font-bold">Account set up</h3>
                     <p className="font-bold text-primaryGreen mt-1 mr-2 text-2xl">5/5</p>

@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import LeftSide from "../../components/LeftSide";
 import { DotGroup } from "../../components/Dot";
+import { useNavigate } from "react-router-dom";
 
 function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const navigate = useNavigate();
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -23,25 +25,25 @@ function SignIn() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Email:", email, "Password:", password);
+     navigate('/accountsetup');
   };
 
   return (
-    <section className="relative bg-secondaryBlack min-h-screen overflow-hidden">
+    <section className=" bg-secondaryBlack no-scrollbar">
       <LeftSide />
-      <div className="mmd:left-1/3 w-full mmd:w-2/3 p-10 relative overflow-hidden">
+      <div className="mmd:left-1/3 bg-secondaryBlack w-full mmd:w-2/3  fixed h-screen overflow-hidden ">
         <div className="hidden fixed top-1 left-1/3 ml-5 mmd:flex flex-col space-y-2">
           <DotGroup />
         </div>
         <div className="hidden fixed top-1 left-1/3 ml-1.5 mmd:flex flex-col space-y-2">
           <DotGroup />
         </div>
-        <div className="flex flex-col items-center justify-center mt-2 overflow-hidden">
+        <div className="flex flex-col items-center justify-center mt-2 h-screen overscroll-contain ">
           <div className="text-center">
             <h3 className="text-white text-2xl font-bold mb-4">Login to your account</h3>
             <p className="text-sm font-normal text-gray-400">Welcome back! Please enter your credentials to log in.</p>
           </div>
-          <form className="mt-8 mb-2 w-auto md:w-1/2" onSubmit={handleSubmit}>
+          <form className=" mb-2 w-auto md:w-1/2" onSubmit={handleSubmit}>
             <div className="mb-6">
               <label className="text-white text-base font-medium mb-1">Email*</label>
               <input
