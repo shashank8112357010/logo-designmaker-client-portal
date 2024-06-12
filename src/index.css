@@ -78,3 +78,37 @@ input:focus {
 .font-merriweather {
   font-family: 'Merriweather', serif;
 }
+
+/* calendar.css */
+.react-calendar {
+  background-color: #182736; /*  secondaryBlack color */
+  color: #FFFFFF; /* White text */
+  border: none;
+ 
+}
+
+.react-calendar__tile {
+  color: #9CA3AF; /* Gray-400 text */
+  background-color: none;
+  transform-style: none;
+}
+
+.react-calendar__tile--now {
+  background: none; /*  primaryGreen color */
+  color: white; /* Primary black text */
+  position: relative;
+}
+.react-calendar__tile--active {
+  background: none;
+}
+
+.react-calendar__tile--now::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 23px;
+  width: 4px;
+  height: 4px;
+  background-color: red; /* Red color for the active tile indicator */
+  border-radius: 0;
+}
