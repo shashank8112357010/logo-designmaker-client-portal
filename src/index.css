@@ -118,3 +118,11 @@ html, body, #root {
   height: 100%;
   overflow-x: hidden;
 }
+
+.select-with-placeholder option.placeholder {
+  color: #888; /* Custom gray color for the placeholder */
+}
+
+.select-with-placeholder:invalid {
+  color: #888; /* Same custom gray color when invalid (placeholder) */
+}

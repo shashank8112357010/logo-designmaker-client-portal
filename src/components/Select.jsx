@@ -1,28 +1,34 @@
 import { useRef, useState, useEffect } from "react";
 import { XCircleIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 
-const Select = ({ options, value, onChange }) => {
+const Select = ({ options, value, onChange, multiple = false }) => {
     const [query, setQuery] = useState("");
     const [menuOpen, setMenuOpen] = useState(false);
 
     const inputRef = useRef(null);
 
-    const filteredTags = options.filter(
+    const filteredOptions = options.filter(
         (item) =>
             item?.toLocaleLowerCase()?.includes(query.toLocaleLowerCase()?.trim()) &&
-            !value?.includes(item)
+            (multiple ? !value?.includes(item) : item !== value)
     );
 
     const isDisable =
         !query?.trim() ||
-        value.some(
-            (item) =>
-                item?.toLocaleLowerCase()?.trim() === query?.toLocaleLowerCase()?.trim()
-        );
+        (multiple
+            ? value.some(
+                  (item) =>
+                      item?.toLocaleLowerCase()?.trim() === query?.toLocaleLowerCase()?.trim()
+              )
+            : value === query);
 
     const handleRemove = (tag) => {
-        const newSelected = value?.filter((i) => i !== tag);
-        onChange(newSelected);
+        if (multiple) {
+            const newSelected = value?.filter((i) => i !== tag);
+            onChange(newSelected);
+        } else {
+            onChange("");
+        }
     };
 
     useEffect(() => {
@@ -46,36 +52,55 @@ const Select = ({ options, value, onChange }) => {
             <div className="relative w-full text-sm text-white" onBlur={handleBlur} tabIndex="0">
                 <div className="card flex items-center justify-between p-3 w-full gap-2.5">
                     <div className="flex flex-wrap flex-1 items-center gap-1 z-10">
-                        {value?.map((tag) => (
-                            <div
-                                key={tag}
-                                className="rounded-full py-1.5 px-3 border border-gray-400 bg-gray-50 text-gray-500 flex items-center gap-2"
-                            >
-                                {tag}
+                        {multiple ? (
+                            value?.map((tag) => (
                                 <div
-                                    onMouseDown={(e) => e.preventDefault()}
-                                    onClick={() => handleRemove(tag)}
+                                    key={tag}
+                                    className="rounded-full py-1.5 px-3 border border-gray-400 bg-gray-50 text-gray-500 flex items-center gap-2"
                                 >
-                                    <XCircleIcon className="w-4 h-4 cursor-pointer" />
+                                    {tag}
+                                    <div
+                                        onMouseDown={(e) => e.preventDefault()}
+                                        onClick={() => handleRemove(tag)
+}
+                                >
+                                                                        <XCircleIcon className="w-4 h-4 cursor-pointer" />
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))
+                        ) : (
+                            value && (
+                                <div
+                                    className=" text-white"
+                                >
+                                    {value}
+                                </div>
+                            )
+                        )}
                         <input
                             ref={inputRef}
                             type="text"
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
                             placeholder={
-                                value?.length === 0 && query === ""
-                                    ? "Please add your requirements"
+                                multiple
+                                    ? value?.length === 0 && query === ""
+                                        ? "Please add your requirements"
+                                        : ""
+                                    : value?.length === 0 && query === ""
+                                    ? "Select Priority"
                                     : ""
                             }
                             className="bg-transparent text-[16px] flex-1 text-white"
                             onClick={toggleMenu}
                             onKeyDown={(e) => {
                                 if (e.key === "Enter" && !isDisable) {
-                                    const newSelected = [...value, query];
-                                    onChange(newSelected);
+                                    if (multiple) {
+                                        const newSelected = [...value, query];
+                                        onChange(newSelected);
+                                    } else {
+                                        onChange(query);
+                                    }
                                     setQuery("");
                                 }
                             }}
@@ -88,21 +113,26 @@ const Select = ({ options, value, onChange }) => {
                     </div>
                 </div>
 
-                {menuOpen && filteredTags.length > 0 && (
+                {menuOpen && filteredOptions.length > 0 && (
                     <div className="card absolute w-full max-h-52 mt-2 p-1 flex overflow-y-auto custom-scrollbar z-20">
                         <ul className="w-full">
-                            {filteredTags?.map((tag) => (
+                            {filteredOptions?.map((option) => (
                                 <li
-                                    key={tag}
+                                    key={option}
                                     className="p-2 cursor-pointer hover:bg-primaryGrey text-white rounded-md w-full"
                                     onMouseDown={(e) => e.preventDefault()}
                                     onClick={() => {
-                                        const newSelected = [...value, tag];
-                                        onChange(newSelected);
+                                        if (multiple) {
+                                            const newSelected = [...value, option];
+                                            onChange(newSelected);
+                                        } else {
+                                            onChange(option);
+                                        }
                                         setQuery("");
+                                        setMenuOpen(false);
                                     }}
                                 >
-                                    {tag}
+                                    {option}
                                 </li>
                             ))}
                         </ul>

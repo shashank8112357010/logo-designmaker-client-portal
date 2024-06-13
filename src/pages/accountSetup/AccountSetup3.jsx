@@ -69,11 +69,11 @@ function AccountSetupStep3({ formData, handleNextStep, handlePreviousStep }) {
                     <form className="md:mt-8 mb-2 w-auto max-w-screen-lg md:w-full" onSubmit={handleSubmit}>
                         <div className="mb-6">
                             <label className="text-white text-base font-medium mb-1">What type of design do you need?</label>
-                            <Select options={tags1} value={designType} onChange={setDesignType} />
+                            <Select options={tags1} multiple={true} value={designType} onChange={setDesignType} />
                         </div>
                         <div className="mb-6">
                             <label className="text-white text-base font-medium mb-1">Which niche are you targeting?</label>
-                           <Select options={tags2} value={targetNiche} onChange={setTargetNiche} />
+                           <Select options={tags2} multiple={true} value={targetNiche} onChange={setTargetNiche} />
                         </div>
                         <div className="mb-6">
                             <label className="text-white text-base font-medium mb-1">If 'Other' selected, please specify</label>
