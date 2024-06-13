@@ -4,7 +4,7 @@ import { BellIcon } from '@heroicons/react/24/outline';
 
 const Header = () => {
     return (
-        <header className="flex flex-col sticky p-2 lg:flex-row items-start lg:items-center justify-between mb-8 border-b-2 border-secondaryBlack h-auto lg:h-20">
+        <header className="flex flex-col lg:flex-row items-start lg:items-center justify-between p-2 mb-8 bg-primaryBlack border-b-2 border-secondaryBlack h-16 lg:h-16 top-0 z-50">
             <h1 className="text-white text-3xl font-semibold ml-2 mb-4 lg:mb-0">Overview</h1>
             <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between w-full lg:w-1/2 space-y-4 lg:space-y-0">
                 <div className="relative w-full lg:w-auto flex-grow lg:flex-grow-0">
@@ -32,4 +32,4 @@ const Header = () => {
     )
 }
 
-export default Header
+export default Header;

@@ -25,6 +25,7 @@ const Sidebar = () => {
                 </div>
                 <nav className="space-y-12 flex flex-col items-baseline justify-center w-full">
                     <Link
+                    to="/dashboard/overview"
                         className={linkClasses('/')}
                         onClick={() => handleLinkClick('/')}
                     >
@@ -49,6 +50,7 @@ const Sidebar = () => {
                         <span>Files</span>
                     </Link>
                     <Link
+                    to="/dashboard/help"
                         className={linkClasses('/helpdesk')}
                         onClick={() => handleLinkClick('/helpdesk')}
                     >
