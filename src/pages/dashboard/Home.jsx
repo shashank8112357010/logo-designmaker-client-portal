@@ -8,9 +8,9 @@ const Home = () => {
   return (
     <div className="bg-primaryBlack relative">
       <Sidebar />
-      <div className="ml-[16.7%] border-l-2 border-secondaryBlack  w-[84.3%] bg-primaryBlack absolute min-h-screen ">
+      <div className="lg:ml-[16.7%]  lg:w-[84.3%] bg-primaryBlack absolute min-h-screen flex-grow border-l-2 border-secondaryBlack ">
        <Header />
-        <main className="mx-10 mt-12 grid grid-cols-3 gap-8">
+        <main className="ml-10 mt-12 grid grid-cols-3 gap-8 p-6 mr-6">
           <section className="bg-secondaryBlack p-8 rounded-lg col-span-2 h-fit">
             <div className='flex h-full'>
               <div className='w-1/2 h-full'>

@@ -29,9 +29,9 @@ function SignIn() {
   };
 
   return (
-    <section className=" bg-secondaryBlack no-scrollbar">
+    <section className=" bg-secondaryBlack relative h-screen mmd:flex-1">
       <LeftSide />
-      <div className="mmd:left-1/3 bg-secondaryBlack w-full mmd:w-2/3  fixed h-screen overflow-hidden ">
+      <div className="mmd:left-1/3 bg-secondaryBlack w-full mmd:w-2/3 fixed h-screen overflow-hidden ">
         <div className="hidden fixed top-1 left-1/3 ml-5 mmd:flex flex-col space-y-2">
           <DotGroup />
         </div>
@@ -103,7 +103,11 @@ function SignIn() {
           </form>
         </div>
       </div>
+      <footer className="bg-secondaryBlack">
+        h
+      </footer>
     </section>
+
   );
 }
 

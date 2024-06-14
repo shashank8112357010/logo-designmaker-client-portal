@@ -46,7 +46,7 @@ function AccountSetupStep3({ formData, handleNextStep, handlePreviousStep }) {
     return (
         <section className="relative bg-secondaryBlack flex">
             <LeftSide />
-            <div className="mmd:left-1/3 w-full mmd:w-2/3 p-10 mmd:absolute overflow-hidden bg-secondaryBlack h-screen">
+            <div className="mmd:left-1/3 w-full mmd:w-2/3 p-10 mmd:absolute overflow-hidden bg-secondaryBlack min-h-screen">
                 <div className="hidden fixed top-1 left-1/3 ml-5 mmd:flex flex-col space-y-2">
                     <DotGroup />
                 </div>

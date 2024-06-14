@@ -62,8 +62,8 @@ export function SignUp() {
   return (
     <section className=" bg-secondaryBlack mmd:flex-1 no-scrollbar relative">
       <LeftSide />
-      <div className="bg-secondaryBlack relative">
-      <div className="mmd:left-1/3 w-full bg-secondaryBlack mmd:w-2/3 p-10 absolute ">
+      <div className="bg-secondaryBlack relative ">
+      <div className="mmd:left-1/3 w-full bg-secondaryBlack mmd:w-2/3 p-10 absolute overflow-x-hidden ">
         <div className=" hidden fixed top-1 left-1/3 ml-5 mmd:flex flex-col  space-y-2">
           <DotGroup />
         </div>
@@ -73,7 +73,7 @@ export function SignUp() {
         {isSubmitted ? (
           <CheckEmail email={email} />
         ) : (
-          <div className="flex flex-col items-center justify-center bg-secondaryBlack h-screen">
+          <div className="flex flex-col items-center justify-center bg-secondaryBlack h-screen overscroll-contain">
             <div className="text-center">
               <h3 className="text-white text-2xl font-bold mb-4">Sign up with free trial</h3>
               <p className="text-sm font-normal text-gray-400">Empower your experience, sign up for a free account today</p>

@@ -18,7 +18,7 @@ const Sidebar = () => {
         `${activePath === path ? 'border-l-8 border-primaryGreen rounded-tr-lg rounded-br-lg' : ''}`;
 
     return (
-        <div className="w-1/6 bg-primaryBlack fixed top-0 left-0 h-full lg:border-r-2 border-secondaryBlack">
+        <div className="w-1/6 bg-primaryBlack fixed top-0 left-0 h-full">
             <div className='flex flex-col justify-center space-y-10 w-full'>
                 <div className='m-6'>
                     <img src="/img/Logo.png" className="h-10 w-64 mb-10" alt="Logo" />
@@ -26,10 +26,10 @@ const Sidebar = () => {
                 <nav className="space-y-12 flex flex-col items-baseline justify-center w-full">
                     <Link
                     to="/dashboard/overview"
-                        className={linkClasses('/')}
-                        onClick={() => handleLinkClick('/')}
+                        className={linkClasses('/dashboard/overview')}
+                        onClick={() => handleLinkClick('/dashboard/overview')}
                     >
-                        <div className={`absolute left-0 h-full w-2 ${pseudoClasses('/')} `}></div>
+                        <div className={`absolute left-0 h-full w-2 ${pseudoClasses('/dashboard/overview')} `}></div>
                         <HomeIcon className="h-6 w-6" />
                         <span>Overview</span>
                     </Link>
@@ -51,10 +51,10 @@ const Sidebar = () => {
                     </Link>
                     <Link
                     to="/dashboard/help"
-                        className={linkClasses('/helpdesk')}
-                        onClick={() => handleLinkClick('/helpdesk')}
+                        className={linkClasses('/dashboard/help')}
+                        onClick={() => handleLinkClick('/dashboard/help')}
                     >
-                        <div className={`absolute left-0 h-full w-2 ${pseudoClasses('/helpdesk')} `}></div>
+                        <div className={`absolute left-0 h-full w-2 ${pseudoClasses('/dashboard/help')} `}></div>
                         <QuestionMarkCircleIcon className="h-6 w-6" />
                         <span>Helpdesk</span>
                     </Link>

@@ -4,6 +4,7 @@ import AccountSetup from "./pages/accountSetup/AccountSetup";
 import Dashboard from "./layouts/dashboard";
 import Overview from "./pages/dashboard/Overview";
 import HelpdeskMain from "./pages/dashboard/CreateTicket";
+import TicketMain from "./pages/dashboard/TicketMain";
 
 
 
@@ -16,7 +17,7 @@ function App() {
         <Route path="/accountsetup" element={<AccountSetup />} />
         <Route path="/dashboard/home" element={<Dashboard />} />
         <Route path="/dashboard/overview" element={<Overview />} />
-        <Route path="/dashboard/help" element={<HelpdeskMain />} />
+        <Route path="/dashboard/help" element={<TicketMain />} />
       </Routes>
     </>
   );

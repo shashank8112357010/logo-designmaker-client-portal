@@ -4,19 +4,90 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import Header from './Header';
 
-
 const Overview = () => {
     const [date, setDate] = useState(new Date());
+    const [selectedTab, setSelectedTab] = useState('All Meets');
+
     const getFirstDayOfMonth = (date) => {
         return new Date(date.getFullYear(), date.getMonth(), 1);
     };
 
+    const renderTableContent = () => {
+        switch (selectedTab) {
+            case 'Scheduled':
+                return (
+                    <tbody>
+                        <tr className='border-t border-white text-white'>
+                            <td className="py-4">Service number 2</td>
+                            <td className="py-4">Scheduled design</td>
+                            <td className="py-4">30 Jan, 11.00 AM</td>
+                            <td className="py-4 text-red-600">1 Hr</td>
+                            <td className="py-4"><button className="border border-primaryGreen text-white rounded-full px-2 py-1 ">See Files</button></td>
+                        </tr>
+                    </tbody>
+                );
+            case 'Cancelled':
+                return (
+                    <tbody>
+                        <tr className='border-t border-white text-white'>
+                            <td className="py-4">Service number 3</td>
+                            <td className="py-4">Cancelled design</td>
+                            <td className="py-4">5 Feb, 2.00 PM</td>
+                            <td className="py-4 text-red-600">1 Hr</td>
+                            <td className="py-4"><button className="border border-primaryGreen text-white rounded-full px-2 py-1 ">See Files</button></td>
+                        </tr>
+                    </tbody>
+                );
+            case 'All Meets':
+            default:
+                return (
+                    <tbody>
+                        <tr className='border-t border-white text-white'>
+                            <td className="py-4">Service number 1</td>
+                            <td className="py-4">Logo design</td>
+                            <td className="py-4">28 Jan, 12.30 AM</td>
+                            <td className="py-4 text-red-600">2 Hr</td>
+                            <td className="py-4"><button className="border border-primaryGreen text-white rounded-full px-2 py-1 ">See Files</button></td>
+                        </tr>
+                        <tr className='border-t border-white text-white'>
+                            <td className="py-4">Service number 1</td>
+                            <td className="py-4">Magazine design</td>
+                            <td className="py-4">25 Jan, 10.40 PM</td>
+                            <td className="py-4 text-red-600">2 Hr</td>
+                            <td className="py-4"><button className="border border-primaryGreen text-white rounded-full px-2 py-1 ">See Files</button></td>
+                        </tr>
+                        <tr className='border-t border-white text-white'>
+                            <td className="py-4">Service number 1</td>
+                            <td className="py-4">Logo design</td>
+                            <td className="py-4">20 Jan, 10.40 AM</td>
+                            <td className="py-4 text-red-600">2 Hr</td>
+                            <td className="py-4"><button className="border border-primaryGreen text-white rounded-full px-2 py-1 ">See Files</button></td>
+                        </tr>
+                        <tr className='border-t border-white text-white'>
+                            <td className="py-4">Service number 1</td>
+                            <td className="py-4">Magazine design</td>
+                            <td className="py-4">15 Jan, 03.29 PM</td>
+                            <td className="py-4 text-red-600">2 Hr</td>
+                            <td className="py-4"><button className="border border-primaryGreen text-white rounded-full px-2 py-1 ">See Files</button></td>
+                        </tr>
+                        <tr className='border-t border-white text-white'>
+                            <td className="py-4">Service number 1</td>
+                            <td className="py-4">Magazine design</td>
+                            <td className="py-4">14 Jan, 10.40 PM</td>
+                            <td className="py-4 text-red-600">2 Hr</td>
+                            <td className="py-4"><button className="border border-primaryGreen text-white rounded-full px-2 py-1 ">See Files</button></td>
+                        </tr>
+                    </tbody>
+                );
+        }
+    };
+
     return (
-        <div className="bg-primaryBlack relative flex flex-col lg:flex-row no-scrollbar">
+        <div className="bg-primaryBlack  flex flex-col lg:flex-row relative">
             <Sidebar />
-            <div className="lg:ml-[16.7%] lg:w-[84.3%] w-full bg-primaryBlack min-h-screen flex-grow">
-               <Header />
-                <main className="ml-0 mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8 p-6">
+            <div className="lg:ml-[16.7%] lg:w-[84.3%] w-full bg-primaryBlack min-h-screen flex-grow absolute border-l-2 border-secondaryBlack">
+                <Header />
+                <main className="ml-10 mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8 p-6 mr-6">
                     <section className="bg-secondaryBlack p-8 rounded-lg col-span-1 lg:col-span-2 h-fit">
                         <div className='flex flex-col lg:flex-row h-full'>
                             <div className='w-full lg:w-1/2 h-full'>
@@ -52,64 +123,28 @@ const Overview = () => {
                         </button>
                     </section>
                 </main>
-                <section className=" p-6">
+                <section className=" px-6 -mt-8 pb-4 mr-6">
                     <h2 className="text-white text-2xl font-semibold mb-4 ml-0 lg:ml-5">Recent Activity</h2>
                     <div className=" rounded-lg ml-0 lg:ml-5 overflow-x-auto">
                         <nav className="flex gap-10 mb-4">
-                            <a href="#" className="text-primaryGreen border-b-2 border-primaryGreen pb-2">All Meets</a>
-                            <a href="#" className="text-white">Scheduled</a>
-                            <a href="#" className="text-white">Cancelled</a>
+                            <button onClick={() => setSelectedTab('All Meets')} className={`pb-2 ${selectedTab === 'All Meets' ? 'text-primaryGreen border-b-2 border-primaryGreen' : 'text-white'}`}>All Meets</button>
+                            <button onClick={() => setSelectedTab('Scheduled')} className={`pb-2 ${selectedTab === 'Scheduled' ? 'text-primaryGreen border-b-2 border-primaryGreen' : 'text-white'}`}>Scheduled</button>
+                            <button onClick={() => setSelectedTab('Cancelled')} className={`pb-2 ${selectedTab === 'Cancelled' ? 'text-primaryGreen border-b-2 border-primaryGreen' : 'text-white'}`}>Cancelled</button>
                         </nav>
-                       <div className='bg-secondaryBlack px-4 rounded-xl'>
-                       <table className="w-full text-left text-gray-400 min-w-max " >
-                            <thead className="text-purple">
-                                <tr >
-                                    <th className="py-2"><span className='text-[#718EBF]'>Description</span></th>
-                                    <th className="py-2 pl-4"><span  className='text-[#718EBF]'>Type</span></th>
-                                    <th className="py-2 pl-7"><span  className='text-[#718EBF]'>Date</span></th>
-                                    <th className="py-2 "><span  className='text-[#718EBF]'>Duration</span></th>
-                                    <th className="py-2 pl-3"><span  className='text-[#718EBF]'>Files</span></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr className='border-t border-white'>
-                                    <td className="py-4">Service number 1</td>
-                                    <td className="py-4">Logo design</td>
-                                    <td className="py-4">28 Jan, 12.30 AM</td>
-                                    <td className="py-4">2 Hr</td>
-                                    <td className="py-4"><button className="border border-primaryGreen text-white rounded-full px-2 py-1 ">See Files</button></td>
-                                </tr>
-                                <tr className='border-t border-white'>
-                                    <td className="py-4">Service number 1</td>
-                                    <td className="py-4">Magazine design</td>
-                                    <td className="py-4">25 Jan, 10.40 PM</td>
-                                    <td className="py-4">2 Hr</td>
-                                    <td className="py-4"><button className="border border-primaryGreen text-white rounded-full px-2 py-1 ">See Files</button></td>
-                                </tr>
-                                <tr className='border-t border-white'>
-                                    <td className="py-4">Service number 1</td>
-                                    <td className="py-4">Logo design</td>
-                                    <td className="py-4">20 Jan, 10.40 AM</td>
-                                    <td className="py-4">2 Hr</td>
-                                    <td className="py-4"><button className="border border-primaryGreen text-white rounded-full px-2 py-1 ">See Files</button></td>
-                                </tr>
-                                <tr className='border-t border-white'>
-                                    <td className="py-4">Service number 1</td>
-                                    <td className="py-4">Magazine design</td>
-                                    <td className="py-4">15 Jan, 03.29 PM</td>
-                                    <td className="py-4">2 Hr</td>
-                                    <td className="py-4"><button className="border border-primaryGreen text-white rounded-full px-2 py-1 ">See Files</button></td>
-                                </tr>
-                                <tr className='border-t border-white'>
-                                    <td className="py-4">Service number 1</td>
-                                    <td className="py-4">Magazine design</td>
-                                    <td className="py-4">14 Jan, 10.40 PM</td>
-                                    <td className="py-4">2 Hr</td>
-                                    <td className="py-4"><button className="border border-primaryGreen text-white rounded-full px-2 py-1 ">See Files</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                       </div>
+                        <div className='bg-secondaryBlack px-4 rounded-xl'>
+                            <table className="w-full  text-gray-400 min-w-max ">
+                                <thead className="text-purple text-left">
+                                    <tr >
+                                        <th className="py-2 "><span className='text-[#718EBF]'>Description</span></th>
+                                        <th className="py-2 "><span  className='text-[#718EBF]'>Type</span></th>
+                                        <th className="py-2 "><span  className='text-[#718EBF]'>Date</span></th>
+                                        <th className="py-2  "><span  className='text-[#718EBF] text-center'>Duration</span></th>
+                                        <th className="py-2 "><span  className='text-[#718EBF]'>Files</span></th>
+                                    </tr>
+                                </thead>
+                                {renderTableContent()}
+                            </table>
+                        </div>
                     </div>
                 </section>
             </div>

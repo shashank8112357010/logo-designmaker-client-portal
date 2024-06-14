@@ -17,11 +17,11 @@ const HelpdeskMain = () => {
   ];
 
   return (
-    <div className="h-full overflow-hidden bg-primaryBlack flex">
+    <div className=" bg-primaryBlack flex relative">
       <Sidebar />
-      <div className="lg:ml-[16.7%] lg:w-[83.3%] w-full bg-primaryBlack flex flex-col">
+      <div className="lg:ml-[16.3%] lg:w-[83.7%] w-full bg-primaryBlack flex flex-col flex-grow absolute min-h-screen border-l-2 border-secondaryBlack">
         <Header />
-        <main className="flex-grow p-6 overflow-y-auto">
+        <main className="flex-grow px-6 overflow-y-auto">
           <div className="bg-secondaryBlack p-6 rounded-lg shadow-lg">
             <h2 className="text-xl font-semibold text-white mb-4">Create Ticket</h2>
             <p className="text-gray-400 mb-6">Write and address new queries and issues</p>
