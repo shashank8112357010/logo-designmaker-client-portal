@@ -1,8 +1,8 @@
 import React from 'react';
 
-const TicketCard = ({ ticket, onOpenTicket }) => {
+const TicketView = ({ ticket, onBack }) => {
     return (
-        <div className="bg-primaryBlack p-4 mb-4 rounded-lg ">
+        <div className="bg-primaryBlack p-4 mb-4 rounded-lg h-screen">
             <div className="flex justify-between items-start">
                 <div className="flex items-center space-x-2 text-white">
                     <div className={`w-4 h-4 rounded-full ${ticket.statusColor}`}></div>
@@ -25,15 +25,10 @@ const TicketCard = ({ ticket, onOpenTicket }) => {
                     <img src="/img/Ellipse.jpg" alt="" className='h-8 w-8 rounded-full' />
                     <span className='text-white'>{ticket.user}</span>
                 </div>
-                <button 
-                    onClick={() => onOpenTicket(ticket)}
-                    className="text-blue-500 underline"
-                >
-                    Open Ticket
-                </button>
+                <button onClick={onBack} className="text-blue-500 underline">Back</button>
             </div>
         </div>
     );
 };
 
-export default TicketCard;
+export default TicketView;

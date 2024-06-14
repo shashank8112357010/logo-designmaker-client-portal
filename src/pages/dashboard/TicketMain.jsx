@@ -4,6 +4,7 @@ import Header from './Header';
 import CustomSelect from '../../components/CustomSelect';
 import CreateTicket from './CreateTicket';
 import TicketCard from './TicketCard';
+import TicketView from './TicketView';
 
 const TicketMain = () => {
     const ticketOptions = [
@@ -21,9 +22,18 @@ const TicketMain = () => {
     const [selectedPriority, setSelectedPriority] = useState(ticketOptions[0]);
     const [selectedTimeframe, setSelectedTimeframe] = useState(timeframeOptions[0]);
     const [showCreateTicket, setShowCreateTicket] = useState(false);
+    const [openedTicket, setOpenedTicket] = useState(null);
 
     const handleNewTicketClick = () => {
         setShowCreateTicket(true);
+    };
+
+    const handleOpenTicket = (ticket) => {
+        setOpenedTicket(ticket);
+    };
+
+    const handleBack = () => {
+        setOpenedTicket(null);
     };
 
     const tickets = [
@@ -32,7 +42,7 @@ const TicketMain = () => {
             status: 'New Tickets',
             statusColor: 'bg-blue-500',
             description: 'How to deposit money to my portal?',
-            details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.LoremLorem ipsum dolor sit amet, consectetur adipiscing elit.LoremLorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem',
+            details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             date: '12:45 AM',
             user: 'John Snow'
         },
@@ -41,7 +51,7 @@ const TicketMain = () => {
             status: 'On-Going Tickets',
             statusColor: 'bg-orange-500',
             description: 'How to deposit money to my portal?',
-            details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem',
+            details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             date: '12:45 AM',
             user: 'John Snow'
         },
@@ -50,7 +60,7 @@ const TicketMain = () => {
             status: 'Resolved Tickets',
             statusColor: 'bg-green-500',
             description: 'How to deposit money to my portal?',
-            details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem',
+            details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             date: '12:45 AM',
             user: 'John Snow'
         },
@@ -105,18 +115,24 @@ const TicketMain = () => {
                             </div>
                         </div>
                         <div className="p-4 rounded-lg">
-                            {filteredTickets.map(ticket => (
-                                <TicketCard key={ticket.id} ticket={ticket} />
-                            ))}
+                            {openedTicket ? (
+                                <TicketView ticket={openedTicket} onBack={handleBack} />
+                            ) : (
+                                filteredTickets.map(ticket => (
+                                    <TicketCard key={ticket.id} ticket={ticket} onOpenTicket={handleOpenTicket} />
+                                ))
+                            )}
                         </div>
-                        <div className="flex justify-end items-center mt-4 space-x-6">
-                            <button className="text-customGray">Previous</button>
-                            <div className="flex space-x-2 w-28">
-                                <button className="bg-primaryGreen text-center text-primaryBlack px-4 py-2 rounded-lg font-bold w-1/2">1</button>
-                                <button className="text-white border-white border-2 w-1/2 rounded-lg ">2</button>
+                        {!openedTicket && (
+                            <div className="flex justify-end items-center mt-4 space-x-6">
+                                <button className="text-customGray">Previous</button>
+                                <div className="flex space-x-2 w-28">
+                                    <button className="bg-primaryGreen text-center text-primaryBlack px-4 py-2 rounded-lg font-bold w-1/2">1</button>
+                                    <button className="text-white border-white border-2 w-1/2 rounded-lg ">2</button>
+                                </div>
+                                <button className="text-customGray">Next</button>
                             </div>
-                            <button className="text-customGray">Next</button>
-                        </div>
+                        )}
                     </div>
                 </main>
             </div>
