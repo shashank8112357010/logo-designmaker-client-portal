@@ -134,12 +134,14 @@ const Overview = () => {
                         <div className='bg-secondaryBlack px-4 rounded-xl'>
                             <table className="w-full  text-gray-400 min-w-max ">
                                 <thead className="text-purple text-left">
-                                    <tr >
-                                        <th className="py-2 "><span className='text-[#718EBF]'>Description</span></th>
-                                        <th className="py-2 "><span  className='text-[#718EBF]'>Type</span></th>
-                                        <th className="py-2 "><span  className='text-[#718EBF]'>Date</span></th>
-                                        <th className="py-2  "><span  className='text-[#718EBF] text-center'>Duration</span></th>
-                                        <th className="py-2 "><span  className='text-[#718EBF]'>Files</span></th>
+                                    <tr>
+                                        {
+                                            ["Description" , "Type" , "Date" , "Duration" , "Files"].map((item , index)=>{
+                                                return (
+                                                    <th key={index} className="py-2"><span className='text-[#718EBF] text-center'>{item}</span></th>
+                                                )
+                                            })
+                                        }
                                     </tr>
                                 </thead>
                                 {renderTableContent()}
