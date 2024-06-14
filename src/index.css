@@ -2,18 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
-  /* Hide scrollbar for Chrome, Safari and Opera */
-  .no-scrollbar::-webkit-scrollbar {
-      display: none;
-  }
- /* Hide scrollbar for IE, Edge and Firefox */
-  .no-scrollbar {
-      -ms-overflow-style: none;  /* IE and Edge */
-      scrollbar-width: none;  /* Firefox */
-}
-}
-
 input[type="checkbox"] {
   appearance: none;
   -webkit-appearance: none;
@@ -111,18 +99,4 @@ input:focus {
   height: 4px;
   background-color: red; /* Red color for the active tile indicator */
   border-radius: 0;
-}
-html, body, #root {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow-x: hidden;
-}
-
-.select-with-placeholder option.placeholder {
-  color: #888; /* Custom gray color for the placeholder */
-}
-
-.select-with-placeholder:invalid {
-  color: #888; /* Same custom gray color when invalid (placeholder) */
 }

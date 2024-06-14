@@ -1,89 +1,121 @@
 import React, { useState } from 'react';
 import Sidebar from './Sidebar';
 import Header from './Header';
+import CustomSelect from '../../components/CustomSelect';
+import CreateTicket from './CreateTicket';
+import TicketCard from './TicketCard';
 
 const TicketMain = () => {
-    const [selectedPriority, setSelectedPriority] = useState('');
-    const [selectedTimeframe, setSelectedTimeframe] = useState('This Week');
+    const ticketOptions = [
+        { label: 'All Tickets', value: 'All Tickets', color: 'bg-gray-500' },
+        { label: 'New Tickets', value: 'New Tickets', color: 'bg-blue-500' },
+        { label: 'On-Going Tickets', value: 'On-Going Tickets', color: 'bg-orange-500' },
+        { label: 'Resolved Tickets', value: 'Resolved Tickets', color: 'bg-green-500' },
+    ];
+
+    const timeframeOptions = [
+        { label: 'This Week', value: 'This Week' },
+        { label: 'This Month', value: 'This Month' },
+    ];
+
+    const [selectedPriority, setSelectedPriority] = useState(ticketOptions[0]);
+    const [selectedTimeframe, setSelectedTimeframe] = useState(timeframeOptions[0]);
+    const [showCreateTicket, setShowCreateTicket] = useState(false);
+
+    const handleNewTicketClick = () => {
+        setShowCreateTicket(true);
+    };
 
     const tickets = [
-        { id: 1, status: 'New Tickets', description: 'How to deposit money to my portal?', date: '12:45 AM', user: 'John Snow' },
-        { id: 2, status: 'On-Going Tickets', description: 'How to deposit money to my portal?', date: '12:45 AM', user: 'John Snow' },
-        { id: 3, status: 'Resolved Tickets', description: 'How to deposit money to my portal?', date: '12:45 AM', user: 'John Snow' },
+        {
+            id: '2023-CS123',
+            status: 'New Tickets',
+            statusColor: 'bg-blue-500',
+            description: 'How to deposit money to my portal?',
+            details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.LoremLorem ipsum dolor sit amet, consectetur adipiscing elit.LoremLorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem',
+            date: '12:45 AM',
+            user: 'John Snow'
+        },
+        {
+            id: '2023-CS124',
+            status: 'On-Going Tickets',
+            statusColor: 'bg-orange-500',
+            description: 'How to deposit money to my portal?',
+            details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem',
+            date: '12:45 AM',
+            user: 'John Snow'
+        },
+        {
+            id: '2023-CS125',
+            status: 'Resolved Tickets',
+            statusColor: 'bg-green-500',
+            description: 'How to deposit money to my portal?',
+            details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem',
+            date: '12:45 AM',
+            user: 'John Snow'
+        },
     ];
 
     const filteredTickets = tickets.filter(ticket =>
-        selectedPriority === '' || ticket.status === selectedPriority
+        selectedPriority.value === 'All Tickets' || ticket.status === selectedPriority.value
     );
+
+    if (showCreateTicket) {
+        return <CreateTicket />;
+    }
 
     return (
         <div className="bg-primaryBlack flex flex-col lg:flex-row relative">
             <Sidebar />
-            <div className="lg:ml-[16.7%] lg:w-[84.3%] w-full bg-primaryBlack min-h-screen flex-grow absolute border-l-2 border-secondaryBlack">
+            <div className="lg:ml-[16.7%] lg:w-[83.3%] w-full bg-primaryBlack min-h-screen flex-grow absolute border-l-2 border-secondaryBlack">
                 <Header />
                 <main className="p-6">
                     <div className='bg-secondaryBlack mr-4 p-4'>
                         <div className="flex justify-between items-center mb-6">
-                            <div className="relative">
+                            <div className="relative w-full lg:w-1/3">
                                 <input
                                     type="text"
                                     placeholder="Search for ticket"
-                                    className="bg-primaryBlack text-white px-4 py-2 rounded-lg w-full"
+                                    className="bg-primaryBlack text-white px-4 py-2 rounded-full w-3/4 pl-10"
                                 />
+                                <img src='/img/search-normal.png' className="absolute top-3 left-3 text-gray-500" />
                             </div>
                             <div className="flex items-center space-x-4">
                                 <div className="relative">
-                                    <select
-                                        value={selectedPriority}
-                                        onChange={(e) => setSelectedPriority(e.target.value)}
-                                        className="bg-secondaryBlack text-white px-4 py-2 rounded border-primaryGreen border-2 overflow-hidden appearance-none"
-                                        
-                                    >
-                                        <option value="" disabled selected hidden>Select Priority</option>
-                                        <option style={{ width: '150px' }}  value="New Tickets">New Tickets</option>
-                                        <option style={{ width: '150px' }}  value="On-Going Tickets">On-Going Tickets</option>
-                                        <option style={{ width: '150px' }}  value="Resolved Tickets">Resolved Tickets</option>
-                                    </select>
+                                    <CustomSelect
+                                        options={ticketOptions}
+                                        selectedOption={selectedPriority}
+                                        setSelectedOption={setSelectedPriority}
+                                    />
                                 </div>
-                                <div className="relative">
-                                    <select
-                                        value={selectedTimeframe}
-                                        onChange={(e) => setSelectedTimeframe(e.target.value)}
-                                        className="bg-secondaryBlack text-white px-4 py-2  rounded border-primaryGreen border-2"
-                                    >
-                                        <option value="This Week">This Week</option>
-                                        <option value="This Month">This Month</option>
-                                    </select>
+                                <div className="relative w-40">
+                                    <CustomSelect
+                                        options={timeframeOptions}
+                                        selectedOption={selectedTimeframe}
+                                        setSelectedOption={setSelectedTimeframe}
+                                    />
                                 </div>
-                                <button className="bg-primaryGreen text-primaryBlack px-4 py-2 rounded-lg font-bold">
+                                <button
+                                    onClick={handleNewTicketClick}
+                                    className="bg-primaryGreen text-primaryBlack px-4 py-2 rounded font-bold flex items-center gap-1"
+                                >
+                                    <img className='h-5 w-5' src='/img/message-edit.png' />
                                     New Ticket
                                 </button>
                             </div>
                         </div>
-                        <div className=" p-4 rounded-lg">
+                        <div className="p-4 rounded-lg">
                             {filteredTickets.map(ticket => (
-                                <div key={ticket.id} className="border-b border-gray-700 py-4">
-                                    <div className="flex justify-between items-center">
-                                        <div>
-                                            <span className={`block text-${ticket.status === 'New Tickets' ? 'blue-500' : ticket.status === 'On-Going Tickets' ? 'orange-500' : 'green-500'} text-lg font-semibold`}>Ticket# {ticket.id}</span>
-                                            <p className="text-gray-400">{ticket.description}</p>
-                                            <p className="text-gray-500">{ticket.user}</p>
-                                        </div>
-                                        <div className="text-right">
-                                            <span className="text-gray-400 block">{ticket.date}</span>
-                                            <span className={`block text-${ticket.status === 'New Tickets' ? 'blue-500' : ticket.status === 'On-Going Tickets' ? 'orange-500' : 'green-500'} font-semibold`}>{ticket.status}</span>
-                                        </div>
-                                    </div>
-                                </div>
+                                <TicketCard key={ticket.id} ticket={ticket} />
                             ))}
                         </div>
-                        <div className="flex justify-between items-center mt-4">
-                            <button className="text-white">Previous</button>
-                            <div className="flex space-x-2">
-                                <button className="bg-primaryGreen text-primaryBlack px-4 py-2 rounded-lg font-bold">1</button>
-                                <button className="text-white">2</button>
+                        <div className="flex justify-end items-center mt-4 space-x-6">
+                            <button className="text-customGray">Previous</button>
+                            <div className="flex space-x-2 w-28">
+                                <button className="bg-primaryGreen text-center text-primaryBlack px-4 py-2 rounded-lg font-bold w-1/2">1</button>
+                                <button className="text-white border-white border-2 w-1/2 rounded-lg ">2</button>
                             </div>
-                            <button className="text-white">Next</button>
+                            <button className="text-customGray">Next</button>
                         </div>
                     </div>
                 </main>

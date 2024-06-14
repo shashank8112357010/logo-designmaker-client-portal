@@ -8,7 +8,7 @@ const Home = () => {
   return (
     <div className="bg-primaryBlack relative">
       <Sidebar />
-      <div className="lg:ml-[16.7%]  lg:w-[84.3%] bg-primaryBlack absolute min-h-screen flex-grow border-l-2 border-secondaryBlack ">
+      <div className="lg:ml-[16.7%]  lg:w-[83.3%] bg-primaryBlack absolute min-h-screen flex-grow border-l-2 border-secondaryBlack ">
        <Header />
         <main className="ml-10 mt-12 grid grid-cols-3 gap-8 p-6 mr-6">
           <section className="bg-secondaryBlack p-8 rounded-lg col-span-2 h-fit">
