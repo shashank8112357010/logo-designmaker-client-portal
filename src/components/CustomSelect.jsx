@@ -1,6 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef ,useEffect} from 'react';
+import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
-const CustomSelect = ({ options, selectedOption, setSelectedOption }) => {
+ export const CustomDropdown = ({ options, selectedOption, setSelectedOption }) => {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef();
 
@@ -45,4 +46,59 @@ const CustomSelect = ({ options, selectedOption, setSelectedOption }) => {
     );
 };
 
-export default CustomSelect;
+export const Dropdown = ({ options, value, onChange, placeholder }) => {
+    const [menuOpen, setMenuOpen] = useState(false);
+    const [selectedValue, setSelectedValue] = useState(value);
+    const dropdownRef = useRef(null);
+  
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+          setMenuOpen(false);
+        }
+      };
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, []);
+  
+    const handleOptionClick = (option) => {
+      setSelectedValue(option);
+      onChange(option);
+      setMenuOpen(false);
+    };
+  
+    return (
+      <div className="relative w-full" ref={dropdownRef}>
+        <div
+          className="bg-primaryBlack text-customGray h-[56px] rounded flex items-center justify-between px-4 cursor-pointer"
+          onClick={() => setMenuOpen((prev) => !prev)}
+        >
+          {selectedValue ? (
+            <div className="flex items-center text-white">
+              <span className={`inline-block w-3 h-3 mr-2 rounded-full ${selectedValue.color}`}></span>
+              {selectedValue.label}
+            </div>
+          ) : (
+            <span className='text-customGray'>{placeholder}</span>
+          )}
+          <ChevronDownIcon className="w-5 h-5 text-gray-500" />
+        </div>
+        {menuOpen && (
+          <ul className="absolute w-full bg-primaryBlack mt-2 rounded text-white shadow-lg z-10">
+            {options.map((option, index) => (
+              <li
+                key={index}
+                className="p-2 flex items-center cursor-pointer hover:bg-secondaryBlack"
+                onClick={() => handleOptionClick(option)}
+              >
+                <span className={`inline-block w-3 h-3 mr-2 rounded-full ${option.color}`}></span>
+                {option.label}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    );
+  };

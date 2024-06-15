@@ -1,27 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import Sidebar from './Sidebar';
 import Header from './Header';
-import Select from '../../components/Select';
+import { Dropdown } from '../../components/CustomSelect';
 
 const HelpdeskMain = () => {
-  const [priority, setPriority] = useState([]);
-
-  const handlePriorityChange = (newPriority) => {
-    setPriority(newPriority);
-  };
+  const [priority, setPriority] = useState(null);
 
   const options = [
-    "low",
-    "medium",
-    "high"
+    { label: "New Ticket", color: "bg-blue-500" },
+    { label: "On-going Ticket", color: "bg-yellow-500" },
+    { label: "Resolved Ticket", color: "bg-green-500" }
   ];
 
   return (
-    <div className=" bg-primaryBlack flex relative">
+    <div className="bg-primaryBlack flex relative">
       <Sidebar />
       <div className="lg:ml-[16.3%] lg:w-[83.7%] w-full bg-primaryBlack flex flex-col flex-grow absolute min-h-screen border-l-2 border-secondaryBlack">
         <Header />
-        <main className="flex-grow px-6 overflow-y-auto">
+        <main className="flex-grow px-6 overflow-y-auto mt-8">
           <div className="bg-secondaryBlack p-6 rounded-lg shadow-lg">
             <h2 className="text-xl font-semibold text-white mb-4">Create Ticket</h2>
             <p className="text-gray-400 mb-6">Write and address new queries and issues</p>
@@ -33,7 +29,7 @@ const HelpdeskMain = () => {
                     id='title'
                     type="text"
                     placeholder="Type Title"
-                    className="p-4 bg-primaryBlack text-white rounded-lg"
+                    className="p-4 bg-primaryBlack text-white rounded-lg placeholder:text-customGray"
                   />
                 </div>
                 <div className='flex flex-col'>
@@ -42,17 +38,22 @@ const HelpdeskMain = () => {
                     id='request'
                     type="text"
                     placeholder="Type Request Type"
-                    className="p-4 bg-primaryBlack text-white rounded"
+                    className="p-4 bg-primaryBlack text-white rounded placeholder:text-customGray"
                   />
                 </div>
                 <div className='flex flex-col'>
                   <label htmlFor="priority" className='text-white text-lg mb-2'>Priority Status</label>
-                  <Select options={options} multiple={false} value={priority} onChange={handlePriorityChange} />
+                  <Dropdown
+                    options={options}
+                    value={priority}
+                    onChange={setPriority}
+                    placeholder="Please choose one option"
+                  />
                 </div>
               </div>
               <textarea
                 placeholder="Type ticket issue here.."
-                className="w-full p-4 bg-primaryBlack text-white rounded mb-6 border-none resize-none"
+                className="w-full p-4 bg-primaryBlack text-white rounded mb-6 border-none resize-none placeholder:text-customGray"
                 rows="6"
               ></textarea>
               <button

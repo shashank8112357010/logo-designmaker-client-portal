@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Sidebar from './Sidebar';
 import Header from './Header';
-import CustomSelect from '../../components/CustomSelect';
+import {CustomDropdown} from '../../components/CustomSelect';
 import CreateTicket from './CreateTicket';
 import TicketCard from './TicketCard';
 import TicketView from './TicketView';
@@ -36,6 +36,12 @@ const TicketMain = () => {
         setOpenedTicket(null);
     };
 
+    const date= new Date();
+
+    const time=date.getHours()+ ':' + date.getMinutes() ;
+    const showtime = (time > 12) ? (time-12 + ' PM') : (time +' AM');
+
+
     const tickets = [
         {
             id: '2023-CS123',
@@ -43,7 +49,7 @@ const TicketMain = () => {
             statusColor: 'bg-blue-500',
             description: 'How to deposit money to my portal?',
             details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            date: '12:45 AM',
+            date: showtime,
             user: 'John Snow'
         },
         {
@@ -52,7 +58,7 @@ const TicketMain = () => {
             statusColor: 'bg-orange-500',
             description: 'How to deposit money to my portal?',
             details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            date: '12:45 AM',
+            date: showtime,
             user: 'John Snow'
         },
         {
@@ -61,7 +67,7 @@ const TicketMain = () => {
             statusColor: 'bg-green-500',
             description: 'How to deposit money to my portal?',
             details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            date: '12:45 AM',
+            date: showtime,
             user: 'John Snow'
         },
     ];
@@ -74,10 +80,14 @@ const TicketMain = () => {
         return <CreateTicket />;
     }
 
+    if(openedTicket){
+        return <TicketView ticket={openedTicket} onBack={handleBack}  />
+    }
+
     return (
         <div className="bg-primaryBlack flex flex-col lg:flex-row relative">
             <Sidebar />
-            <div className="lg:ml-[16.7%] lg:w-[83.3%] w-full bg-primaryBlack min-h-screen flex-grow absolute border-l-2 border-secondaryBlack">
+            <div className="lg:ml-[16.6%] lg:w-[83.4%] overflow-x-hidden w-full bg-primaryBlack min-h-screen flex-grow absolute border-l-2 border-secondaryBlack">
                 <Header />
                 <main className="p-6">
                     <div className='bg-secondaryBlack mr-4 p-4'>
@@ -92,14 +102,14 @@ const TicketMain = () => {
                             </div>
                             <div className="flex items-center space-x-4">
                                 <div className="relative">
-                                    <CustomSelect
+                                    <CustomDropdown
                                         options={ticketOptions}
                                         selectedOption={selectedPriority}
                                         setSelectedOption={setSelectedPriority}
                                     />
                                 </div>
                                 <div className="relative w-40">
-                                    <CustomSelect
+                                    <CustomDropdown
                                         options={timeframeOptions}
                                         selectedOption={selectedTimeframe}
                                         setSelectedOption={setSelectedTimeframe}
@@ -115,9 +125,7 @@ const TicketMain = () => {
                             </div>
                         </div>
                         <div className="p-4 rounded-lg">
-                            {openedTicket ? (
-                                <TicketView ticket={openedTicket} onBack={handleBack} />
-                            ) : (
+                            { (
                                 filteredTickets.map(ticket => (
                                     <TicketCard key={ticket.id} ticket={ticket} onOpenTicket={handleOpenTicket} />
                                 ))
