@@ -18,11 +18,11 @@ function ForgotPassword() {
   return (
     <section className=" bg-secondaryBlack flex mmd:flex-row">
       <LeftSide />
-      <div className="mmd:left-1/3 w-full bg-secondaryBlack mmd:w-2/3 p-10 absolute overflow-x-hidden flex-grow min-h-screen overflow-y-auto ">
-        <div className="hidden fixed top-1 left-1/3 ml-5 mmd:flex flex-col space-y-2">
+      <div className="mmd:left-[38%] w-full bg-secondaryBlack mmd:w-[62%] p-10 absolute overflow-x-hidden flex-grow min-h-screen overflow-y-auto ">
+        <div className="hidden fixed top-1 left-[38%] ml-5 mmd:flex flex-col space-y-2">
           <DotGroup />
         </div>
-        <div className="hidden fixed top-1 left-1/3 ml-1.5 mmd:flex flex-col space-y-2">
+        <div className="hidden fixed top-1 left-[38%] ml-1.5 mmd:flex flex-col space-y-2">
           <DotGroup />
         </div>
         <div className="flex flex-col items-center justify-center bg-secondaryBlack flex-grow h-screen">
@@ -30,15 +30,15 @@ function ForgotPassword() {
             <h3 className="text-white text-2xl font-bold mb-4">Forgot Password</h3>
             <p className="text-sm font-normal text-gray-400">Enter your email address and we'll send you a link to reset your password.</p>
           </div>
-          <form className="mt-8 mb-2 w-auto max-w-screen-lg md:w-1/2" onSubmit={handleSubmit}>
+          <form className="mt-8 mb-2 w-auto max-w-screen-lg md:w-[60%]" onSubmit={handleSubmit}>
             <div className="mb-6">
-              <label className="text-white text-base font-medium mb-1">Email*</label>
+              <label className="text-white text-base font-medium">Email*</label>
               <input
                 type="email"
                 value={email}
                 onChange={handleEmailChange}
                 placeholder="name@mail.com"
-                className="w-full p-3 bg-primaryBlack border-none text-gray-600 rounded-lg"
+                className="w-full p-3 bg-primaryBlack border-none text-gray-600 rounded-lg mt-1"
                 required
               />
             </div>

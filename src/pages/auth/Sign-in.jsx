@@ -56,12 +56,12 @@ function SignIn() {
   return (
     <section className="bg-secondaryBlack relative flex flex-col mmd:flex-row ">
       <LeftSide />
-      <div className="mmd:left-1/3 bg-secondaryBlack absolute  flex-grow w-full p-10 mmd:w-2/3 overflow-x-hidden min-h-screen overflow-hidden">
+      <div className="mmd:left-[38%] bg-secondaryBlack absolute  flex-grow w-full p-10 mmd:w-[62%] overflow-x-hidden min-h-screen overflow-hidden">
         <div>
-          <div className="hidden fixed top-1 left-1/3 ml-5 mmd:flex flex-col space-y-2">
+          <div className="hidden fixed top-1 left-[38%] ml-5 mmd:flex flex-col space-y-2">
             <DotGroup />
           </div>
-          <div className="hidden fixed top-1 left-1/3 ml-1.5 mmd:flex flex-col space-y-2">
+          <div className="hidden fixed top-1 left-[38%] ml-1.5 mmd:flex flex-col space-y-2">
             <DotGroup />
           </div>
           <div >
@@ -72,7 +72,7 @@ function SignIn() {
                   <p className="text-sm font-normal text-gray-400">Welcome back! Please enter your credentials to log in.</p>
                 </div>
 
-                <form className="mb-2 w-auto md:w-1/2 mt-4" onSubmit={handleSubmit}>
+                <form className="mb-2 w-auto md:w-[60%] mt-4" onSubmit={handleSubmit}>
                   <div className="mb-6">
                     <label className="text-white text-base font-medium ">Username*</label>
                     <input
@@ -80,7 +80,7 @@ function SignIn() {
                       value={username}
                       onChange={handleUsernameChange}
                       placeholder="Enter username"
-                      className="w-full p-3 bg-primaryBlack border-none text-gray-600 rounded-lg mt-1"
+                      className="w-full p-3 bg-primaryBlack border-none text-white rounded-lg mt-1"
                       required
                     />
                   </div>
@@ -90,7 +90,7 @@ function SignIn() {
                       <input
                         type={passwordVisible ? "text" : "password"}
                         placeholder="Enter password"
-                        className="w-full p-3 bg-primaryBlack border-none text-gray-600 rounded-lg mt-1"
+                        className="w-full p-3 bg-primaryBlack border-none text-white rounded-lg mt-1"
                         value={password}
                         onChange={handlePasswordChange}
                         required
@@ -121,7 +121,7 @@ function SignIn() {
                     <div className="bg-customGray mr-2 ml-2 w-[40%] h-0.5"></div>
                   </div>
                   <button
-                    className="mt-4 flex items-center justify-center w-full p-3 bg-white text-black font-bold rounded-lg gap-2"
+                    className="mt-4 flex items-center justify-center w-full p-3 bg-white text-primaryBlack font-bold rounded-lg gap-2"
                   >
                     Sign in with Google <img src="/img/Google.png" alt="" />
                   </button>
@@ -137,7 +137,7 @@ function SignIn() {
                   <h3 className="text-white text-2xl font-bold mb-4">Sign In to your Account</h3>
                   <p className="text-sm font-normal text-gray-400">Enter OTP to Sign In to your Account</p>
                 </div>
-                <form className="mt-16 w-auto md:w-1/2" onSubmit={handleOTPSubmit}>
+                <form className="mt-16 w-auto md:w-[60%]" onSubmit={handleOTPSubmit}>
                   <div className="flex justify-center items-center mb-12">
                     {otpDigits.map((digit, index) => (
                       <input

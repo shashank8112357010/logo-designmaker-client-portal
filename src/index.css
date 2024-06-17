@@ -100,3 +100,40 @@ input:focus {
   background-color: red; /* Red color for the active tile indicator */
   border-radius: 0;
 }
+
+.homeSlider {
+  position: fixed;
+  top: 60%;
+  transform: translateY(-50%);
+}
+
+.slick-slide {
+  transition: transform 0.5s ease;
+}
+
+.slick-center .slide {
+  transform: scale(1.05); 
+}
+
+/* .homeSlider>.slick-slider .slick-dots li button:before {
+  font-size: 8px;
+  color: white !important;
+  opacity: 1 !important;
+} */
+.slick-dots li button:before {
+  color: white  !important;
+  font-size: 6px !important;
+  opacity: 1 !important;
+}
+
+.slick-dots li.slick-active button:before {
+  color: #10b981 !important ; 
+  opacity: 1 !important; 
+}
+.bg-darkBlue {
+  background-color: #182736;
+}
+
+.shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}

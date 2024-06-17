@@ -77,12 +77,12 @@ export function SignUp() {
   return (
     <section className=" bg-secondaryBlack mmd:flex-1 mmd:flex-row relative">
       <LeftSide />
-      <div className="mmd:left-1/3 w-full bg-secondaryBlack mmd:w-2/3 p-10 overflow-x-hidden absolute min-h-screen flex-grow">
+      <div className="mmd:left-[38%] w-full bg-secondaryBlack mmd:w-[62%] p-10 overflow-x-hidden absolute min-h-screen flex-grow">
         <div className="">
-          <div className=" hidden fixed top-1 left-1/3 ml-5 mmd:flex flex-col  space-y-2">
+          <div className=" hidden fixed top-1 left-[38%] ml-5 mmd:flex flex-col  space-y-2">
             <DotGroup />
           </div>
-          <div className="hidden fixed top-1 left-1/3 ml-1.5 mmd:flex flex-col space-y-2">
+          <div className="hidden fixed top-1 left-[38%] ml-1.5 mmd:flex flex-col space-y-2">
             <DotGroup />
           </div>
           {isSubmitted ? (
@@ -93,27 +93,27 @@ export function SignUp() {
                 <h3 className="text-white text-2xl font-bold mb-4">Sign up with free trial</h3>
                 <p className="text-sm font-normal text-gray-400">Empower your experience, sign up for a free account today</p>
               </div>
-              <form className="mmd:mt-8 mb-2 sm:w-3/4 max-w-screen-lg lgg:w-1/2" onSubmit={handleSubmit}>
+              <form className="mmd:mt-8 mb-2 sm:w-3/4 max-w-screen-lg lgg:w-[60%]" onSubmit={handleSubmit}>
                 <div className="mb-6">
-                  <label className="text-white text-base font-medium mb-1">Work email*</label>
+                  <label className="text-white text-base font-medium">Work email*</label>
                   <input
                     type="email"
                     value={email}
                     onChange={handleEmailChange}
                     placeholder="name@mail.com"
-                    className="w-full p-3 bg-primaryBlack border-none text-gray-600 rounded-lg"
+                    className="w-full p-2 bg-primaryBlack border-none text-white rounded-lg mt-1"
                     required
                   />
                 </div>
                 <div className="mb-6">
-                  <label className="text-white text-base font-medium mb-1">Username*</label>
-                  <div className="relative flex bg-primaryBlack rounded-lg overflow-hidden">
+                  <label className="text-white text-base font-medium">Username*</label>
+                  <div className="relative flex bg-primaryBlack rounded-lg overflow-hidden mt-1">
                     <input
                       type="text"
                       value={username}
                       onChange={handleUsernameChange}
                       placeholder="Enter username"
-                      className="w-full p-3 bg-primaryBlack border-none text-gray-600"
+                      className="w-full p-2 bg-primaryBlack border-none text-white"
                       required
                     />
                     <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
@@ -130,7 +130,7 @@ export function SignUp() {
                     </span>
                   </label>
                   <div className="relative flex bg-primaryBlack rounded-lg overflow-hidden">
-                    <div className="flex items-center bg-primaryBlack text-gray-300 px-3 border-r border-gray-700">
+                    <div className="flex items-center bg-primaryBlack text-gray-300 px-2 border-r border-gray-700">
                       <span>+91</span>
                       <ChevronDownIcon className="text-gray-300 h-4 w-6 ml-2 cursor-pointer hover:bg-slate-400 rounded-full hover:bg-opacity-20" />
                     </div>
@@ -139,7 +139,7 @@ export function SignUp() {
                       placeholder="Enter phone number"
                       value={phonenumber}
                       onChange={handlePhonenumberChange}
-                      className="w-full p-3 bg-primaryBlack border-none text-gray-600"
+                      className="w-full p-2 bg-primaryBlack border-none text-white"
                       required
                       pattern="\d*"
                       onKeyDown={handlePhoneNumberKeyDown}
@@ -155,7 +155,7 @@ export function SignUp() {
                     <input
                       type={passwordVisible ? "text" : "password"}
                       placeholder="Enter password"
-                      className="w-full p-3 bg-primaryBlack border-none text-gray-600 rounded-lg"
+                      className="w-full p-2 bg-primaryBlack border-none text-white rounded-lg mt-1"
                       value={password}
                       onChange={handlePasswordChange}
                       onBlur={() => setIsTypingPassword(false)}
@@ -203,8 +203,8 @@ export function SignUp() {
                   </div>
                 )}
                 <div className="flex items-center justify-center mt-6">
-                  <div className="flex items-center justify-center">
-                    <div className="w-8 mt-[-25px]">
+                  <div className="flex items-start justify-center">
+                    <div className="w-8">
                       <input type="checkbox" id="exclude-emails" className="mr-2" />
                     </div>
                     <label htmlFor="exclude-emails" className="text-gray-600 text-sm">
@@ -217,7 +217,7 @@ export function SignUp() {
                 </p>
                 <button
                   type="submit"
-                  className={`mt-6 w-full p-3 font-bold bg-primaryGreen text-primaryBlack rounded-lg ${isFormValid() ? " cursor-pointer" : " cursor-not-allowed"
+                  className={`mt-6 w-full p-2 font-bold bg-primaryGreen text-primaryBlack rounded-lg ${isFormValid() ? " cursor-pointer" : " cursor-not-allowed"
                     }`}
                  
                   disabled={!isFormValid()}
