@@ -14,6 +14,7 @@ module.exports = {
         primaryGray: "#BDBDBD",
         primaryGrey: "#8D8D8D",
         customGray: "#BDBDBD80",
+        primarypurple: "#718EBF",
       },
       screens: {
         xs: "460px",

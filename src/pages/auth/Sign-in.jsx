@@ -25,25 +25,26 @@ function SignIn() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-     navigate('/accountsetup');
+    navigate('/accountsetup');
   };
 
   return (
-    <section className=" bg-secondaryBlack relative h-screen mmd:flex-1">
-      <LeftSide />
-      <div className="mmd:left-1/3 bg-secondaryBlack w-full mmd:w-2/3 fixed h-screen overflow-hidden ">
+    <section className="bg-secondaryBlack relative flex flex-col mmd:flex-row ">
+    <LeftSide />
+    <div className="mmd:left-1/3 bg-secondaryBlack absolute  flex-grow w-full p-10 mmd:w-2/3 overflow-x-hidden min-h-screen overflow-hidden">
+      <div>
         <div className="hidden fixed top-1 left-1/3 ml-5 mmd:flex flex-col space-y-2">
           <DotGroup />
         </div>
         <div className="hidden fixed top-1 left-1/3 ml-1.5 mmd:flex flex-col space-y-2">
           <DotGroup />
         </div>
-        <div className="flex flex-col items-center justify-center mt-2 h-screen overscroll-contain ">
+        <div className="flex flex-col items-center justify-center bg-secondaryBlack min-h-screen">
           <div className="text-center">
             <h3 className="text-white text-2xl font-bold mb-4">Login to your account</h3>
             <p className="text-sm font-normal text-gray-400">Welcome back! Please enter your credentials to log in.</p>
           </div>
-          <form className=" mb-2 w-auto md:w-1/2" onSubmit={handleSubmit}>
+          <form className="mb-2 w-auto md:w-1/2" onSubmit={handleSubmit}>
             <div className="mb-6">
               <label className="text-white text-base font-medium mb-1">Email*</label>
               <input
@@ -103,10 +104,9 @@ function SignIn() {
           </form>
         </div>
       </div>
-      <footer className="bg-secondaryBlack">
-        h
-      </footer>
-    </section>
+    </div>
+  </section>
+  
 
   );
 }

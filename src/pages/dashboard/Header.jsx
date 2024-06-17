@@ -14,7 +14,7 @@ const Header = () => {
                     <input
                         type="text"
                         placeholder="Search for something"
-                        className="p-2 pl-10 bg-secondaryBlack text-white placeholder-gray-400 rounded-full w-full lg:w-3/4 h-12"
+                        className="p-2 pl-10 bg-secondaryBlack text-white placeholder-gray-400 rounded-full w-full h-12"
                     />
                 </div>
                 <div className="ml-0 lg:ml-4 flex justify-center items-center space-x-4 lg:space-x-8 p-2 mr-6">

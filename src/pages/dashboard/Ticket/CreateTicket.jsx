@@ -1,9 +1,9 @@
-import React, { useState} from 'react';
-import Sidebar from './Sidebar';
-import Header from './Header';
-import { Dropdown } from '../../components/CustomSelect';
+import React, { useState } from 'react';
+import Sidebar from '../Sidebar';
+import Header from '../Header';
+import { Dropdown } from '../../../components/CustomSelect';
 
-const HelpdeskMain = () => {
+const HelpdeskMain = ({ onBack }) => {
   const [priority, setPriority] = useState(null);
 
   const options = [
@@ -58,10 +58,11 @@ const HelpdeskMain = () => {
               ></textarea>
               <button
                 type="submit"
-                className="bg-primaryGreen text-primaryBlack font-bold py-3 px-6 rounded hover:bg-green-600 transition-colors"
+                className="bg-primaryGreen text-primaryBlack font-bold py-3 px-6 rounded"
               >
                 Send Ticket
               </button>
+              <button onClick={onBack} className="border-primaryGreen border text-white font-bold py-3 px-10 rounded mx-10">Back</button>
             </form>
           </div>
         </main>

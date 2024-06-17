@@ -25,7 +25,7 @@ const Sidebar = () => {
                 </div>
                 <nav className="space-y-12 flex flex-col items-baseline justify-center w-full">
                     <Link
-                    to="/dashboard/overview"
+                        to="/dashboard/overview"
                         className={linkClasses('/dashboard/overview')}
                         onClick={() => handleLinkClick('/dashboard/overview')}
                     >
@@ -50,7 +50,7 @@ const Sidebar = () => {
                         <span>Files</span>
                     </Link>
                     <Link
-                    to="/dashboard/help"
+                        to="/dashboard/help"
                         className={linkClasses('/dashboard/help')}
                         onClick={() => handleLinkClick('/dashboard/help')}
                     >
@@ -59,10 +59,11 @@ const Sidebar = () => {
                         <span>Helpdesk</span>
                     </Link>
                     <Link
-                        className={linkClasses('/settings')}
-                        onClick={() => handleLinkClick('/settings')}
+                    to="/dashboard/settings"
+                        className={linkClasses('/dashboard/settings')}
+                        onClick={() => handleLinkClick('/dashboard/settings')}
                     >
-                        <div className={`absolute left-0 h-full w-2 ${pseudoClasses('/settings')} `}></div>
+                        <div className={`absolute left-0 h-full w-2 ${pseudoClasses('/dashboard/settings')} `}></div>
                         <Cog6ToothIcon className="h-6 w-6" />
                         <span>Settings</span>
                     </Link>

@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import Sidebar from './Sidebar';
-import Header from './Header';
-import {CustomDropdown} from '../../components/CustomSelect';
-import CreateTicket from './CreateTicket';
+import Sidebar from '../Sidebar';
+import Header from '../Header';
+import { CustomDropdown } from '../../../components/CustomSelect';
 import TicketCard from './TicketCard';
 import TicketView from './TicketView';
 
-const TicketMain = () => {
+const TicketMain = ({ onNewTicket }) => {
     const ticketOptions = [
         { label: 'All Tickets', value: 'All Tickets', color: 'bg-gray-500' },
         { label: 'New Tickets', value: 'New Tickets', color: 'bg-blue-500' },
@@ -21,26 +20,15 @@ const TicketMain = () => {
 
     const [selectedPriority, setSelectedPriority] = useState(ticketOptions[0]);
     const [selectedTimeframe, setSelectedTimeframe] = useState(timeframeOptions[0]);
-    const [showCreateTicket, setShowCreateTicket] = useState(false);
     const [openedTicket, setOpenedTicket] = useState(null);
-
-    const handleNewTicketClick = () => {
-        setShowCreateTicket(true);
-    };
 
     const handleOpenTicket = (ticket) => {
         setOpenedTicket(ticket);
     };
 
-    const handleBack = () => {
-        setOpenedTicket(null);
-    };
-
-    const date= new Date();
-
-    const time=date.getHours()+ ':' + date.getMinutes() ;
-    const showtime = (time > 12) ? (time-12 + ' PM') : (time +' AM');
-
+    const date = new Date();
+    const time = date.getHours() + ':' + date.getMinutes();
+    const showtime = (time > 12) ? (time - 12 + ' PM') : (time + ' AM');
 
     const tickets = [
         {
@@ -76,12 +64,8 @@ const TicketMain = () => {
         selectedPriority.value === 'All Tickets' || ticket.status === selectedPriority.value
     );
 
-    if (showCreateTicket) {
-        return <CreateTicket />;
-    }
-
-    if(openedTicket){
-        return <TicketView ticket={openedTicket} onBack={handleBack}  />
+    if (openedTicket) {
+        return <TicketView ticket={openedTicket} onBack={() => setOpenedTicket(null)} />;
     }
 
     return (
@@ -116,7 +100,7 @@ const TicketMain = () => {
                                     />
                                 </div>
                                 <button
-                                    onClick={handleNewTicketClick}
+                                    onClick={onNewTicket}
                                     className="bg-primaryGreen text-primaryBlack px-4 py-2 rounded font-bold flex items-center gap-1"
                                 >
                                     <img className='h-5 w-5' src='/img/message-edit.png' />
@@ -125,22 +109,18 @@ const TicketMain = () => {
                             </div>
                         </div>
                         <div className="p-4 rounded-lg">
-                            { (
-                                filteredTickets.map(ticket => (
-                                    <TicketCard key={ticket.id} ticket={ticket} onOpenTicket={handleOpenTicket} />
-                                ))
-                            )}
+                            {filteredTickets.map(ticket => (
+                                <TicketCard key={ticket.id} ticket={ticket} onOpenTicket={handleOpenTicket} />
+                            ))}
                         </div>
-                        {!openedTicket && (
-                            <div className="flex justify-end items-center mt-4 space-x-6">
-                                <button className="text-customGray">Previous</button>
-                                <div className="flex space-x-2 w-28">
-                                    <button className="bg-primaryGreen text-center text-primaryBlack px-4 py-2 rounded-lg font-bold w-1/2">1</button>
-                                    <button className="text-white border-white border-2 w-1/2 rounded-lg ">2</button>
-                                </div>
-                                <button className="text-customGray">Next</button>
+                        <div className="flex justify-end items-center mt-4 space-x-6">
+                            <button className="text-customGray">Previous</button>
+                            <div className="flex space-x-2 w-28">
+                                <button className="bg-primaryGreen text-center text-primaryBlack px-4 py-2 rounded-lg font-bold w-1/2">1</button>
+                                <button className="text-white border-white border-2 w-1/2 rounded-lg ">2</button>
                             </div>
-                        )}
+                            <button className="text-customGray">Next</button>
+                        </div>
                     </div>
                 </main>
             </div>

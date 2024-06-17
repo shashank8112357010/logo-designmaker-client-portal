@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Sidebar from './Sidebar';
-import Header from './Header';
+import Sidebar from '../Sidebar';
+import Header from '../Header';
 
 const TicketView = ({ ticket, onBack }) => {
     const [showReplyForm, setShowReplyForm] = useState(false);
@@ -73,8 +73,11 @@ const TicketView = ({ ticket, onBack }) => {
                                                 <span>Posted at {reply.date}</span>
                                             </div>
                                         </div>
-                                        <p className="text-gray-400 text-sm mt-2 w-fit">{reply.text}</p>
-                                        <div className='mt-4'>
+                                        <div className="mt-2">
+                                            <h4 className="font-semibold text-white">{ticket.description}</h4>
+                                            <p className="text-gray-400 text-sm mt-2">{reply.text}</p>
+                                        </div>
+                                        <div className='mt-10'>
                                             <div className='bg-white h-0.5 w-full rounded-full'></div>
                                             <div className="flex items-center space-x-2 mt-4">
                                                 <img src="/img/Ellipse.jpg" alt="" className='h-8 w-8 rounded-full' />
@@ -86,10 +89,11 @@ const TicketView = ({ ticket, onBack }) => {
                             </div>
                             <div className="flex justify-end items-center mt-4">
                                 <div className='flex space-x-4'>
-                                    <button onClick={handleReplyClick} className="border-primaryGreen border-2 text-white font-medium p-2 rounded flex items-center gap-3">
+                                    <button onClick={handleReplyClick} className="border-primaryGreen border text-white font-medium p-2 rounded flex items-center gap-3">
                                         <img src="/img/Reply.png" alt="" />Reply
                                     </button>
-                                    <button onClick={onBack} className="bg-primaryGreen font-medium p-2 rounded">Closed Ticket</button>
+                                    <button onClick={onBack} className="border-primaryGreen border text-white font-bold py-3 px-6 rounded mx-10">Back</button>
+                                    <button  className="bg-primaryGreen font-medium  rounded px-4">Close Ticket</button>
                                 </div>
                             </div>
                         </div>

@@ -16,16 +16,16 @@ function ForgotPassword() {
   };
 
   return (
-    <section className=" bg-secondaryBlack no-scrollbar">
+    <section className=" bg-secondaryBlack flex mmd:flex-row">
       <LeftSide />
-      <div className="mmd:left-1/3 w-full bg-secondaryBlack mmd:w-2/3 p-10 fixed h-screen no-scrollbar">
+      <div className="mmd:left-1/3 w-full bg-secondaryBlack mmd:w-2/3 p-10 absolute overflow-x-hidden flex-grow min-h-screen overflow-y-auto ">
         <div className="hidden fixed top-1 left-1/3 ml-5 mmd:flex flex-col space-y-2">
           <DotGroup />
         </div>
         <div className="hidden fixed top-1 left-1/3 ml-1.5 mmd:flex flex-col space-y-2">
           <DotGroup />
         </div>
-        <div className="flex flex-col items-center justify-center mt-20 no-scrollbar">
+        <div className="flex flex-col items-center justify-center bg-secondaryBlack flex-grow h-screen">
           <div className="text-center">
             <h3 className="text-white text-2xl font-bold mb-4">Forgot Password</h3>
             <p className="text-sm font-normal text-gray-400">Enter your email address and we'll send you a link to reset your password.</p>
