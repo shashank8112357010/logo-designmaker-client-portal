@@ -22,7 +22,7 @@ const TicketCard = ({ ticket, onOpenTicket }) => {
             </div>
             <div className="flex justify-between items-center mt-4">
                 <div className="flex items-center space-x-2">
-                    <img src="/img/Ellipse.jpg" alt="" className='h-8 w-8 rounded-full' />
+                    <img src="/img/Ellipse.jpg" alt=" " className='h-8 w-8 rounded-full' />
                     <span className='text-white'>{ticket.user}</span>
                 </div>
                 <button 

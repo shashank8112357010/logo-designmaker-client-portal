@@ -10,6 +10,7 @@ export function SignUp() {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
+  const [phonenumber, setPhonenumber] = useState("");
   const [isTypingPassword, setIsTypingPassword] = useState(false);
   const [validity, setValidity] = useState({
     lowercase: false,
@@ -31,11 +32,14 @@ export function SignUp() {
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
   };
+  const handlePhonenumberChange = (e) => {
+    setPhonenumber(e.target.value);
+  };
 
   const handlePasswordChange = (e) => {
     const value = e.target.value;
     setPassword(value);
-    setIsTypingPassword(true);  
+    setIsTypingPassword(true);
     setValidity({
       lowercase: /[a-z]/.test(value),
       number: /\d/.test(value),
@@ -45,11 +49,14 @@ export function SignUp() {
     });
   };
 
+  const isFormValid = () => {
+    const isValidPassword = Object.values(validity).every(Boolean);
+    return email && username  && isValidPassword;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const isValidPassword = Object.values(validity).every(Boolean);
-
-    if (isValidPassword) {
+    if (isFormValid()) {
       setIsSubmitted(true);
     } else {
       setIsSubmitted(false);
@@ -130,6 +137,8 @@ export function SignUp() {
                     <input
                       type="tel"
                       placeholder="Enter phone number"
+                      value={phonenumber}
+                      onChange={handlePhonenumberChange}
                       className="w-full p-3 bg-primaryBlack border-none text-gray-600"
                       required
                       pattern="\d*"
@@ -149,8 +158,8 @@ export function SignUp() {
                       className="w-full p-3 bg-primaryBlack border-none text-gray-600 rounded-lg"
                       value={password}
                       onChange={handlePasswordChange}
-                      onBlur={() => setIsTypingPassword(false)}  
-                      onFocus={() => setIsTypingPassword(true)} 
+                      onBlur={() => setIsTypingPassword(false)}
+                      onFocus={() => setIsTypingPassword(true)}
                       required
                     />
                     <div
@@ -165,7 +174,7 @@ export function SignUp() {
                     </div>
                   </div>
                 </div>
-                {isTypingPassword && (  
+                {isTypingPassword && (
                   <div>
                     <div className="flex items-center mt-4">
                       <div className='flex items-center mr-9'>
@@ -206,11 +215,17 @@ export function SignUp() {
                 <p className="text-gray-500 mt-4 text-[13px]">
                   By registering for an account, you are consenting to our <Link to="#" className="text-primaryGreen underline">Terms of Service</Link> and confirming that you have reviewed and accepted the <Link to="#" className="text-primaryGreen">Global Privacy Statement.</Link>
                 </p>
-                <button type="submit" className="mt-6 w-full p-3 bg-primaryGreen text-primaryBlack font-bold rounded-lg">Get started free</button>
-                <p className="text-center text-white font-medium mt-4">
-                  Already have an account?
-                  <Link to="/auth/sign-in" className="text-primaryGreen ml-1">Login</Link>
-                </p>
+                <button
+                  type="submit"
+                  className={`mt-6 w-full p-3 font-bold bg-primaryGreen text-primaryBlack rounded-lg ${isFormValid() ? " cursor-pointer" : " cursor-not-allowed"
+                    }`}
+                 
+                  disabled={!isFormValid()}
+                >Get started free</button>
+                  <p className="text-center text-white font-medium mt-4">
+                    Already have an account?
+                    <Link to="/auth/sign-in" className="text-primaryGreen ml-1">Login</Link>
+                  </p>
               </form>
             </div>
           )}

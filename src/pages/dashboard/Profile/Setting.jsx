@@ -19,7 +19,7 @@ const UserProfile = () => {
     return (
         <div className="flex bg-primaryBlack flex-row relative">
             <Sidebar />
-            <div className="lg:ml-[16.6%] lg:w-[83.4%] overflow-x-hidden w-full bg-primaryBlack min-h-screen flex-1 flex flex-col absolute border-l-2 border-secondaryBlack">
+            <div className="lg:ml-[16.7%] lg:w-[83.3%]  w-full bg-primaryBlack min-h-screen flex-1 flex flex-col absolute border-l-2 border-secondaryBlack">
                 <Header />
                 <main className="flex-grow p-6 bg-primaryBlack">
                     <div className="bg-secondaryBlack p-6 rounded-xl">

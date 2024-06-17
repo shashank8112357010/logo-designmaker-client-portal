@@ -18,7 +18,7 @@ const Sidebar = () => {
         `${activePath === path ? 'border-l-8 border-primaryGreen rounded-tr-lg rounded-br-lg' : ''}`;
 
     return (
-        <div className="w-1/6 bg-primaryBlack fixed top-0 left-0 h-full">
+        <aside className="w-[16.7%] bg-primaryBlack fixed top-0  h-screen">
             <div className='flex flex-col justify-center space-y-10 w-full'>
                 <div className='m-6'>
                     <img src="/img/Logo.png" className="h-10 w-64 mb-10" alt="Logo" />
@@ -69,7 +69,7 @@ const Sidebar = () => {
                     </Link>
                 </nav>
             </div>
-        </div>
+        </aside>
     );
 };
 

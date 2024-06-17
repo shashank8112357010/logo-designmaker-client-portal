@@ -71,7 +71,7 @@ const TicketMain = ({ onNewTicket }) => {
     return (
         <div className="bg-primaryBlack flex flex-col lg:flex-row relative">
             <Sidebar />
-            <div className="lg:ml-[16.6%] lg:w-[83.4%] overflow-x-hidden w-full bg-primaryBlack min-h-screen flex-grow absolute border-l-2 border-secondaryBlack">
+            <div className="lg:ml-[16.7%] lg:w-[83.3%]  w-full bg-primaryBlack min-h-screen flex-grow absolute border-l-2 border-secondaryBlack">
                 <Header />
                 <main className="p-6">
                     <div className='bg-secondaryBlack mr-4 p-4'>
@@ -103,7 +103,7 @@ const TicketMain = ({ onNewTicket }) => {
                                     onClick={onNewTicket}
                                     className="bg-primaryGreen text-primaryBlack px-4 py-2 rounded font-bold flex items-center gap-1"
                                 >
-                                    <img className='h-5 w-5' src='/img/message-edit.png' />
+                                    <img className='h-5 w-5' src='/img/message-edit.png' alt='' />
                                     New Ticket
                                 </button>
                             </div>
