@@ -4,8 +4,9 @@ import Header from '../Header';
 import { CustomDropdown } from '../../../components/CustomSelect';
 import TicketCard from './TicketCard';
 import TicketView from './TicketView';
+import HelpdeskMain from './CreateTicket';
 
-const TicketMain = ({ onNewTicket }) => {
+const TicketMain = () => {
     const ticketOptions = [
         { label: 'All Tickets', value: 'All Tickets', color: 'bg-gray-500' },
         { label: 'New Tickets', value: 'New Tickets', color: 'bg-blue-500' },
@@ -21,9 +22,14 @@ const TicketMain = ({ onNewTicket }) => {
     const [selectedPriority, setSelectedPriority] = useState(ticketOptions[0]);
     const [selectedTimeframe, setSelectedTimeframe] = useState(timeframeOptions[0]);
     const [openedTicket, setOpenedTicket] = useState(null);
+    const [openCreateTicket, setOpenedCreateTicket] = useState(null);
 
     const handleOpenTicket = (ticket) => {
         setOpenedTicket(ticket);
+    };
+
+    const handleCreateOpenTicket = () => {
+        setOpenedCreateTicket(true);
     };
 
     const date = new Date();
@@ -68,6 +74,10 @@ const TicketMain = ({ onNewTicket }) => {
         return <TicketView ticket={openedTicket} onBack={() => setOpenedTicket(null)} />;
     }
 
+    if (openCreateTicket) {
+        return <HelpdeskMain onBack={() => setOpenedCreateTicket(null)} />;
+    }
+
     return (
         <div className="bg-primaryBlack flex flex-col lg:flex-row relative">
             <Sidebar />
@@ -100,7 +110,7 @@ const TicketMain = ({ onNewTicket }) => {
                                     />
                                 </div>
                                 <button
-                                    onClick={onNewTicket}
+                                    onClick={handleCreateOpenTicket}
                                     className="bg-primaryGreen text-primaryBlack px-4 py-2 rounded font-bold flex items-center gap-1"
                                 >
                                     <img className='h-5 w-5' src='/img/message-edit.png' alt='' />
