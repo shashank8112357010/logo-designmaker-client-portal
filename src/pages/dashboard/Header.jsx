@@ -48,7 +48,7 @@ const Header = ({ heading }) => {
                     </div>
                     <div className='flex items-center'>
                         <img
-                            src="/img/Profile.jpg"
+                            src="/img/profile.jpg"
                             alt="Profile"
                             className="h-12 w-12 rounded-full text-white"
                         />

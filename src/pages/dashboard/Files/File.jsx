@@ -3,22 +3,22 @@ import React, { useState } from 'react';
 const recentlyAdded = [
     {
         title: "Logo design",
-        image: "/img/elot.png",
+        image: "/img/Elot.png",
         date: "Added 1 day ago"
     },
     {
         title: "Social media design",
-        image: "/img/elot.png",
+        image: "/img/Elot.png",
         date: "Added 1 day ago"
     },
     {
         title: "Logo design",
-        image: "/img/elot.png",
+        image: "/img/Elot.png",
         date: "Added 1 day ago"
     },
     {
         title: "Social media design",
-        image: "/img/elot.png",
+        image: "/img/Elot.png",
         date: "Added 1 day ago"
     }
 ];
@@ -68,21 +68,6 @@ const Files = () => {
         setShowForm(false);
     };
 
-    const handleFormChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
-    };
-
-    const handleFormSubmit = (e) => {
-        e.preventDefault();
-        // Handle form submission logic here
-        console.log(formData);
-        setShowForm(false);
-    };
-
     return (
         <div className="pt-12 px-8">
             <h2 className="text-white text-2xl font-medium mb-4">Recently added</h2>
@@ -125,7 +110,7 @@ const Files = () => {
                     </tbody>
                 </table>
             </div>
-            <div className="flex justify-end items-center gap-4 mt-8">
+            <div className="flex justify-end items-center gap-4 mt-8 mb-2">
                 <button className="text-customGray">Previous</button>
                 <div className="flex space-x-2">
                     <button className="bg-primaryGreen text-primaryBlack px-4 py-1 rounded">1</button>
@@ -139,7 +124,7 @@ const Files = () => {
                     <div className="absolute inset-0 bg-customGray bg-opacity-10 h-full"></div>
                     <div className="bg-secondaryBlack  rounded w-[50%] z-20 h-[310px]">
                         <div className='flex justify-between'>
-                            <img src='/img/elot.png' alt='elot' className='w-1/2 h-[310px] p-3' />
+                            <img src='/img/Elot.png' alt='elot' className='w-1/2 h-[310px] p-3' />
                             <div className='flex flex-col items-end'>
                                 <img
                                     src="/img/Cross.png"
