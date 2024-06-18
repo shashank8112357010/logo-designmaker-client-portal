@@ -4,9 +4,9 @@ import Header from '../Header';
 import { CustomDropdown } from '../../../components/CustomSelect';
 import TicketCard from './TicketCard';
 import TicketView from './TicketView';
-import HelpdeskMain from './CreateTicket';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
-const TicketMain = () => {
+const TicketMain = ({ onNewTicketClick }) => {
     const ticketOptions = [
         { label: 'All Tickets', value: 'All Tickets', color: 'bg-gray-500' },
         { label: 'New Tickets', value: 'New Tickets', color: 'bg-blue-500' },
@@ -22,14 +22,9 @@ const TicketMain = () => {
     const [selectedPriority, setSelectedPriority] = useState(ticketOptions[0]);
     const [selectedTimeframe, setSelectedTimeframe] = useState(timeframeOptions[0]);
     const [openedTicket, setOpenedTicket] = useState(null);
-    const [openCreateTicket, setOpenedCreateTicket] = useState(null);
 
     const handleOpenTicket = (ticket) => {
         setOpenedTicket(ticket);
-    };
-
-    const handleCreateOpenTicket = () => {
-        setOpenedCreateTicket(true);
     };
 
     const date = new Date();
@@ -74,15 +69,8 @@ const TicketMain = () => {
         return <TicketView ticket={openedTicket} onBack={() => setOpenedTicket(null)} />;
     }
 
-    if (openCreateTicket) {
-        return <HelpdeskMain onBack={() => setOpenedCreateTicket(null)} />;
-    }
-
     return (
-        <div className="bg-primaryBlack flex flex-col lg:flex-row relative">
-            <Sidebar />
-            <div className="lg:ml-[16.7%] lg:w-[83.3%]  w-full bg-primaryBlack min-h-screen flex-grow absolute border-l-2 border-secondaryBlack">
-                <Header />
+
                 <main className="p-6">
                     <div className='bg-secondaryBlack mr-4 p-4'>
                         <div className="flex justify-between items-center mb-6">
@@ -110,7 +98,7 @@ const TicketMain = () => {
                                     />
                                 </div>
                                 <button
-                                    onClick={handleCreateOpenTicket}
+                                    onClick={onNewTicketClick}
                                     className="bg-primaryGreen text-primaryBlack px-4 py-2 rounded font-bold flex items-center gap-1"
                                 >
                                     <img className='h-5 w-5' src='/img/message-edit.png' alt='' />
@@ -118,11 +106,17 @@ const TicketMain = () => {
                                 </button>
                             </div>
                         </div>
-                        <div className="p-4 rounded-lg">
+                        <TransitionGroup>
                             {filteredTickets.map(ticket => (
-                                <TicketCard key={ticket.id} ticket={ticket} onOpenTicket={handleOpenTicket} />
+                                <CSSTransition
+                                    key={ticket.id}
+                                    timeout={300}
+                                    classNames="fade"
+                                >
+                                    <TicketCard ticket={ticket} onOpenTicket={handleOpenTicket} />
+                                </CSSTransition>
                             ))}
-                        </div>
+                        </TransitionGroup>
                         <div className="flex justify-end items-center mt-4 space-x-6">
                             <button className="text-customGray">Previous</button>
                             <div className="flex space-x-2 w-28">
@@ -133,8 +127,6 @@ const TicketMain = () => {
                         </div>
                     </div>
                 </main>
-            </div>
-        </div>
     );
 };
 

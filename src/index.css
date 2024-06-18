@@ -114,12 +114,6 @@ input:focus {
 .slick-center .slide {
   transform: scale(1.05); 
 }
-
-/* .homeSlider>.slick-slider .slick-dots li button:before {
-  font-size: 8px;
-  color: white !important;
-  opacity: 1 !important;
-} */
 .slick-dots li button:before {
   color: white  !important;
   font-size: 6px !important;
@@ -136,4 +130,31 @@ input:focus {
 
 .shadow-lg {
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+
+.component-wrapper {
+  position: relative;
+}
+
+.fade-enter {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 300ms 200ms, transform 300ms 200ms; 
+}
+
+.fade-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: opacity 600ms 200ms, transform 100ms 200ms;
 }

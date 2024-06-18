@@ -85,7 +85,7 @@ const Overview = () => {
     return (
         <div className="bg-primaryBlack  flex flex-col lg:flex-row relative">
             <Sidebar />
-            <div className="lg:ml-[16.7%] lg:w-[83.3%] w-full bg-primaryBlack min-h-screen flex-grow absolute border-l-2 border-secondaryBlack">
+            <div className="lg:ml-[16.7%] lg:w-[83.3%]  w-full bg-primaryBlack min-h-screen flex-grow absolute border-l-2 border-secondaryBlack">
                 <Header />
                 <main className="ml-10 mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8 p-6 mr-6">
                     <section className="bg-secondaryBlack p-8 rounded-lg col-span-1 lg:col-span-2 h-fit">
