@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import Sidebar from './Sidebar';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import Header from './Header';
 
 const Overview = () => {
     const [date, setDate] = useState(new Date());
@@ -83,10 +81,7 @@ const Overview = () => {
     };
 
     return (
-        <div className="bg-primaryBlack  flex flex-col lg:flex-row relative">
-            <Sidebar />
-            <div className="lg:ml-[16.7%] lg:w-[83.3%]  w-full bg-primaryBlack min-h-screen flex-grow absolute border-l-2 border-secondaryBlack">
-                <Header />
+       <div>
                 <main className="ml-10 mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8 p-6 mr-6">
                     <section className="bg-secondaryBlack p-8 rounded-lg col-span-1 lg:col-span-2 h-fit">
                         <div className='flex flex-col lg:flex-row h-full'>
@@ -149,8 +144,7 @@ const Overview = () => {
                         </div>
                     </div>
                 </section>
-            </div>
-        </div>
+                </div>
     );
 };
 

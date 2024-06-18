@@ -101,7 +101,7 @@ export function SignUp() {
                     value={email}
                     onChange={handleEmailChange}
                     placeholder="name@mail.com"
-                    className="w-full p-2 bg-primaryBlack border-none text-white rounded-lg mt-1"
+                    className="w-full p-3 bg-primaryBlack border-none text-white rounded-lg mt-1"
                     required
                   />
                 </div>
@@ -113,7 +113,7 @@ export function SignUp() {
                       value={username}
                       onChange={handleUsernameChange}
                       placeholder="Enter username"
-                      className="w-full p-2 bg-primaryBlack border-none text-white"
+                      className="w-full p-3 bg-primaryBlack border-none text-white"
                       required
                     />
                     <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
@@ -139,7 +139,7 @@ export function SignUp() {
                       placeholder="Enter phone number"
                       value={phonenumber}
                       onChange={handlePhonenumberChange}
-                      className="w-full p-2 bg-primaryBlack border-none text-white"
+                      className="w-full p-3 bg-primaryBlack border-none text-white"
                       required
                       pattern="\d*"
                       onKeyDown={handlePhoneNumberKeyDown}
@@ -155,7 +155,7 @@ export function SignUp() {
                     <input
                       type={passwordVisible ? "text" : "password"}
                       placeholder="Enter password"
-                      className="w-full p-2 bg-primaryBlack border-none text-white rounded-lg mt-1"
+                      className="w-full p-3 bg-primaryBlack border-none text-white rounded-lg mt-1"
                       value={password}
                       onChange={handlePasswordChange}
                       onBlur={() => setIsTypingPassword(false)}
@@ -217,7 +217,7 @@ export function SignUp() {
                 </p>
                 <button
                   type="submit"
-                  className={`mt-6 w-full p-2 font-bold bg-primaryGreen text-primaryBlack rounded-lg ${isFormValid() ? " cursor-pointer" : " cursor-not-allowed"
+                  className={`mt-6 w-full p-3 font-bold bg-primaryGreen text-primaryBlack rounded-lg ${isFormValid() ? " cursor-pointer" : " cursor-not-allowed"
                     }`}
                  
                   disabled={!isFormValid()}

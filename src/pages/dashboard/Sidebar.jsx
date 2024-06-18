@@ -34,10 +34,11 @@ const Sidebar = () => {
                         <span>Overview</span>
                     </Link>
                     <Link
-                        className={linkClasses('/services')}
-                        onClick={() => handleLinkClick('/services')}
+                    to="/dashboard/services"
+                        className={linkClasses('/dashboard/services')}
+                        onClick={() => handleLinkClick('/dashboard/services')}
                     >
-                        <div className={`absolute left-0 h-full w-2 ${pseudoClasses('/services')} `}></div>
+                        <div className={`absolute left-0 h-full w-2 ${pseudoClasses('/dashboard/services')} `}></div>
                         <RectangleStackIcon className="h-6 w-6" />
                         <span>Services</span>
                     </Link>

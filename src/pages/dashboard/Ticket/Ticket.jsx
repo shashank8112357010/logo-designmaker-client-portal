@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import TicketMain from './TicketMain';
 import CreateTicket from './CreateTicket';
 import TicketView from './TicketView';
-import Sidebar from '../Sidebar';
-import Header from '../Header';
 
 function Ticket() {
   const [activeComponent, setActiveComponent] = useState('ticketMain');
@@ -21,13 +19,10 @@ function Ticket() {
   };
 
   return (
-    <div className="bg-primaryBlack flex flex-col lg:flex-row relative">
-      <Sidebar />
-      <div className="lg:ml-[16.7%] lg:w-[83.3%]   w-full bg-primaryBlack min-h-screen flex-grow absolute border-l-2 border-secondaryBlack">
-        <Header />
+  <div>
         {renderComponent()}
       </div>
-    </div>
+    
   );
 }
 

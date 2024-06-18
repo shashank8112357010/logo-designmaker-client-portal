@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import Sidebar from '../Sidebar';
-import Header from '../Header';
 
 const TicketView = ({ ticket, onBack }) => {
     const [showReplyForm, setShowReplyForm] = useState(false);
@@ -35,7 +33,7 @@ const TicketView = ({ ticket, onBack }) => {
 
     return (
         <div className='flex-grow relative'>
-            <main className="flex-grow  relative h-full">
+            <main className="flex-grow relative h-full">
                 <div className="flex-grow px-6 overflow-x-hidden relative h-full">
                     <div className="bg-secondaryBlack p-4 rounded mt-8">
                         <div className="flex justify-between items-start">
@@ -60,7 +58,7 @@ const TicketView = ({ ticket, onBack }) => {
                         </div>
                         <div className="mt-4">
                             {replies.map(reply => (
-                                <div key={reply.id} className="bg-secondaryBlack  rounded mt-4">
+                                <div key={reply.id} className="bg-secondaryBlack rounded mt-4">
                                     <div className="flex justify-between items-start">
                                         <div className="flex items-center space-x-2 text-white">
                                             <div className={`w-4 h-4 rounded-full ${ticket.statusColor}`}></div>
@@ -72,7 +70,7 @@ const TicketView = ({ ticket, onBack }) => {
                                     </div>
                                     <div className="mt-2">
                                         <h4 className="font-semibold text-white">{ticket.description}</h4>
-                                        <p className="text-gray-400 text-sm mt-2 grid-cols-2">{reply.text}</p>
+                                        <p className="text-gray-400 text-sm mt-2 break-words">{reply.text}</p>
                                     </div>
                                     <div className='mt-10'>
                                         <div className='bg-white h-0.5 w-full rounded-full'></div>
@@ -90,14 +88,14 @@ const TicketView = ({ ticket, onBack }) => {
                                     <img src="/img/Reply.png" alt="" />Reply
                                 </button>
                                 <button onClick={onBack} className="border-primaryGreen border text-white font-bold py-3 px-6 rounded mx-10">Back</button>
-                                <button className="bg-primaryGreen font-medium  rounded px-4">Close Ticket</button>
+                                <button className="bg-primaryGreen font-medium rounded px-4">Close Ticket</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </main>
             {showReplyForm && (
-                <div className="fixed inset-0 left-[16.7%] top-24  flex items-center justify-center z-10">
+                <div className="fixed inset-0 left-[16.7%] top-24 flex items-center justify-center z-10">
                     <div className="absolute inset-0 bg-customGray bg-opacity-10 h-full"></div>
                     <div className="bg-secondaryBlack p-6 rounded-lg w-[90%] z-20">
                         <h3 className="text-lg text-white font-semibold mb-4">Reply to Ticket #{ticket.id}</h3>
@@ -136,7 +134,8 @@ const TicketView = ({ ticket, onBack }) => {
                                         placeholder='Type Your Reply here...'
                                         value={replyText}
                                         onChange={handleReplyChange}
-                                        className="placeholder:text-customGray mt-1 block w-full px-3 py-2 appearance-none resize-none bg-primaryBlack text-white rounded-md shadow-sm"
+                                        required
+                                        className="placeholder:text-customGray mt-1 block w-full px-3 py-2 appearance-none resize-none bg-primaryBlack text-white rounded-md shadow-sm break-words"
                                         rows="5"
                                     ></textarea>
                                 </div>

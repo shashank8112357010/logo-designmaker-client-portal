@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
-import Sidebar from '../Sidebar';
-import Header from '../Header';
 import { CustomDropdown } from '../../../components/CustomSelect';
 import TicketCard from './TicketCard';
 import TicketView from './TicketView';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 const TicketMain = ({ onNewTicketClick }) => {
     const ticketOptions = [
@@ -106,17 +103,9 @@ const TicketMain = ({ onNewTicketClick }) => {
                                 </button>
                             </div>
                         </div>
-                        <TransitionGroup>
                             {filteredTickets.map(ticket => (
-                                <CSSTransition
-                                    key={ticket.id}
-                                    timeout={300}
-                                    classNames="fade"
-                                >
-                                    <TicketCard ticket={ticket} onOpenTicket={handleOpenTicket} />
-                                </CSSTransition>
+                                    <TicketCard ticket={ticket} onOpenTicket={handleOpenTicket} />  
                             ))}
-                        </TransitionGroup>
                         <div className="flex justify-end items-center mt-4 space-x-6">
                             <button className="text-customGray">Previous</button>
                             <div className="flex space-x-2 w-28">

@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import Sidebar from '../Sidebar';
-import Header from '../Header';
 import { Dropdown } from '../../../components/CustomSelect';
 
 const HelpdeskMain = ({ onBack }) => {
