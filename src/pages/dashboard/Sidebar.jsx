@@ -43,10 +43,11 @@ const Sidebar = () => {
                         <span>Services</span>
                     </Link>
                     <Link
-                        className={linkClasses('/files')}
-                        onClick={() => handleLinkClick('/files')}
+                    to="/dashboard/files"
+                        className={linkClasses('/dashboard/files')}
+                        onClick={() => handleLinkClick('/dashboard/files')}
                     >
-                        <div className={`absolute left-0 h-full w-2 ${pseudoClasses('/files')} `}></div>
+                        <div className={`absolute left-0 h-full w-2 ${pseudoClasses('/dashboard/files')} `}></div>
                         <ClipboardDocumentListIcon className="h-6 w-6" />
                         <span>Files</span>
                     </Link>

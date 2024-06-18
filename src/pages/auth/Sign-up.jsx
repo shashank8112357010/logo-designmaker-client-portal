@@ -51,7 +51,7 @@ export function SignUp() {
 
   const isFormValid = () => {
     const isValidPassword = Object.values(validity).every(Boolean);
-    return email && username  && isValidPassword;
+    return email && username && isValidPassword;
   };
 
   const handleSubmit = (e) => {
@@ -217,15 +217,14 @@ export function SignUp() {
                 </p>
                 <button
                   type="submit"
-                  className={`mt-6 w-full p-3 font-bold bg-primaryGreen text-primaryBlack rounded-lg ${isFormValid() ? " cursor-pointer" : " cursor-not-allowed"
+                  className={`mt-6 w-full p-3 font-bold bg-primaryGreen  text-primaryBlack rounded-lg ${isFormValid() ? " cursor-pointer" : " cursor-not-allowed hover:bg-primaryGrey"
                     }`}
-                 
                   disabled={!isFormValid()}
                 >Get started free</button>
-                  <p className="text-center text-white font-medium mt-4">
-                    Already have an account?
-                    <Link to="/auth/sign-in" className="text-primaryGreen ml-1">Login</Link>
-                  </p>
+                <p className="text-center text-white font-medium mt-4">
+                  Already have an account?
+                  <Link to="/auth/sign-in" className="text-primaryGreen ml-1">Login</Link>
+                </p>
               </form>
             </div>
           )}

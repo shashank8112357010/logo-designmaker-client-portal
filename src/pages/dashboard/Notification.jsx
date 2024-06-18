@@ -1,23 +1,7 @@
 import React from 'react';
 
-const NotificationsDropdown = ({ setShowNotifications }) => {
-    const notifications = [
-        {
-            title: "Hey Your meet has been scheduled",
-            description: "More description goes here and it can be very...",
-            date: "4.4.2019; 13:44"
-        },
-        {
-            title: "Hey Your meet has been scheduled",
-            description: "More description goes here and it can be very...",
-            date: "4.4.2019; 13:44"
-        },
-        {
-            title: "Hey Your meet has been scheduled",
-            description: "More description goes here and it can be very...",
-            date: "4.4.2019; 13:44"
-        }
-    ];
+const NotificationsDropdown = ({notifications, setShowNotifications }) => {
+   
     return (
         <div className="absolute top-12 right-10 mt-2 w-[500px] bg-secondaryBlack rounded-lg shadow-lg p-4 z-50">
             <div className="flex justify-end mb-2">

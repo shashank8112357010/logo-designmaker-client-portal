@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route, useLocation } from "react-router-dom";
-import { Overview, Ticket, Setting, Header, Sidebar, Services } from "../pages/dashboard";
-import Home from '../pages/dashboard/Home';
+import { Overview, Ticket, Setting, Header, Sidebar, Services, File } from "../pages/dashboard";
+import Home from '../pages/dashboard/Overview/Home';
 
 const routes = [
   {
@@ -13,6 +13,7 @@ const routes = [
       { name: "Services", path: "/services", element: <Services /> },
       { name: "HelpDesk", path: "/help", element: <Ticket /> },
       { name: "Setting", path: "/settings", element: <Setting /> },
+      { name: "File", path: "/files", element: <File /> },
     ],
   },
 ];
@@ -27,6 +28,8 @@ const getHeading = (path) => {
       return 'HelpDesk';
     case '/dashboard/settings':
       return 'Settings';
+    case '/dashboard/files':
+      return 'Files';
     default:
       return 'Overview';
   }

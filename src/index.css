@@ -122,6 +122,7 @@ input:focus {
 
 .slick-dots li.slick-active button:before {
   color: #10b981 !important ; 
+  font-size: 10px !important;
   opacity: 1 !important; 
 }
 .bg-darkBlue {
