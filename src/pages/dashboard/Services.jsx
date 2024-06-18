@@ -9,9 +9,9 @@ const Services = () => {
           <thead>
             <tr className="">
               <th className="px-4 py-2 text-left text-primarypurple">Service</th>
-              <th className=" py-2   text-primarypurple">Status</th>
-              <th className=" py-2   text-primarypurple">Date</th>
-              <th className="px-4 py-2 text-left  text-primarypurple">Duration</th>
+              <th className="text-left px-12  py-2   text-primarypurple">Status</th>
+              <th className=" py-2 px-12  text-left text-primarypurple">Date</th>
+              <th className=" py-2 text-left   text-primarypurple">Duration</th>
               <th className=" py-2   text-primarypurple">Files</th>
             </tr>
           </thead>
@@ -19,7 +19,7 @@ const Services = () => {
             <tr className="border-t border-primaryGray">
               <td className="px-4 py-4">Logo design</td>
               <td className="px-4 py-4 text-green-500"><div className='border border-green-500 rounded-full p-2 w-28 text-center'>Completed</div></td>
-              <td className=" py-4">28 Jan, 12:30 AM</td>
+              <td className="px-4 py-4">28 Jan, 12:30 AM</td>
               <td className="px-4 py-4 text-red-500">2 Hr</td>
               <td className=" py-4 text-center">
               <button className="text-primaryGreen border border-primaryGreen rounded-full py-2 px-4">See Files</button>

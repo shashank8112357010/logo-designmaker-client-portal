@@ -32,7 +32,7 @@ const Overview = () => {
                             <td className="py-4">Cancelled design</td>
                             <td className="py-4">5 Feb, 2.00 PM</td>
                             <td className="py-4 text-red-600">1 Hr</td>
-                            <td className="py-4"><button className="border border-primaryGreen text-white rounded-full px-2 py-1 ">See Files</button></td>
+                            <td className="py-4 "><button className="border border-primaryGreen text-white rounded-full px-2 py-1 ">See Files</button></td>
                         </tr>
                     </tbody>
                 );
@@ -44,36 +44,36 @@ const Overview = () => {
                             <td className="py-4">Service number 1</td>
                             <td className="py-4">Logo design</td>
                             <td className="py-4">28 Jan, 12.30 AM</td>
-                            <td className="py-4 text-red-600">2 Hr</td>
-                            <td className="py-4"><button className="border border-primaryGreen text-white rounded-full px-2 py-1 ">See Files</button></td>
+                            <td className="py-4 px-3 text-red-600">2 Hr</td>
+                            <td className="py-4 pr-2"><button className="border border-primaryGreen text-white rounded-full px-2 py-1 ">See Files</button></td>
                         </tr>
                         <tr className='border-t border-white text-white'>
                             <td className="py-4">Service number 1</td>
                             <td className="py-4">Magazine design</td>
                             <td className="py-4">25 Jan, 10.40 PM</td>
-                            <td className="py-4 text-red-600">2 Hr</td>
-                            <td className="py-4"><button className="border border-primaryGreen text-white rounded-full px-2 py-1 ">See Files</button></td>
+                            <td className="py-4 px-3 text-red-600">2 Hr</td>
+                            <td className="py-4 "><button className="border border-primaryGreen text-white rounded-full px-2 py-1 ">See Files</button></td>
                         </tr>
                         <tr className='border-t border-white text-white'>
                             <td className="py-4">Service number 1</td>
                             <td className="py-4">Logo design</td>
                             <td className="py-4">20 Jan, 10.40 AM</td>
-                            <td className="py-4 text-red-600">2 Hr</td>
+                            <td className="py-4 px-3 text-red-600">2 Hr</td>
                             <td className="py-4"><button className="border border-primaryGreen text-white rounded-full px-2 py-1 ">See Files</button></td>
                         </tr>
                         <tr className='border-t border-white text-white'>
                             <td className="py-4">Service number 1</td>
                             <td className="py-4">Magazine design</td>
                             <td className="py-4">15 Jan, 03.29 PM</td>
-                            <td className="py-4 text-red-600">2 Hr</td>
+                            <td className="py-4 px-3 text-red-600">2 Hr</td>
                             <td className="py-4"><button className="border border-primaryGreen text-white rounded-full px-2 py-1 ">See Files</button></td>
                         </tr>
                         <tr className='border-t border-white text-white'>
                             <td className="py-4">Service number 1</td>
                             <td className="py-4">Magazine design</td>
                             <td className="py-4">14 Jan, 10.40 PM</td>
-                            <td className="py-4 text-red-600">2 Hr</td>
-                            <td className="py-4"><button className="border border-primaryGreen text-white rounded-full px-2 py-1 ">See Files</button></td>
+                            <td className="py-4 px-3 text-red-600">2 Hr</td>
+                            <td className="py-4 "><button className="border border-primaryGreen text-white rounded-full px-2 py-1 ">See Files</button></td>
                         </tr>
                     </tbody>
                 );
@@ -133,7 +133,7 @@ const Overview = () => {
                                         {
                                             ["Description" , "Type" , "Date" , "Duration" , "Files"].map((item , index)=>{
                                                 return (
-                                                    <th key={index} className="py-2"><span className='text-[#718EBF] text-center'>{item}</span></th>
+                                                    <th key={index} className="py-2"><span className='text-[#718EBF]'>{item}</span></th>
                                                 )
                                             })
                                         }

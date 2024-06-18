@@ -26,7 +26,7 @@ const getHeading = (path) => {
     case '/dashboard/help':
       return 'HelpDesk';
     case '/dashboard/settings':
-      return 'Setting';
+      return 'Settings';
     default:
       return 'Overview';
   }
