@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import TicketMain from './TicketMain';
 import CreateTicket from './CreateTicket';
 import TicketView from './TicketView';
@@ -15,7 +14,7 @@ function Ticket() {
       case 'createTicket':
         return <CreateTicket onBack={() => setActiveComponent('ticketMain')} />;
       case 'ticketView':
-        return <TicketView  onBack={() => setActiveComponent('ticketView')} />;
+        return <TicketView onBack={() => setActiveComponent('ticketView')} />;
       default:
         return <TicketMain onNewTicketClick={() => setActiveComponent('createTicket')} />;
     }
@@ -26,15 +25,7 @@ function Ticket() {
       <Sidebar />
       <div className="lg:ml-[16.7%] lg:w-[83.3%]   w-full bg-primaryBlack min-h-screen flex-grow absolute border-l-2 border-secondaryBlack">
         <Header />
-        <TransitionGroup className="component-wrapper">
-          <CSSTransition
-            key={activeComponent}
-            timeout={300}
-            classNames="fade"
-          >
-            {renderComponent()}
-          </CSSTransition>
-        </TransitionGroup>
+        {renderComponent()}
       </div>
     </div>
   );

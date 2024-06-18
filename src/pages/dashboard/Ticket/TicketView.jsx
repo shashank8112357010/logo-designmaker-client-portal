@@ -97,7 +97,7 @@ const TicketView = ({ ticket, onBack }) => {
                 </div>
             </main>
             {showReplyForm && (
-                <div className=" inset-0 -top-30  flex items-center justify-center z-10">
+                <div className="fixed inset-0 left-[16.7%] top-24  flex items-center justify-center z-10">
                     <div className="absolute inset-0 bg-customGray bg-opacity-10 h-full"></div>
                     <div className="bg-secondaryBlack p-6 rounded-lg w-[90%] z-20">
                         <h3 className="text-lg text-white font-semibold mb-4">Reply to Ticket #{ticket.id}</h3>
@@ -124,7 +124,7 @@ const TicketView = ({ ticket, onBack }) => {
                                     </div>
                                     <div className="mb-4 w-1/3">
                                         <label className="block text-sm font-medium text-white">Priority</label>
-                                        <div className="mt-1 block w-full px-3 py-2 flex items-center gap-2 text-customGray rounded-md shadow-sm bg-primaryBlack">
+                                        <div className="mt-1 w-full px-3 py-2 flex items-center gap-2 text-customGray rounded-md shadow-sm bg-primaryBlack">
                                             <div className={`w-3 h-3 rounded-full ${ticket.statusColor}`}></div>
                                             <span>{ticket.status}</span>
                                         </div>
