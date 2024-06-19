@@ -11,55 +11,59 @@ const HelpdeskMain = ({ onBack }) => {
   ];
 
   return (
-        <main className="flex-grow px-6 overflow-y-auto mt-8">
-          <div className="bg-secondaryBlack p-6 rounded-lg shadow-lg">
-            <h2 className="text-xl font-semibold text-white mb-4">Create Ticket</h2>
-            <p className="text-gray-400 mb-6">Write and address new queries and issues</p>
-            <form>
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-                <div className='flex flex-col'>
-                  <label htmlFor="title" className='text-white text-lg mb-2'>Title</label>
-                  <input
-                    id='title'
-                    type="text"
-                    placeholder="Type Title"
-                    className="p-4 bg-primaryBlack text-white rounded-lg placeholder:text-customGray"
-                  />
-                </div>
-                <div className='flex flex-col'>
-                  <label htmlFor="request" className='text-white text-lg mb-2'>Request Ticket Type</label>
-                  <input
-                    id='request'
-                    type="text"
-                    placeholder="Type Request Type"
-                    className="p-4 bg-primaryBlack text-white rounded placeholder:text-customGray"
-                  />
-                </div>
-                <div className='flex flex-col'>
-                  <label htmlFor="priority" className='text-white text-lg mb-2'>Priority Status</label>
-                  <Dropdown
-                    options={options}
-                    value={priority}
-                    onChange={setPriority}
-                    placeholder="Please choose one option"
-                  />
-                </div>
-              </div>
-              <textarea
-                placeholder="Type ticket issue here.."
-                className="w-full p-4 bg-primaryBlack text-white rounded mb-6 border-none resize-none placeholder:text-customGray"
-                rows="6"
-              ></textarea>
-              <button
-                type="submit"
-                className="bg-primaryGreen text-primaryBlack font-bold py-3 px-6 rounded"
-              >
-                Send Ticket
-              </button>
-              <button onClick={onBack} className="border-primaryGreen border text-white font-bold py-3 px-10 rounded mx-10">Back</button>
-            </form>
+    <main className="flex-grow px-6 overflow-y-auto mt-8 transition-all duration-500 ease-in-out">
+      <div className="bg-secondaryBlack p-6 rounded-lg shadow-lg">
+        <h2 className="text-xl font-semibold text-white mb-4">Create Ticket</h2>
+        <p className="text-gray-400 mb-6">Write and address new queries and issues</p>
+        <form>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+            <div className='flex flex-col'>
+              <label htmlFor="title" className='text-white text-lg mb-2'>Title</label>
+              <input
+                id='title'
+                type="text"
+                placeholder="Type Title"
+                className="p-4 bg-primaryBlack text-white rounded-lg placeholder:text-customGray"
+              />
+            </div>
+            <div className='flex flex-col'>
+              <label htmlFor="request" className='text-white text-lg mb-2'>Request Ticket Type</label>
+              <input
+                id='request'
+                type="text"
+                placeholder="Type Request Type"
+                className="p-4 bg-primaryBlack text-white rounded placeholder:text-customGray"
+              />
+            </div>
+            <div className='flex flex-col'>
+              <label  className='text-white text-lg mb-2'>Priority Status</label>
+              <Dropdown
+                options={options}
+                value={priority}
+                onChange={setPriority}
+                placeholder="Please choose one option"
+              />
+            </div>
           </div>
-        </main>
+          <label htmlFor='body'>Ticket Body</label>
+          <textarea
+            id='body'
+            placeholder="Type ticket issue here.."
+            className="w-full p-4 bg-primaryBlack text-white rounded mb-6 border-none resize-none placeholder:text-customGray"
+            rows="6"
+          ></textarea>
+          <div className="flex justify-between items-center">
+            <button
+              type="submit"
+              className="bg-primaryGreen text-primaryBlack font-bold py-3 px-6 rounded"
+            >
+              Send Ticket
+            </button>
+            <button onClick={onBack} className="border-primaryGreen border text-white font-bold py-3 px-10 rounded">Back</button>
+          </div>
+        </form>
+      </div>
+    </main>
   );
 };
 

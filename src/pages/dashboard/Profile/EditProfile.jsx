@@ -1,6 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const EditProfile = () => {
+    const [profile, setProfile] = useState({
+        firstName: "Charlene",
+        lastName: "Reed",
+        email: "charlenereed@gmail.com",
+        phoneNumber: "9120286248",
+        username: "username123",
+        address: "San Jose, California, USA",
+        Paddress: "San Jose, California, USA",
+        city: "San Jose",
+        postalCode: "45962",
+        country: "USA"
+    });
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setProfile(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
     return (
        <div>
          <div className='flex items-start mt-6'>
@@ -15,7 +36,9 @@ const EditProfile = () => {
                     <label className="block text-sm font-medium text-white">First Name</label>
                     <input
                         type="text"
-                        value="Charlene"
+                        name="firstName"
+                        value={profile.firstName}
+                        onChange={handleChange}
                         className="mt-1 block w-full px-3 py-2 bg-primaryBlack text-primarypurple rounded-md shadow-sm focus:outline-none"
                     />
                 </div>
@@ -23,7 +46,9 @@ const EditProfile = () => {
                     <label className="block text-sm font-medium text-white">Last Name</label>
                     <input
                         type="text"
-                        value="Reed"
+                        name="lastName"
+                        value={profile.lastName}
+                        onChange={handleChange}
                         className="mt-1 block w-full px-3 py-2 bg-primaryBlack text-primarypurple rounded-md shadow-sm focus:outline-none"
                     />
                 </div>
@@ -31,7 +56,9 @@ const EditProfile = () => {
                     <label className="block text-sm font-medium text-white">Email</label>
                     <input
                         type="email"
-                        value="charlenereed@gmail.com"
+                        name="email"
+                        value={profile.email}
+                        onChange={handleChange}
                         className="mt-1 block w-full px-3 py-2 bg-primaryBlack text-primarypurple rounded-md shadow-sm focus:outline-none"
                     />
                 </div>
@@ -39,7 +66,9 @@ const EditProfile = () => {
                     <label className="block text-sm font-medium text-white">Phone number</label>
                     <input
                         type="text"
-                        value="9120286248"
+                        name="phoneNumber"
+                        value={profile.phoneNumber}
+                        onChange={handleChange}
                         className="mt-1 block w-full px-3 py-2 bg-primaryBlack text-primarypurple rounded-md shadow-sm focus:outline-none"
                     />
                 </div>
@@ -47,7 +76,9 @@ const EditProfile = () => {
                     <label className="block text-sm font-medium text-white">Username</label>
                     <input
                         type="text"
-                        value="username123"
+                        name="username"
+                        value={profile.username}
+                        onChange={handleChange}
                         className="mt-1 block w-full px-3 py-2 bg-primaryBlack text-primarypurple rounded-md shadow-sm focus:outline-none"
                     />
                 </div>
@@ -55,15 +86,19 @@ const EditProfile = () => {
                     <label className="block text-sm font-medium text-white">Address</label>
                     <input
                         type="text"
-                        value="San Jose, California, USA"
+                        name="address"
+                        value={profile.address}
+                        onChange={handleChange}
                         className="mt-1 block w-full px-3 py-2 bg-primaryBlack text-primarypurple rounded-md shadow-sm focus:outline-none"
                     />
                 </div>
                 <div className="mb-4">
-                    <label className="block text-sm font-medium text-white">Address</label>
+                    <label className="block text-sm font-medium text-white">Permanent Address</label>
                     <input
                         type="text"
-                        value="San Jose, California, USA"
+                        name="Paddress"
+                        value={profile.Paddress}
+                        onChange={handleChange}
                         className="mt-1 block w-full px-3 py-2 bg-primaryBlack text-primarypurple rounded-md shadow-sm focus:outline-none"
                     />
                 </div>
@@ -71,7 +106,9 @@ const EditProfile = () => {
                     <label className="block text-sm font-medium text-white">City</label>
                     <input
                         type="text"
-                        value="San Jose"
+                        name="city"
+                        value={profile.city}
+                        onChange={handleChange}
                         className="mt-1 block w-full px-3 py-2 bg-primaryBlack text-primarypurple rounded-md shadow-sm focus:outline-none"
                     />
                 </div>
@@ -79,7 +116,9 @@ const EditProfile = () => {
                     <label className="block text-sm font-medium text-white">Postal Code</label>
                     <input
                         type="text"
-                        value="45962"
+                        name="postalCode"
+                        value={profile.postalCode}
+                        onChange={handleChange}
                         className="mt-1 block w-full px-3 py-2 bg-primaryBlack text-primarypurple rounded-md shadow-sm focus:outline-none"
                     />
                 </div>
@@ -87,15 +126,17 @@ const EditProfile = () => {
                     <label className="block text-sm font-medium text-white">Country</label>
                     <input
                         type="text"
-                        value="USA"
+                        name="country"
+                        value={profile.country}
+                        onChange={handleChange}
                         className="mt-1 block w-full px-3 py-2 bg-primaryBlack text-primarypurple rounded-md shadow-sm focus:outline-none"
                     />
                 </div>
             </div>
         </div>
-         <div className="flex justify-end">
-         <button className="bg-primaryGreen font-bold text-primaryBlack px-12 py-2 rounded">Save</button>
-     </div>
+        <div className="flex justify-end">
+            <button className="bg-primaryGreen font-bold text-primaryBlack px-12 py-2 rounded">Save</button>
+        </div>
        </div>
     );
 };
