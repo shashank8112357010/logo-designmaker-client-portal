@@ -27,7 +27,7 @@ const Services = () => {
             </tr>
             <tr className="border-t border-primaryGray">
               <td className="px-4 py-2">Magazine design</td>
-              <td className="px-4 py-2 text-yellow-500"><div className='border border-yellow-500 rounded-full p-2 w-28 text-center'>Pending</div></td>
+              <td className="px-4 py-2 text-orange-500"><div className='border border-yellow-500 rounded-full p-2 w-28 text-center'>Pending</div></td>
               <td className="px-4 py-2">25 Jan, 10:40 PM</td>
               <td className="px-4 py-2 text-red-500">2 Hr</td>
               <td className="text-center py-4">
@@ -45,7 +45,7 @@ const Services = () => {
             </tr>
             <tr className="border-t border-primaryGray">
               <td className="px-4 py-2">Magazine design</td>
-              <td className="px-4 py-2 text-yellow-500"><div className='border border-yellow-500 rounded-full p-2 w-28 text-center'>Pending</div></td>
+              <td className="px-4 py-2 text-orange-500"><div className='border border-yellow-500 rounded-full p-2 w-28 text-center'>Pending</div></td>
               <td className="px-4 py-2">15 Jan, 03:29 PM</td>
               <td className="px-4 py-2 text-red-500">2 Hr</td>
               <td className="text-center py-4">
@@ -54,7 +54,7 @@ const Services = () => {
             </tr>
             <tr className="border-t border-primaryGray">
               <td className="px-4 py-2">Magazine design</td>
-              <td className="px-4 py-2 text-yellow-500"><div className='border border-yellow-500 rounded-full p-2 w-28 text-center'>Pending</div></td>
+              <td className="px-4 py-2 text-orange-500"><div className='border border-yellow-500 rounded-full p-2 w-28 text-center'>Pending</div></td>
               <td className="px-4 py-2">14 Jan, 10:40 PM</td>
               <td className="px-4 py-2 text-red-500">2 Hr</td>
               <td className="text-center py-4">

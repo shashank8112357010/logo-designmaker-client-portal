@@ -1,19 +1,18 @@
 import React from 'react';
 import { Routes, Route, useLocation } from "react-router-dom";
-import { Overview, TicketMain, Setting, Header, Sidebar, Services, File } from "../pages/dashboard";
-import Home from '../pages/dashboard/Overview/Home';
+import { Overview, TicketMain, Setting, Header, Sidebar, Services, File ,Transaction} from "../pages/dashboard";
 
 const routes = [
   {
     title: "dashboard page",
     layout: "dashboard",
     pages: [
-      { name: "Home", path: "/home", element: <Home /> },
       { name: "Overview", path: "/overview", element: <Overview /> },
       { name: "Services", path: "/services", element: <Services /> },
       { name: "HelpDesk", path: "/help", element: <TicketMain /> },
       { name: "Setting", path: "/settings", element: <Setting /> },
       { name: "File", path: "/files", element: <File /> },
+      { name: "Transaction", path: "/transactions", element: <Transaction /> },
     ],
   },
 ];
@@ -30,8 +29,8 @@ const getHeading = (path) => {
       return 'Settings';
     case '/dashboard/files':
       return 'Files';
-      case '/dashboard':
-        return 'Login Dashboard';
+      case '/dashboard/transactions':
+        return 'Transactions';
     default:
       return 'Login Dashboard';
   }
