@@ -34,8 +34,8 @@ const TicketView = ({ ticket, onBack }) => {
     return (
         <div className='flex-grow relative'>
             <main className="flex-grow relative h-full">
-                <div className="flex-grow px-6 overflow-x-hidden relative h-full">
-                    <div className="bg-secondaryBlack p-4 rounded mt-8">
+                <div className="flex-grow  overflow-x-hidden relative h-full">
+                    <div className="bg-secondaryBlack p-4 rounded ">
                         <div className="flex justify-between items-start">
                             <div className="flex items-center space-x-2 text-white">
                                 <div className={`w-4 h-4 rounded-full ${ticket.statusColor}`}></div>

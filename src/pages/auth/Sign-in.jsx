@@ -5,12 +5,13 @@ import LeftSide from "../../components/LeftSide";
 import { DotGroup } from "../../components/Dot";
 import { useNavigate } from "react-router-dom";
 
+
 function SignIn() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [showOTP, setShowOTP] = useState(false); 
-  const [otpDigits, setOTPDigits] = useState(["", "", "", ""]); 
+  const [showOTP, setShowOTP] = useState(false);
+  const [otpDigits, setOTPDigits] = useState(["", "", "", ""]);
   const navigate = useNavigate();
   const otpRefs = useRef([]);
 
@@ -26,13 +27,9 @@ function SignIn() {
     setPasswordVisible(!passwordVisible);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setShowOTP(true);
-  };
 
   const handleOTPDigitChange = (index, value) => {
-    if (/^\d*$/.test(value)) { 
+    if (/^\d*$/.test(value)) {
       const newOTP = [...otpDigits];
       newOTP[index] = value;
       setOTPDigits(newOTP);
@@ -48,10 +45,15 @@ function SignIn() {
     }
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setShowOTP(true);
+  };
+
   const handleOTPSubmit = (e) => {
     e.preventDefault();
     navigate('/accountsetup');
-  };
+  }
 
   return (
     <section className="bg-secondaryBlack relative flex flex-col mmd:flex-row ">

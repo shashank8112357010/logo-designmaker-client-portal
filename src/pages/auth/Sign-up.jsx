@@ -4,6 +4,8 @@ import { CheckEmail } from './CheckEmail.jsx';
 import { CheckCircleIcon, ChevronDownIcon, QuestionMarkCircleIcon, EyeIcon, EyeSlashIcon, ShieldCheckIcon } from "@heroicons/react/24/outline";
 import LeftSide from "../../components/LeftSide.jsx";
 import { DotGroup } from "../../components/Dot.jsx";
+import { useMutation } from "@tanstack/react-query";
+import { signUp } from "../../API/api.js";
 
 export function SignUp() {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -51,16 +53,7 @@ export function SignUp() {
 
   const isFormValid = () => {
     const isValidPassword = Object.values(validity).every(Boolean);
-    return email && username && isValidPassword;
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (isFormValid()) {
-      setIsSubmitted(true);
-    } else {
-      setIsSubmitted(false);
-    }
+    return email && username && phonenumber && isValidPassword;
   };
 
   const handlePhoneNumberKeyDown = (e) => {
@@ -74,12 +67,30 @@ export function SignUp() {
     }
   };
 
+  const mutation = useMutation({
+    mutationFn: signUp,
+    onSuccess: () => {
+      setIsSubmitted(true);
+    },
+    onError: (error) => {
+      console.error('Error', error.message);
+      alert('Sign-up failed: ' + error.message);
+    }
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (isFormValid()) {
+      mutation.mutate({ email, username, phonenumber, password });
+    }
+  };
+
   return (
-    <section className=" bg-secondaryBlack mmd:flex-1 mmd:flex-row relative">
+    <section className="bg-secondaryBlack mmd:flex-1 mmd:flex-row relative">
       <LeftSide />
       <div className="mmd:left-[38%] w-full bg-secondaryBlack mmd:w-[62%] p-10 overflow-x-hidden absolute min-h-screen flex-grow">
         <div className="">
-          <div className=" hidden fixed top-1 left-[38%] ml-5 mmd:flex flex-col  space-y-2">
+          <div className="hidden fixed top-1 left-[38%] ml-5 mmd:flex flex-col space-y-2">
             <DotGroup />
           </div>
           <div className="hidden fixed top-1 left-[38%] ml-1.5 mmd:flex flex-col space-y-2">
@@ -217,8 +228,7 @@ export function SignUp() {
                 </p>
                 <button
                   type="submit"
-                  className={`mt-6 w-full p-3 font-bold bg-primaryGreen  text-primaryBlack rounded-lg ${isFormValid() ? " cursor-pointer" : " cursor-not-allowed hover:bg-primaryGrey"
-                    }`}
+                  className={`mt-6 w-full p-3 font-bold bg-primaryGreen text-primaryBlack rounded-lg ${isFormValid() ? "cursor-pointer" : "cursor-not-allowed hover:bg-primaryGrey"}`}
                   disabled={!isFormValid()}
                 >Get started free</button>
                 <p className="text-center text-white font-medium mt-4">

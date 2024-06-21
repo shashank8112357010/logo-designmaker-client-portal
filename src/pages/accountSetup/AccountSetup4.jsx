@@ -18,7 +18,7 @@ function AccountSetupStep4({ formData, handleNextStep, handlePreviousStep }) {
     };
 
     const handleSkip = () => {
-        handleNextStep({ firstName: null, lastName: null, businessName: null });
+        handleNextStep({selectedFonts: selectedFonts || null });
     };
 
     const fontOptions = [

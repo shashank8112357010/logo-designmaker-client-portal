@@ -1,0 +1,37 @@
+{
+  "users": [
+    {
+      "id": "8381",
+      "email": "sharmapratham223@gmail.com",
+      "username": "PrathamSharma",
+      "phonenumber": "9166292241",
+      "password": "Pratham@000"
+    },
+    {
+      "id": "4402",
+      "email": "pratham@gmail.com",
+      "username": "ps01",
+      "phonenumber": "9178346319",
+      "password": "o33eCNEIN@fcn"
+    },
+    {
+      "id": "bb6d",
+      "email": "sharma23@gmail.com",
+      "username": "dvsdhc",
+      "phonenumber": "9238369",
+      "password": "dhSJW@E6351"
+    },
+    {
+      "id": "98ed",
+      "email": "pratham@gmail.com",
+      "username": "prathams",
+      "phonenumber": "370286302380",
+      "password": "Ispratham23@"
+    },
+    {
+      "id": "a289",
+      "username": "dds",
+      "password": "dssss"
+    }
+  ]
+}

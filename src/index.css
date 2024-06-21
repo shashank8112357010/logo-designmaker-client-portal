@@ -112,7 +112,7 @@ input:focus {
 }
 
 .slick-center .slide {
-  transform: scale(1.05); 
+  transform: scale(1.15); 
 }
 .slick-dots li button:before {
   color: white  !important;

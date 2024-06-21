@@ -15,7 +15,11 @@ function AccountSetupStep3({ formData, handleNextStep, handlePreviousStep }) {
     };
 
     const handleSkip = () => {
-        handleNextStep({ firstName: null, lastName: null, businessName: null });
+        handleNextStep({
+            designType:designType || null,
+            targetNiche:targetNiche || null,
+            otherDetails:otherDetails || null
+        });
     };
     const tags1 = [
         "Tutorial",

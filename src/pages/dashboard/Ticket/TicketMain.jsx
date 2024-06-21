@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import { CustomDropdown } from '../../../components/CustomSelect';
 import TicketCard from './TicketCard';
 import TicketView from './TicketView';
@@ -73,7 +73,7 @@ const TicketMain = () => {
     );
 
     return (
-        <div className="ticket-main-container">
+        <div className="ticket-main-container px-4 pt-12">
             <div className={`fade ${!openedTicket && !showCreateTicket ? 'fade-enter-active' : 'fade-exit-active'}`}>
                 {!openedTicket && !showCreateTicket && (
                     <main className="main">
@@ -85,7 +85,7 @@ const TicketMain = () => {
                                         placeholder="Search for ticket"
                                         className="bg-primaryBlack text-white px-4 py-2 rounded-full w-3/4 pl-10"
                                     />
-                                    <img src='/img/search-normal.png' className="absolute top-3 left-3 text-gray-500" />
+                                    <img src='/img/search-normal.png' alt='search' className="absolute top-3 left-3 text-gray-500" />
                                 </div>
                                 <div className="flex items-center space-x-4">
                                     <div className="relative">

@@ -16,8 +16,9 @@ function AccountSetup() {
     const handleNextStep = (newData) => {
         console.log('Updating formData with:', newData);
         dispatch(updateFormData(newData));
-        setStep(prevStep => prevStep + 1);
-        console.log('Updated formData:', formData);
+        setTimeout(() => {
+            setStep(prevStep => prevStep + 1);
+        }, 100); 
     };
 
     const handlePreviousStep = () => {

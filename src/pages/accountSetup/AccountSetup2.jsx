@@ -20,7 +20,7 @@ function AccountSetupStep2({ formData, handleNextStep, handlePreviousStep }) {
         handleNextStep({ brandName, slogan });
     };
     const handleSkip = () => {
-        handleNextStep({ firstName: null, lastName: null, businessName: null });
+        handleNextStep({ brandName:brandName || null, slogan:slogan || null});
     };
 
     return (

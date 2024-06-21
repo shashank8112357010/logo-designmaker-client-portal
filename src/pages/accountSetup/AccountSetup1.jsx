@@ -28,7 +28,11 @@ function AccountSetup1({ formData, handleNextStep }) {
     };
 
     const handleSkip = () => {
-        handleNextStep({ firstName: null, lastName: null, businessName: null });
+        handleNextStep({ 
+            firstName: firstName || null, 
+            lastName: lastName || null, 
+            businessName: businessName || null 
+        });
     };
 
     const handleGoBack = () => {

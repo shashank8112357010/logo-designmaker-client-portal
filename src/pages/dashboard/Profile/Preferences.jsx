@@ -35,17 +35,17 @@ const Preferences = () => {
                 <ToggleSwitch
                     isOn={sendOrReceiveCurrency}
                     handleToggle={() => setSendOrReceiveCurrency(!sendOrReceiveCurrency)}
-                    label="I send or receive digital currency"
+                    label="General Notification"
                 />
                 <ToggleSwitch
                     isOn={receiveMerchantOrder}
                     handleToggle={() => setReceiveMerchantOrder(!receiveMerchantOrder)}
-                    label="I receive merchant order"
+                    label="Platform Updates"
                 />
                 <ToggleSwitch
                     isOn={recommendations}
                     handleToggle={() => setRecommendations(!recommendations)}
-                    label="There are recommendations for my account"
+                    label="Promotion"
                 />
             </div>
             <div className="flex justify-end">

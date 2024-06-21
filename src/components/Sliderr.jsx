@@ -16,7 +16,7 @@ export default function Sliderr({ slideData }) {
         autoplaySpeed: 3000,
         arrows: false,
         centerMode: true,
-        centerPadding: '100px', 
+        centerPadding: '120px', 
     };
 
     return (
@@ -35,20 +35,20 @@ export default function Sliderr({ slideData }) {
                                     <div className="flex gap-2 items-center ">
                                             <img src={item.img} alt={item.founder} className="h-8 w-8 rounded-full" />
                                             <div className="flex flex-col ">
-                                                <p className=" font-bold">
+                                                <p className=" font-bold text-[10px]">
                                                     {item.name}
                                                 </p>
-                                                <p className="text-xs text-primaryGreen">
+                                                <p className="text-[8px] text-primaryGreen">
                                                     {item.founder}
                                                 </p>
                                             </div>
                                         </div>
                                         <div className="">
-                                            <p className="italic text-white text-xs font-normal leading-tight">
+                                            <p className="italic text-white text-[8px] font-normal leading-tight">
                                                 &quot;{item.para}&quot;
                                             </p>
                                         </div>
-                                        <img src="/img/Star.png" alt="star" className=" h-4 w-12" />
+                                       <div className="flex justify-end"> <img src="/img/star.png" alt="star" className=" h-2 w-10" /></div>
                                     </div>
                                 </div>
                             </div>

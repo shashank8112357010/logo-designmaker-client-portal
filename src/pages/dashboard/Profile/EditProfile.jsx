@@ -8,7 +8,6 @@ const EditProfile = () => {
         phoneNumber: "9120286248",
         username: "username123",
         address: "San Jose, California, USA",
-        Paddress: "San Jose, California, USA",
         city: "San Jose",
         postalCode: "45962",
         country: "USA"
@@ -92,16 +91,7 @@ const EditProfile = () => {
                         className="mt-1 block w-full px-3 py-2 bg-primaryBlack text-primarypurple rounded-md shadow-sm focus:outline-none"
                     />
                 </div>
-                <div className="mb-4">
-                    <label className="block text-sm font-medium text-white">Permanent Address</label>
-                    <input
-                        type="text"
-                        name="Paddress"
-                        value={profile.Paddress}
-                        onChange={handleChange}
-                        className="mt-1 block w-full px-3 py-2 bg-primaryBlack text-primarypurple rounded-md shadow-sm focus:outline-none"
-                    />
-                </div>
+               
                 <div className="mb-4">
                     <label className="block text-sm font-medium text-white">City</label>
                     <input

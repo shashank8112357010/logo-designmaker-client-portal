@@ -33,9 +33,9 @@ function AccountSetupStep5({ formData = {}, handleNextStep, handlePreviousStep }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        handleNextStep({ selectedPalettes});
+        const updatedFormData = { ...formData, selectedPalettes };
+        handleNextStep(updatedFormData);
         dispatch(resetFormData());
-        console.log('Selected Palettes on Submit:', selectedPalettes); 
         navigate('/dashboard/home');
     };
 
