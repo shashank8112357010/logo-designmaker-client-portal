@@ -8,8 +8,10 @@ const Header = ({ heading }) => {
     const navigate = useNavigate();
 
     const toggleNotifications = () => {
-        setShowNotifications(!showNotifications);
-    };
+        if (!showNotifications) {
+            setShowNotifications(true);
+        }
+    }
 
     const notifications = [
         {

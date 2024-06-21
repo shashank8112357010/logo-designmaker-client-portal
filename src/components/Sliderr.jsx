@@ -48,7 +48,7 @@ export default function Sliderr({ slideData }) {
                                                 &quot;{item.para}&quot;
                                             </p>
                                         </div>
-                                       <div className="flex justify-end"> <img src="/img/star.png" alt="star" className=" h-2 w-10" /></div>
+                                       <div className="flex justify-end"> <img src='/img/star.png' alt='star' className=" h-2 w-10" /></div>
                                     </div>
                                 </div>
                             </div>
