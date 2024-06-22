@@ -5,7 +5,7 @@ import LeftSide from "../../../components/LeftSide";
 import { DotGroup } from "../../../components/Dot";
 
 import Otp from "./Otp";
-import { signIn } from "../../services/api.service";
+import { signIn } from "../../../services/api.service";
 
 
 function SignIn() {
@@ -26,7 +26,7 @@ function SignIn() {
     setPasswordVisible(!passwordVisible);
   };
 
-  const handleSubmitLoginAPIService = (e) => {
+  const handleSubmitLoginAPIService = async(e) => {
     e.preventDefault();
     await signIn({workEmail, password}).then((res)=>{
 

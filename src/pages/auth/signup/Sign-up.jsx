@@ -5,7 +5,7 @@ import { CheckCircleIcon, ChevronDownIcon, QuestionMarkCircleIcon, EyeIcon, EyeS
 import { DotGroup } from "../../../components/Dot.jsx";
 import { useMutation } from "@tanstack/react-query";
 import LeftSide from "../../../components/LeftSide.jsx";
-import { signUp } from "../../services/api.service.js";
+import { signUp } from "../../../services/api.service.js";
 
 export function SignUp() {
   const [passwordVisible, setPasswordVisible] = useState(false);
