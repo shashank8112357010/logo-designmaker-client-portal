@@ -4,10 +4,11 @@ import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import LeftSide from "../../components/LeftSide";
 import { DotGroup } from "../../components/Dot";
 import { useNavigate } from "react-router-dom";
+import { signIn } from "../../services/api.service";
 
 
 function SignIn() {
-  const [username, setUsername] = useState("");
+  const [workEmail, setWorkEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [showOTP, setShowOTP] = useState(false);
@@ -16,7 +17,7 @@ function SignIn() {
   const otpRefs = useRef([]);
 
   const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
+    setWorkEmail(e.target.value);
   };
 
   const handlePasswordChange = (e) => {
@@ -45,15 +46,22 @@ function SignIn() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmitLoginAPIService = async(e) => {
     e.preventDefault();
-    setShowOTP(true);
+    await signIn({workEmail, password}).then((res)=>{
+
+    }).catch((err)=>{
+      console.log(err);
+    })
+    // setShowOTP(true);
   };
 
   const handleOTPSubmit = (e) => {
     e.preventDefault();
     navigate('/accountsetup');
   }
+
+
 
   return (
     <section className="bg-secondaryBlack relative flex flex-col mmd:flex-row ">
@@ -74,14 +82,14 @@ function SignIn() {
                   <p className="text-sm font-normal text-gray-400">Welcome back! Please enter your credentials to log in.</p>
                 </div>
 
-                <form className="mb-2 w-auto md:w-[60%] mt-4" onSubmit={handleSubmit}>
+                <form className="mb-2 w-auto md:w-[60%] mt-4" onSubmit={handleSubmitLoginAPIService}>
                   <div className="mb-6">
-                    <label className="text-white text-base font-medium ">Username*</label>
+                    <label className="text-white text-base font-medium ">Work Email*</label>
                     <input
-                      type="text"
-                      value={username}
+                      type="email"
+                      value={workEmail}
                       onChange={handleUsernameChange}
-                      placeholder="Enter username"
+                      placeholder="Enter Work Email"
                       className="w-full p-3 bg-primaryBlack border-none text-white rounded-lg mt-1"
                       required
                     />
@@ -116,7 +124,7 @@ function SignIn() {
                     </div>
                     <Link to="/auth/forget-password" className="text-primaryGreen text-sm">Forgot Password?</Link>
                   </div>
-                  <button type="submit" className="mt-6 w-full p-3 bg-primaryGreen text-primaryBlack font-bold rounded-lg">Login</button>
+                  <button type="submit" className="mt-6 w-full p-3 bg-primaryGreen text-primaryBlack font-bold rounded-lg" >Login</button>
                   <div className="flex justify-center items-center my-6">
                     <div className="bg-customGray ml-2 mr-2 w-[40%] h-0.5"></div>
                     <p className="text-white ">Or</p>

@@ -1,7 +1,8 @@
 import React from 'react';
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { Overview, TicketMain, Setting, Header, Sidebar, Services, File } from "../pages/dashboard";
 import Home from '../pages/dashboard/Overview/Home';
+import { getToken } from '../helpers/token.helper';
 
 const routes = [
   {
@@ -40,9 +41,14 @@ const getHeading = (path) => {
 export function Dashboard() {
   const location = useLocation();
   const heading = getHeading(location.pathname);
+   
+
+
+    
 
   return (
     <div className="">
+         {!getToken() && <Navigate to={"/auth/sign-in"} />}
       <div className="flex bg-primaryBlack flex-row relative">
         <Sidebar />
         <div className="lg:ml-[16.7%] lg:w-[83.3%] w-full bg-primaryBlack min-h-screen flex-1 flex flex-col flex-grow absolute border-l-2 border-secondaryBlack">

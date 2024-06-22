@@ -2,7 +2,22 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import { Auth } from "../src/layouts/auth"
 import AccountSetup from "./pages/accountSetup/AccountSetup";
 import Dashboard from "./layouts/dashboard";
+import axios from "axios";
+import { getToken } from "./helpers/token.helper"
+// axios interceptor
 
+axios.interceptors.request.use(
+  (config) => {
+    const token = getToken();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 
 function App() {
@@ -10,7 +25,6 @@ function App() {
     <>
       <Routes>
         <Route path="/auth/*" element={<Auth />} />
-        <Route path="*" element={<Navigate to="/auth/sign-up" replace />} />
         <Route path="/accountsetup" element={<AccountSetup />} />
         <Route path="/dashboard/*" element={<Dashboard />} />
       </Routes>
