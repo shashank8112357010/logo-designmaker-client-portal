@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import NotificationsDropdown from './Notification';
 import { BellIcon } from '@heroicons/react/24/outline';
 
 const Header = ({ heading }) => {
     const [showNotifications, setShowNotifications] = useState(false);
+    const navigate = useNavigate();
 
     const toggleNotifications = () => {
-        setShowNotifications(!showNotifications);
-    };
+        if (!showNotifications) {
+            setShowNotifications(true);
+        }
+    }
 
     const notifications = [
         {
@@ -44,20 +48,22 @@ const Header = ({ heading }) => {
                                 {notificationCount}
                             </span>
                         )}
-                        {showNotifications && <NotificationsDropdown notifications={notifications} setShowNotifications={setShowNotifications} />}
+                        {showNotifications && <NotificationsDropdown notifications={notifications} showNotifications={showNotifications} setShowNotifications={setShowNotifications} />}
                     </div>
-                    <div className='flex items-center'>
+                    <div className='flex items-center cursor-pointer' onClick={() => navigate('/dashboard/settings')}>
                         <img
                             src="/img/profile.jpg"
                             alt="Profile"
                             className="h-12 w-12 rounded-full text-white"
                         />
-                        <div className='text-white ml-2'><h3>Jhon Doe</h3></div>
+                        <div className='text-white ml-2'>
+                            <h3>John Doe</h3>
+                        </div>
                     </div>
                 </div>
             </div>
         </header>
     );
-}
+};
 
 export default Header;

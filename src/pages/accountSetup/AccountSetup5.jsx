@@ -36,7 +36,7 @@ function AccountSetupStep5({ formData = {}, handleNextStep, handlePreviousStep }
         const updatedFormData = { ...formData, selectedPalettes };
         handleNextStep(updatedFormData);
         dispatch(resetFormData());
-        navigate('/dashboard/home');
+        navigate('/dashboard/overview');
     };
 
     const colorPalettes = [

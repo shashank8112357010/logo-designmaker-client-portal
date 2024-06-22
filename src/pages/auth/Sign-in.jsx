@@ -1,9 +1,10 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import LeftSide from "../../components/LeftSide";
 import { DotGroup } from "../../components/Dot";
-import { useNavigate } from "react-router-dom";
+
+import Otp from "./Otp";
 import { signIn } from "../../services/api.service";
 
 
@@ -12,9 +13,6 @@ function SignIn() {
   const [password, setPassword] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [showOTP, setShowOTP] = useState(false);
-  const [otpDigits, setOTPDigits] = useState(["", "", "", ""]);
-  const navigate = useNavigate();
-  const otpRefs = useRef([]);
 
   const handleUsernameChange = (e) => {
     setWorkEmail(e.target.value);
@@ -46,7 +44,7 @@ function SignIn() {
     }
   };
 
-  const handleSubmitLoginAPIService = async(e) => {
+  const handleSubmitLoginAPIService = (e) => {
     e.preventDefault();
     await signIn({workEmail, password}).then((res)=>{
 
@@ -61,12 +59,10 @@ function SignIn() {
     navigate('/accountsetup');
   }
 
-
-
   return (
-    <section className="bg-secondaryBlack relative flex flex-col mmd:flex-row ">
+    <section className="bg-secondaryBlack  flex flex-col mmd:flex-row">
       <LeftSide />
-      <div className="mmd:left-[38%] bg-secondaryBlack absolute  flex-grow w-full p-10 mmd:w-[62%] overflow-x-hidden min-h-screen overflow-hidden">
+      <div className="mmd:left-[38%] bg-secondaryBlack absolute  flex-grow w-full p-10 mmd:w-[62%] overflow-x-hidden  overflow-hidden">
         <div>
           <div className="hidden fixed top-1 left-[38%] ml-5 mmd:flex flex-col space-y-2">
             <DotGroup />
@@ -142,32 +138,7 @@ function SignIn() {
                 </form>
               </div>
             ) : (
-              <div className="flex flex-col items-center justify-center bg-secondaryBlack min-h-screen">
-                <div className="text-center -mt-40">
-                  <h3 className="text-white text-2xl font-bold mb-4">Sign In to your Account</h3>
-                  <p className="text-sm font-normal text-gray-400">Enter OTP to Sign In to your Account</p>
-                </div>
-                <form className="mt-16 w-auto md:w-[60%]" onSubmit={handleOTPSubmit}>
-                  <div className="flex justify-center items-center mb-12">
-                    {otpDigits.map((digit, index) => (
-                      <input
-                        key={index}
-                        type="text"
-                        value={digit}
-                        maxLength={1}
-                        onChange={(e) => handleOTPDigitChange(index, e.target.value)}
-                        onKeyDown={(e) => handleKeyDown(index, e)}
-                        className="w-12 h-12 text-center bg-primaryBlack border-none text-white rounded-lg mx-2"
-                        style={{ fontSize: "1.5rem" }}
-                        required
-                        ref={(el) => otpRefs.current[index] = el}
-                      />
-                    ))}
-                  </div>
-                  <div className="text-center"><span className="text-white mr-1">Didn't receive OTP?</span><span className="text-primaryGreen cursor-pointer">Resend</span></div>
-                  <button type="submit" className="mt-4 w-full p-3 bg-primaryGreen text-primaryBlack font-bold rounded-lg">Proceed</button>
-                </form>
-              </div>
+             <Otp />
             )}
           </div>
         </div>
