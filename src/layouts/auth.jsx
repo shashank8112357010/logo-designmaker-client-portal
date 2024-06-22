@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { SignIn, SignUp, ForgetPassword } from "../pages/auth";
+import NoPageFound from "../pages/NoPageFound";
 const routes = [
   {
     title: "auth page",
@@ -24,6 +25,7 @@ export function Auth() {
               <Route exact path={path} element={element} />
             ))
         )}
+        <Route path="*" element={<NoPageFound />} />
       </Routes>
     </div>
   );
