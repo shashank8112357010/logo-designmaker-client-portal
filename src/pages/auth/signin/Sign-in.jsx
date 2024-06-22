@@ -26,9 +26,9 @@ function SignIn() {
     setPasswordVisible(!passwordVisible);
   };
 
-  const handleSubmitLoginAPIService = (e) => {
+  const handleSubmitLoginAPIService = async (e) => {
     e.preventDefault();
-    await signIn({workEmail, password}).then((res)=>{
+  await  signIn({workEmail, password}).then((res)=>{
 
     }).catch((err)=>{
       console.log(err);
