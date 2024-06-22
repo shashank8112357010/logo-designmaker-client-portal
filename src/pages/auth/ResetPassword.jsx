@@ -1,20 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import LeftSide from "../../components/LeftSide";
 import { DotGroup } from "../../components/Dot";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function ResetPassword() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+  const [passwordsMatch, setPasswordsMatch] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const { token } = useParams();
-
-  useEffect(() => {
-    console.log("Token:", token);
-  }, [token]);
+  const navigate= useNavigate();
 
   const handleNewPasswordChange = (e) => {
     setNewPassword(e.target.value);
@@ -23,6 +22,10 @@ function ResetPassword() {
   const handleConfirmPasswordChange = (e) => {
     setConfirmPassword(e.target.value);
   };
+
+  useEffect(() => {
+    setPasswordsMatch(newPassword === confirmPassword && newPassword !== "");
+  }, [newPassword, confirmPassword]);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -34,14 +37,18 @@ function ResetPassword() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!passwordsMatch) {
+      setErrorMessage("Passwords do not match!");
+      return;
+    }
+
     console.log("New Password:", newPassword);
     console.log("Confirm Password:", confirmPassword);
-    console.log("Token:", token);
+    navigate('/auth/sign-in')
   };
 
-
   return (
-    <section className="bg-secondaryBlack relative flex flex-col mmd:flex-row ">
+    <section className="bg-secondaryBlack relative flex flex-col mmd:flex-row">
       <LeftSide />
       <div className="mmd:left-[38%] bg-secondaryBlack absolute flex-grow w-full p-10 mmd:w-[62%] overflow-x-hidden min-h-screen overflow-hidden">
         <div>
@@ -59,14 +66,14 @@ function ResetPassword() {
 
             <form className="mb-2 w-auto md:w-[60%] mt-8" onSubmit={handleSubmit}>
               <div className="mb-6">
-                <label className="text-white text-base font-medium ">New Password*</label>
+                <label className="text-white text-base font-medium">New Password*</label>
                 <div className="relative">
                   <input
                     type={passwordVisible ? "text" : "password"}
                     value={newPassword}
                     onChange={handleNewPasswordChange}
-                    placeholder="Enter password"
-                    className="w-full p-3 bg-primaryBlack border-none text-white rounded-lg mt-1"
+                    placeholder="Enter New Password"
+                    className={`w-full p-3 ${passwordsMatch ? 'border-green-500 border' : 'border-none'} bg-primaryBlack text-white rounded-lg mt-1`}
                     required
                   />
                   <div
@@ -82,14 +89,14 @@ function ResetPassword() {
                 </div>
               </div>
               <div className="mb-6">
-                <label className="text-white text-base font-medium ">Confirm Password*</label>
+                <label className="text-white text-base font-medium">Confirm Password*</label>
                 <div className="relative">
                   <input
                     type={confirmPasswordVisible ? "text" : "password"}
                     value={confirmPassword}
                     onChange={handleConfirmPasswordChange}
-                    placeholder="Enter password"
-                    className="w-full p-3 bg-primaryBlack border-none text-white rounded-lg mt-1"
+                    placeholder="Enter Confirm Password"
+                    className={`w-full p-3 ${passwordsMatch ? 'border-green-500 border' : 'border-none'} bg-primaryBlack text-white rounded-lg mt-1`}
                     required
                   />
                   <div
@@ -104,7 +111,14 @@ function ResetPassword() {
                   </div>
                 </div>
               </div>
-              <button type="submit" className="mt-6 w-full p-3 bg-primaryGreen text-primaryBlack font-bold rounded-lg">Reset</button>
+              {errorMessage && (
+                <div className="mb-6 text-red-500 text-sm">
+                  {errorMessage}
+                </div>
+              )}
+              <button type="submit" className="mt-6 w-full p-3 bg-primaryGreen text-primaryBlack font-bold rounded-lg">
+                Reset
+              </button>
             </form>
           </div>
         </div>
@@ -114,6 +128,3 @@ function ResetPassword() {
 }
 
 export default ResetPassword;
-
-
-
