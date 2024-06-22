@@ -1,11 +1,14 @@
+
+
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import LeftSide from "../../components/LeftSide";
 import { DotGroup } from "../../components/Dot";
 
+import {signIn} from "../../services/api.service"
+
 import Otp from "./Otp";
-import { signIn } from "../../services/api.service";
 
 
 function SignIn() {
@@ -27,24 +30,8 @@ function SignIn() {
   };
 
 
-  const handleOTPDigitChange = (index, value) => {
-    if (/^\d*$/.test(value)) {
-      const newOTP = [...otpDigits];
-      newOTP[index] = value;
-      setOTPDigits(newOTP);
-      if (value && index < otpRefs.current.length - 1) {
-        otpRefs.current[index + 1].focus();
-      }
-    }
-  };
-
-  const handleKeyDown = (index, e) => {
-    if (e.key === "Backspace" && !otpDigits[index] && index > 0) {
-      otpRefs.current[index - 1].focus();
-    }
-  };
-
-  const handleSubmitLoginAPIService = (e) => {
+ 
+  const handleSubmitLoginAPIService = async(e) => {
     e.preventDefault();
     await signIn({workEmail, password}).then((res)=>{
 
@@ -54,10 +41,6 @@ function SignIn() {
     // setShowOTP(true);
   };
 
-  const handleOTPSubmit = (e) => {
-    e.preventDefault();
-    navigate('/accountsetup');
-  }
 
   return (
     <section className="bg-secondaryBlack  flex flex-col mmd:flex-row">
@@ -85,7 +68,7 @@ function SignIn() {
                       type="email"
                       value={workEmail}
                       onChange={handleUsernameChange}
-                      placeholder="Enter Work Email"
+                      placeholder="Enter username"
                       className="w-full p-3 bg-primaryBlack border-none text-white rounded-lg mt-1"
                       required
                     />
@@ -120,7 +103,7 @@ function SignIn() {
                     </div>
                     <Link to="/auth/forget-password" className="text-primaryGreen text-sm">Forgot Password?</Link>
                   </div>
-                  <button type="submit" className="mt-6 w-full p-3 bg-primaryGreen text-primaryBlack font-bold rounded-lg" >Login</button>
+                  <button type="submit" className="mt-6 w-full p-3 bg-primaryGreen text-primaryBlack font-bold rounded-lg">Login</button>
                   <div className="flex justify-center items-center my-6">
                     <div className="bg-customGray ml-2 mr-2 w-[40%] h-0.5"></div>
                     <p className="text-white ">Or</p>

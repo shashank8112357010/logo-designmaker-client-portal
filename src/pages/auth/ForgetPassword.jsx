@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import LeftSide from "../../components/LeftSide";
 import { DotGroup } from "../../components/Dot";
+import { resetPasswordLinkSend } from "../../services/api.service";
 
 function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -10,8 +11,13 @@ function ForgotPassword() {
     setEmail(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
+    await resetPasswordLinkSend({workEmail :email}).then((res)=>{
+         console.log(res);
+    }).catch((err)=>{
+      console.log(err);
+    })
     console.log("Email:", email);
   };
 

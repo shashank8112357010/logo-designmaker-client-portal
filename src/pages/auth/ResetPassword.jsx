@@ -3,6 +3,7 @@ import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import LeftSide from "../../components/LeftSide";
 import { DotGroup } from "../../components/Dot";
 import { useNavigate, useParams } from "react-router-dom";
+import { resetPassword } from "../../services/api.service";
 
 function ResetPassword() {
   const [newPassword, setNewPassword] = useState("");
@@ -13,7 +14,8 @@ function ResetPassword() {
   const [errorMessage, setErrorMessage] = useState("");
 
   const { token } = useParams();
-  const navigate= useNavigate();
+  console.log(token)
+  const navigate = useNavigate();
 
   const handleNewPasswordChange = (e) => {
     setNewPassword(e.target.value);
@@ -35,16 +37,20 @@ function ResetPassword() {
     setConfirmPasswordVisible(!confirmPasswordVisible);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!passwordsMatch) {
       setErrorMessage("Passwords do not match!");
       return;
     }
 
-    console.log("New Password:", newPassword);
-    console.log("Confirm Password:", confirmPassword);
-    navigate('/auth/sign-in')
+    await resetPassword({ token, newPassword, confirmPassword }).then((res) => {
+      navigate('/auth/sign-in')
+    }).catch((err) => {
+      console.log(err);
+    })
+
+ 
   };
 
   return (
