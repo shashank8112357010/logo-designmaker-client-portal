@@ -2,9 +2,9 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { CheckEmail } from './CheckEmail.jsx';
 import { CheckCircleIcon, ChevronDownIcon, QuestionMarkCircleIcon, EyeIcon, EyeSlashIcon, ShieldCheckIcon } from "@heroicons/react/24/outline";
-import LeftSide from "../../components/LeftSide.jsx";
-import { DotGroup } from "../../components/Dot.jsx";
+import { DotGroup } from "../../../components/Dot.jsx";
 import { useMutation } from "@tanstack/react-query";
+import LeftSide from "../../../components/LeftSide.jsx";
 import { signUp } from "../../services/api.service.js";
 
 export function SignUp() {

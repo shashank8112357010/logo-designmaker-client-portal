@@ -1,0 +1,6 @@
+import {default as LeftSide} from "./LeftSide"
+import {default as Dot} from "./Dot"
+import {default as Select} from "./Select"
+import {default as ToggleSwitch} from "./ToggleSwitch"
+import {default as CustomSelect} from "./CustomSelect"
+import {default as Sliderr} from "./Sliderr"
