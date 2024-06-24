@@ -25,12 +25,12 @@ const Sidebar = () => {
     }, [location]);
 
     return (
-        <aside className="w-[16.7%] bg-primaryBlack fixed top-0  h-screen">
+        <aside className="w-[16.7%] bg-primaryBlack fixed top-0  overflow-y-auto h-screen">
             <div className='flex flex-col justify-center space-y-10 w-full'>
                 <div className='m-6'>
                     <img src="/img/Logo.png" className="h-10 w-64 mb-10" alt="Logo" />
                 </div>
-                <nav className="space-y-10 flex flex-col items-baseline justify-center w-full">
+                <nav className="space-y-6 flex flex-col items-baseline justify-center w-full">
                     <Link
                         to="/dashboard/overview"
                         className={linkClasses('/dashboard/overview')}

@@ -28,11 +28,11 @@ function SignIn() {
 
   const handleSubmitLoginAPIService = async(e) => {
     e.preventDefault();
-  // await  signIn({workEmail, password}).then((res)=>{
+  await  signIn({workEmail, password}).then((res)=>{
 
-  //   }).catch((err)=>{
-  //     console.log(err);
-  //   })
+    }).catch((err)=>{
+      console.log(err);
+    })
     setShowOTP(true);
   };
 
