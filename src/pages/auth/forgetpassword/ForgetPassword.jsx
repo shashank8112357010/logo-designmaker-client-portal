@@ -21,7 +21,7 @@ function ForgotPassword() {
         }).catch((err) => {
             console.log(err);
         })
-        // setShowSentMail(true)
+        setShowSentMail(true)
     }
 
     return (
