@@ -48,7 +48,7 @@ export function Dashboard() {
   return (
     <div className="">
          {/* {!getToken() && <Navigate to={"/auth/sign-in"} />} */}
-      <div className="flex bg-primaryBlack flex-row relative ">
+      <div className="flex bg-primaryBlack flex-row relative">
         <Sidebar />
         <div className="lg:ml-[16.7%] lg:w-[83.3%] w-full bg-primaryBlack min-h-screen flex-1 flex flex-col flex-grow absolute border-l-2 border-secondaryBlack">
           <Header heading={heading} />
