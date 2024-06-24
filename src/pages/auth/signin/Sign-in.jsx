@@ -5,7 +5,7 @@ import LeftSide from "../../../components/LeftSide";
 import { DotGroup } from "../../../components/Dot";
 
 import Otp from "./Otp";
-import { signIn } from "../../services/api.service";
+import { signIn } from "../../../services/api.service";
 
 
 function SignIn() {
@@ -26,14 +26,14 @@ function SignIn() {
     setPasswordVisible(!passwordVisible);
   };
 
-  const handleSubmitLoginAPIService = async (e) => {
+  const handleSubmitLoginAPIService = async(e) => {
     e.preventDefault();
-  await  signIn({workEmail, password}).then((res)=>{
+  // await  signIn({workEmail, password}).then((res)=>{
 
-    }).catch((err)=>{
-      console.log(err);
-    })
-    // setShowOTP(true);
+  //   }).catch((err)=>{
+  //     console.log(err);
+  //   })
+    setShowOTP(true);
   };
 
   return (

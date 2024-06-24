@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
-
+import Request from './Request';
 const Transaction = () => {
     const [activeTab, setActiveTab] = useState('All Transaction');
+    const [showRefundModal, setShowRefundModal] = useState(false);
+    const [selectedService, setSelectedService] = useState(null);
 
-    const handleTabClick = (tab) => {
-        setActiveTab(tab);
+    const handleTabClick = (tab) => setActiveTab(tab);
+    const handleRefundClick = (service) => {
+        setSelectedService(service);
+        setShowRefundModal(true);
+    };
+    const handleModalClose = () => setShowRefundModal(false);
+    const handleRefundSubmit = (data) => {
+        console.log('Refund Data:', data);
     };
 
     const tabClasses = (tab) => (
@@ -79,7 +87,10 @@ const Transaction = () => {
                                 <td className="py-2 text-center">{transaction.date}</td>
                                 <td className="py-2 text-center">{transaction.amount}</td>
                                 <td className="py-2 text-center">
-                                    <button className="border border-primaryGreen text-primaryGreen px-4 py-1 rounded-full">
+                                    <button
+                                        className="border border-primaryGreen text-primaryGreen px-4 py-1 rounded-full"
+                                        onClick={() => handleRefundClick(transaction.service)}
+                                    >
                                         {transaction.refund}
                                     </button>
                                 </td>
@@ -88,6 +99,12 @@ const Transaction = () => {
                     </tbody>
                 </table>
             </div>
+            <Request
+                isVisible={showRefundModal}
+                onClose={handleModalClose}
+                onSubmit={handleRefundSubmit}
+                serviceType={selectedService}
+            />
         </div>
     );
 };

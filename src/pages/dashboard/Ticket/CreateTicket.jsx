@@ -42,6 +42,7 @@ const HelpdeskMain = ({ onBack }) => {
                 value={priority}
                 onChange={setPriority}
                 placeholder="Please choose one option"
+                textColor="white"
               />
             </div>
           </div>
