@@ -1,11 +1,16 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import LeftSide from "../../../components/LeftSide";
 import { DotGroup } from "../../../components/Dot";
 
 import Otp from "./Otp";
 import { signIn } from "../../../services/api.service";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import { setUser } from "../../../store/accountSlice";
+import { useDispatch } from "react-redux";
+import { BeatLoader, HashLoader } from "react-spinners";
 
 
 function SignIn() {
@@ -13,6 +18,9 @@ function SignIn() {
   const [password, setPassword] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [showOTP, setShowOTP] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [lodaing, setLoading] = useState(false)
 
   const handleUsernameChange = (e) => {
     setWorkEmail(e.target.value);
@@ -26,14 +34,54 @@ function SignIn() {
     setPasswordVisible(!passwordVisible);
   };
 
-  const handleSubmitLoginAPIService = async(e) => {
-    e.preventDefault();
-  await  signIn({workEmail, password}).then((res)=>{
+  // const handleSubmitLoginAPIService = async(e) => {
+  //   e.preventDefault();
+  // await  signIn({workEmail, password}).then((res)=>{
 
-    }).catch((err)=>{
-      console.log(err);
-    })
-    setShowOTP(true);
+  //   }).catch((err)=>{
+  //     console.log(err);
+  //   })
+  //   setShowOTP(true);
+  // };
+
+
+  const isFormValid = () => {
+    return workEmail && password;
+  };
+
+
+  const mutation = useMutation({
+    mutationFn: signIn,
+    onSuccess: (res) => {
+      console.log(res);
+      if (res.data.message != "OTP sent successfully") {
+        dispatch(setUser({ user: res.data.user, ...res.data }))
+        toast.success(res.data.message);
+        setLoading(false)
+
+        navigate('/dashboard/overview')
+      } else {
+        toast.success(res.data.message);
+        setShowOTP(true);
+        setLoading(false)
+
+
+        dispatch(setUser({ userId: res.data.userId }))
+      }
+    },
+    onError: (error) => {
+      console.error('Error', error.response.data.message);
+      setLoading(false)
+      toast.error(error.response.data.message)
+    }
+  });
+
+  const handleSubmitLoginAPIService = (e) => {
+    e.preventDefault();
+    setLoading(true)
+    if (isFormValid()) {
+      mutation.mutate({ workEmail, password });
+    }
   };
 
   return (
@@ -97,7 +145,11 @@ function SignIn() {
                     </div>
                     <Link to="/auth/forget-password" className="text-primaryGreen text-sm">Forgot Password?</Link>
                   </div>
-                  <button type="submit" className="mt-6 w-full p-3 bg-primaryGreen text-primaryBlack font-bold rounded-lg" >Login</button>
+                  <button type="submit" className="mt-6 w-full p-3 bg-primaryGreen text-primaryBlack font-bold rounded-lg" >
+                    {
+                      lodaing ? <BeatLoader  size={12} /> : "Login"
+                    }
+                  </button>
                   <div className="flex justify-center items-center my-6">
                     <div className="bg-customGray ml-2 mr-2 w-[40%] h-0.5"></div>
                     <p className="text-white ">Or</p>
@@ -115,7 +167,7 @@ function SignIn() {
                 </form>
               </div>
             ) : (
-             <Otp />
+              <Otp />
             )}
           </div>
         </div>

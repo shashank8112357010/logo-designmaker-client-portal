@@ -5,6 +5,7 @@ import Dashboard from "./layouts/dashboard";
 import ResetPassword from "./pages/auth/ResetPassword";
 import axios from "axios";
 import { getToken } from "./helpers/token.helper"
+
 // axios interceptor
 
 axios.interceptors.request.use(
@@ -22,6 +23,7 @@ axios.interceptors.request.use(
 
 
 function App() {
+
   return (
     <>
       <Routes>

@@ -1,5 +1,11 @@
+import { useMutation } from '@tanstack/react-query';
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
+import { signIn, signInOTPVerification } from '../../../services/api.service';
+import { setUser } from '../../../store/accountSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { BeatLoader } from 'react-spinners';
 
 const Otp = () => {
     const [otpDigits, setOTPDigits] = useState(["", "", "", ""]);
@@ -7,7 +13,10 @@ const Otp = () => {
     const [isResendEnabled, setIsResendEnabled] = useState(false);
     const navigate = useNavigate();
     const otpRefs = useRef([]);
-  
+    const dispatch = useDispatch();
+    const {userId} = useSelector((state)=>state.account)
+    const [lodaing, setLoading] = useState(false)
+
     useEffect(() => {
         let interval;
         if (timer > 0) {
@@ -20,11 +29,37 @@ const Otp = () => {
         return () => clearInterval(interval);
     }, [timer]);
 
+
+    const mutation = useMutation({
+        mutationFn: signInOTPVerification,
+        onSuccess: (res) => {
+            console.log(res);
+            dispatch(setUser({ user: res.data.user, ...res.data }))
+            toast.success(res.data.message);
+            setLoading(false)
+            navigate('/dashboard/overview')
+        },
+        onError: (error) => {
+            setLoading(false)
+            console.error('Error', error.response.data.message);
+            toast.error(error.response.data.message)
+        }
+    });
+
+
+    const isFormValid = () => {
+        return otpDigits;
+    };
+
+
     const handleOTPSubmit = (e) => {
         e.preventDefault();
-        navigate('/accountsetup');
+        setLoading(true)
+        if (isFormValid()) {
+            mutation.mutate({ otp: otpDigits[0]+otpDigits[1]+otpDigits[2]+otpDigits[3] , userId });
+        }
     };
-  
+
     const handleOTPDigitChange = (index, value) => {
         if (/^\d*$/.test(value)) {
             const newOTP = [...otpDigits];
@@ -35,7 +70,7 @@ const Otp = () => {
             }
         }
     };
-  
+
     const handleKeyDown = (index, e) => {
         if (e.key === "Backspace" && !otpDigits[index] && index > 0) {
             otpRefs.current[index - 1].focus();
@@ -54,7 +89,7 @@ const Otp = () => {
         const seconds = (timer % 60).toString().padStart(2, '0');
         return `${minutes}:${seconds}`;
     };
-  
+
     return (
         <div className="flex flex-col items-center justify-center bg-secondaryBlack min-h-screen">
             <div className="text-center -mt-40">
@@ -89,7 +124,12 @@ const Otp = () => {
                         Resend
                     </span>
                 </div>
-                <button type="submit" className="mt-4 w-full p-3 bg-primaryGreen text-primaryBlack font-bold rounded-lg">Proceed</button>
+                <button type="submit" className="mt-4 w-full p-3 bg-primaryGreen text-primaryBlack font-bold rounded-lg">
+
+                {
+                      lodaing ? <BeatLoader  size={12} /> : "Proceed"
+                    }
+                </button>
             </form>
         </div>
     );
