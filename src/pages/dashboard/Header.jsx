@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 const Header = ({ heading }) => {
     const [showNotifications, setShowNotifications] = useState(false);
     const navigate = useNavigate();
-    const {user} = useSelector((state)=>state.account)
+    const { user } = useSelector((state) => state.account)
 
     const toggleNotifications = () => {
         if (!showNotifications) {
