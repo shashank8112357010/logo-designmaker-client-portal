@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CheckEmail } from './CheckEmail.jsx';
 import { CheckCircleIcon, ChevronDownIcon, QuestionMarkCircleIcon, EyeIcon, EyeSlashIcon, ShieldCheckIcon } from "@heroicons/react/24/outline";
 import { DotGroup } from "../../../components/Dot.jsx";
 import { useMutation } from "@tanstack/react-query";
 import LeftSide from "../../../components/LeftSide.jsx";
 import { signUp } from "../../../services/api.service.js";
+import { toast } from "react-toastify";
 
 export function SignUp() {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -22,6 +23,7 @@ export function SignUp() {
     minLength: false,
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const navigate = useNavigate()
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -31,6 +33,7 @@ export function SignUp() {
     setEmail(e.target.value);
   };
 
+  
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
   };
@@ -69,19 +72,23 @@ export function SignUp() {
 
   const mutation = useMutation({
     mutationFn: signUp,
-    onSuccess: () => {
-      setIsSubmitted(true);
+    onSuccess: (res) => {
+      console.log(res);
+      toast.success(res.data.message);
+       navigate('/auth/sign-in')
+
+      // setIsSubmitted(true);
     },
     onError: (error) => {
-      console.error('Error', error.message);
-      alert('Sign-up failed: ' + error.message);
+      console.error('Error', error.response.data.message);
+      toast.error( error.response.data.message)
     }
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isFormValid()) {
-      mutation.mutate({ email, username, phonenumber, password });
+      mutation.mutate({ workEmail :email, username, phoneNo :phonenumber, password });
     }
   };
 

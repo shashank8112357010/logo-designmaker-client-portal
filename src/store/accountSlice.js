@@ -11,6 +11,8 @@ const initialState = {
     otherDetails: '',
     selectedFonts: [],
     selectedPalettes: [],
+    user:null,
+    userId : null
 };
 
 const accountSlice = createSlice({
@@ -20,9 +22,12 @@ const accountSlice = createSlice({
         updateFormData: (state, action) => {
             return { ...state, ...action.payload };
         },
+        setUser: (state, action) => {
+            return { ...state, ...action.payload };
+        },
         resetFormData: () => initialState,
     },
 });
 
-export const { updateFormData, resetFormData } = accountSlice.actions;
+export const { updateFormData, setUser ,resetFormData } = accountSlice.actions;
 export default accountSlice.reducer;

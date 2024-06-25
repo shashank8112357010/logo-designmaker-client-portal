@@ -4,6 +4,8 @@ import LeftSide from "../../components/LeftSide";
 import { DotGroup } from "../../components/Dot";
 import { useNavigate, useParams } from "react-router-dom";
 import { resetPassword } from "../../services/api.service";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 function ResetPassword() {
   const [newPassword, setNewPassword] = useState("");
@@ -37,20 +39,24 @@ function ResetPassword() {
     setConfirmPasswordVisible(!confirmPasswordVisible);
   };
 
+  const mutation = useMutation({
+    mutationFn: resetPassword,
+    onSuccess: (res) => {
+      toast.success(res.data.message);
+      navigate('/auth/sign-in')
+    },
+    onError: (error) => {
+      toast.error(error.response.data.message)
+    }
+  });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!passwordsMatch) {
       setErrorMessage("Passwords do not match!");
       return;
     }
-
-    await resetPassword({ token, newPassword, confirmPassword }).then((res) => {
-      navigate('/auth/sign-in')
-    }).catch((err) => {
-      console.log(err);
-    })
-
- 
+    mutation.mutate({ token, newPassword, confirmPassword });
   };
 
   return (
