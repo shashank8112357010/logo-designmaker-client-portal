@@ -1,5 +1,5 @@
 import React, { useState} from 'react';
-import { CustomDropdown } from '../../../components/CustomSelect';
+import { CustomDropdown } from '../../../../components/CustomSelect';
 import TicketCard from './TicketCard';
 import TicketView from './TicketView';
 import CreateTicket from './CreateTicket';

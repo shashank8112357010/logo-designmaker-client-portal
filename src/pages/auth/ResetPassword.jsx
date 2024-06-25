@@ -14,7 +14,7 @@ function ResetPassword() {
   const [errorMessage, setErrorMessage] = useState("");
 
   const { token } = useParams();
-  console.log(token)
+  // console.log(token)
   const navigate = useNavigate();
 
   const handleNewPasswordChange = (e) => {

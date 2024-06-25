@@ -10,19 +10,32 @@ const Sidebar = () => {
 
     useEffect(() => {
         setActivePath(location.pathname);
-        if (location.pathname.includes('/dashboard/help')) {
-            setHelpdeskOpen(true);
-        } else {
+        if (!location.pathname.includes('/dashboard/help')) {
             setHelpdeskOpen(false);
-        }
+        } 
     }, [location]);
 
     const handleLinkClick = (path) => {
         setActivePath(path);
         navigate(path);
-        setHelpdeskOpen(path.includes('/dashboard/help'));
+        // if (path.includes('/dashboard/help')) {
+        //     setHelpdeskOpen(true);
+        // } else {
+        //     setHelpdeskOpen(false);
+        // }
     };
 
+    const toggleHelpdesk = () => {
+        setHelpdeskOpen(!helpdeskOpen);
+    };
+
+    const handleHelpdeskClick = () => {
+        toggleHelpdesk();
+        
+        const helpdeskPath = '/dashboard/help';
+        setActivePath(helpdeskPath);
+        navigate(helpdeskPath);
+    };
 
     const getLinkClasses = (path) => {
         const isActive = activePath === path || (helpdeskOpen && path.includes('/dashboard/help'));
@@ -32,7 +45,6 @@ const Sidebar = () => {
 
         return `${baseClasses} ${isActive ? activeClasses : inactiveClasses}`;
     };
-
 
     const getPseudoClasses = (path) => {
         const isActive = activePath === path || (helpdeskOpen && path.includes('/dashboard/help'));
@@ -87,32 +99,31 @@ const Sidebar = () => {
                     <div className="relative w-full">
                         <button
                             className={getLinkClasses('/dashboard/help')}
-                            onClick={() => handleLinkClick('/dashboard/help')}
+                            onClick={handleHelpdeskClick}
                         >
                             <div className={`absolute left-0 h-full w-2 ${getPseudoClasses('/dashboard/help')}`}></div>
                             <QuestionMarkCircleIcon className="h-6 w-6" />
-                           <div className='flex justify-between items-center gap-3'>
-                           <span>Helpdesk</span>
-                           {helpdeskOpen ? <img src='/img/sidebar/downArrowGreen.png' alt='' className="h-1.5 w-2 ml-auto mt-2" /> : <img src='/img/sidebar/downArrow.png' alt='' className="h-1.5 w-2 ml-auto mt-2" />}
-                           </div>
+                            <div className='flex justify-between items-center gap-3'>
+                                <span>Helpdesk</span>
+                                {helpdeskOpen ? <img src='/img/sidebar/downArrowGreen.png' alt='' className="h-1.5 w-2 ml-auto mt-2" /> : <img src='/img/sidebar/downArrow.png' alt='' className="h-1.5 w-2 ml-auto mt-2" />}
+                            </div>
                         </button>
                         {helpdeskOpen && (
-                            <div className="w-full pl-20 mb-10 flex flex-col">
+                            <div className="w-full pl-20 mb-4 gap-2 flex flex-col">
                                 <Link
                                     to="/dashboard/help"
-                                    className={`${ activePath ==='/dashboard/help' ? 'text-primaryGreen': 'text-customGray'}`}
+                                    className={`mt-4 ${activePath === '/dashboard/help' ? 'text-primaryGreen' : 'text-customGray'}`}
                                     onClick={() => handleLinkClick('/dashboard/help')}
                                 >
                                     <span>Tickets</span>
                                 </Link>
                                 <Link
                                     to="/dashboard/help/refunds"
-                                    className={`${ activePath ==='/dashboard/help/refunds' ? 'text-primaryGreen': 'text-customGray'}`}
+                                    className={`${activePath === '/dashboard/help/refunds' ? 'text-primaryGreen' : 'text-customGray'}`}
                                     onClick={() => handleLinkClick('/dashboard/help/refunds')}
                                 >
                                     <span>Refunds</span>
                                 </Link>
-
                             </div>
                         )}
                     </div>

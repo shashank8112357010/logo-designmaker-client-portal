@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Dropdown } from '../../../components/CustomSelect';
+import { Dropdown } from '../../../../components/CustomSelect';
 
 const HelpdeskMain = ({ onBack }) => {
   const [priority, setPriority] = useState(null);
