@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const { REACT_API_URL } = process.env;
+// const { REACT_API_URL } = process.env;
 
 export const signUp = async (data) => {
     return await axios.post(`http://localhost:4000/api/dashboard/register`, data);
