@@ -26,8 +26,8 @@ const Refunds = () => {
                 <table className="w-full table-auto">
                     <thead>
                         <tr className="text-primarypurple">
-                            <th className="pb-2 text-left">Service</th>
-                            <th className="pb-2 text-left">Transaction Id</th>
+                            <th className="pb-2 px-4 text-left">Service</th>
+                            <th className="pb-2 text-center">Transaction Id</th>
                             <th className="pb-2 text-center">Date</th>
                             <th className="pb-2 text-center">Amount</th>
                             <th className="pb-2 text-end pr-8">Status</th>
@@ -36,11 +36,11 @@ const Refunds = () => {
                     <tbody>
                         {refundData.map((refund, index) => (
                             <tr key={index} className="border-t border-white">
-                                <td className="py-4">{refund.service}</td>
-                                <td className="py-4">{refund.transactionId}</td>
-                                <td className="py-4 text-center">{refund.date}{refund.time}</td>
-                                <td className="py-4 text-center text-primaryGreen">{refund.amount}</td>
-                                <td className="py-4 text-end">
+                                <td className="py-3 px-4">{refund.service}</td>
+                                <td className="py-3 text-center">{refund.transactionId}</td>
+                                <td className="py-3 text-center">{refund.date}{refund.time}</td>
+                                <td className="py-3 text-center text-primaryGreen">{refund.amount}</td>
+                                <td className="py-3 text-end">
                                     <button
                                         className="border border-primaryGreen text-primaryGreen px-8 py-1 rounded-full"
                                         onClick={() => handleViewClick(refund)}

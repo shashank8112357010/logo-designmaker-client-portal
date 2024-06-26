@@ -5,6 +5,7 @@ import Dashboard from "./layouts/dashboard";
 import ResetPassword from "./pages/auth/ResetPassword";
 import axios from "axios";
 import { getToken } from "./helpers/token.helper"
+import NoPageFound from "./pages/NoPageFound";
 
 // axios interceptor
 
@@ -27,6 +28,7 @@ function App() {
   return (
     <>
       <Routes>
+        <Route path="*" element={<NoPageFound />} />
         <Route path="/auth/*" element={<Auth />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path="/accountsetup" element={<AccountSetup />} />

@@ -27,14 +27,6 @@ function AccountSetup1({ formData, handleNextStep }) {
         handleNextStep({ firstName, lastName, businessName });
     };
 
-    const handleSkip = () => {
-        handleNextStep({ 
-            firstName: firstName || null, 
-            lastName: lastName || null, 
-            businessName: businessName || null 
-        });
-    };
-
     const handleGoBack = () => {
         navigate("/auth/sign-up");
     };
@@ -71,7 +63,7 @@ function AccountSetup1({ formData, handleNextStep }) {
                                     value={firstName}
                                     onChange={handleFirstNameChange}
                                     placeholder="Neilson"
-                                    className="w-full p-3 bg-primaryBlack border-none text-white rounded-lg"
+                                    className="w-full p-3 bg-primaryBlack border-none text-white rounded-lg mt-1"
                                     required
                                 />
                             </div>
@@ -82,7 +74,7 @@ function AccountSetup1({ formData, handleNextStep }) {
                                     value={lastName}
                                     onChange={handleLastNameChange}
                                     placeholder="wang"
-                                    className="w-full p-3 bg-primaryBlack border-none text-white rounded-lg"
+                                    className="w-full p-3 bg-primaryBlack border-none text-white rounded-lg mt-1"
                                     required
                                 />
                             </div>
@@ -94,12 +86,11 @@ function AccountSetup1({ formData, handleNextStep }) {
                                 value={businessName}
                                 onChange={handleBusinessNameChange}
                                 placeholder="Venturecapitals"
-                                className="w-full p-3 bg-primaryBlack border-none text-white rounded-lg"
+                                className="w-full p-3 bg-primaryBlack border-none text-white rounded-lg mt-1"
                             />
                         </div>
                         <div className="flex items-center justify-start">
                             <button type="submit" className="mt-1 p-3 bg-primaryGreen text-primaryBlack font-bold rounded-lg lg:w-[15%]">Next</button>
-                            <button type="button" className="mt-1 p-3 text-gray-400 font-medium mx-10" onClick={handleSkip}>Skip</button>
                         </div>
                     </form>
                 </div>

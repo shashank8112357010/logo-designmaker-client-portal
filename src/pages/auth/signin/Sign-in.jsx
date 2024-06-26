@@ -10,7 +10,7 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { setUser } from "../../../store/accountSlice";
 import { useDispatch } from "react-redux";
-import { BeatLoader, HashLoader } from "react-spinners";
+import { BeatLoader } from "react-spinners";
 
 
 function SignIn() {
@@ -54,7 +54,7 @@ function SignIn() {
     mutationFn: signIn,
     onSuccess: (res) => {
       console.log(res);
-      if (res.data.message != "OTP sent successfully") {
+      if (res.data.message !== "OTP sent successfully") {
         dispatch(setUser({ user: res.data.user, ...res.data }))
         toast.success(res.data.message);
         setLoading(false)

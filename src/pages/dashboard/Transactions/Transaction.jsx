@@ -68,7 +68,7 @@ const Transaction = () => {
                 <table className="w-full table-auto">
                     <thead>
                         <tr className="text-primarypurple">
-                            <th className="pb-2 text-left">Service</th>
+                            <th className="pb-2 px-4 text-left">Service</th>
                             <th className="pb-2 text-center">Status</th>
                             <th className="pb-2 text-center">Date</th>
                             <th className="pb-2 text-center">Amount</th>
@@ -78,15 +78,15 @@ const Transaction = () => {
                     <tbody>
                         {filteredTransactions.map((transaction, index) => (
                             <tr key={index} className="border-t border-white">
-                                <td className="py-4">{transaction.service}</td>
+                                <td className="py-3 px-4">{transaction.service}</td>
                                 <td className='flex items-center justify-center py-3'>
                                     <div className={`w-28 py-1 px-4 text-center rounded-full ${getStatusClass(transaction.status)}`}>
                                         {transaction.status}
                                     </div>
                                 </td>
-                                <td className="py-2 text-center">{transaction.date}</td>
-                                <td className="py-2 text-center">{transaction.amount}</td>
-                                <td className="py-2 text-center">
+                                <td className="py-3 text-center">{transaction.date}</td>
+                                <td className="py-3 text-center">{transaction.amount}</td>
+                                <td className="py-3 text-center">
                                     <button
                                         className="border border-primaryGreen text-primaryGreen px-4 py-1 rounded-full"
                                         onClick={() => handleRefundClick(transaction.service)}

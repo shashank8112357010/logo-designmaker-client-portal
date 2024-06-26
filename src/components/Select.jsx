@@ -48,7 +48,7 @@ const Select = ({ options, value, onChange, multiple = false }) => {
     };
 
     return (
-        <div className="w-full grid place-items-center">
+        <div className="w-full grid place-items-center mt-1">
             <div className="relative w-full text-sm text-white" onBlur={handleBlur} tabIndex="0">
                 <div className="card flex items-center justify-between p-3 w-full gap-2.5">
                     <div className="flex flex-wrap flex-1 items-center gap-1 z-10">
@@ -91,7 +91,7 @@ const Select = ({ options, value, onChange, multiple = false }) => {
                                     ? "Select Priority"
                                     : ""
                             }
-                            className="bg-transparent text-[16px] flex-1 text-white"
+                            className="bg-transparent text-[16px] flex-1 text-white "
                             onClick={toggleMenu}
                             onKeyDown={(e) => {
                                 if (e.key === "Enter" && !isDisable) {

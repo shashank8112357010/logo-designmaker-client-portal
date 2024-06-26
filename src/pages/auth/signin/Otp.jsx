@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import { signIn, signInOTPVerification } from '../../../services/api.service';
+import { signInOTPVerification } from '../../../services/api.service';
 import { setUser } from '../../../store/accountSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';

@@ -81,25 +81,25 @@ const Files = () => {
                 ))}
             </div>
             <h2 className="text-white text-2xl font-medium mb-4">All Files</h2>
-            <div className="bg-secondaryBlack py-4 px-4 rounded-2xl">
+            <div className="bg-secondaryBlack py-3 px-4 rounded-2xl">
                 <table className="w-full table-auto">
                     <thead>
                         <tr className="text-primarypurple">
-                            <th className="py-2 text-left">Service</th>
-                            <th className="py-2">Format</th>
-                            <th className="py-2 pr-4 text-end">Upload Date</th>
-                            <th className="py-2 pr-6 text-end">Download</th>
+                            <th className="py-1 text-left">Service</th>
+                            <th className="py-1">Format</th>
+                            <th className="py-1 pr-4 text-end">Upload Date</th>
+                            <th className="py-1 pr-6 text-end">Download</th>
                         </tr>
                     </thead>
                     <tbody>
                         {files.map((file, index) => (
                             <tr key={index} className="text-white border-t border-stone-200">
-                                <td className="py-4">{file.service}</td>
-                                <td className="py-4 text-center">{file.format}</td>
-                                <td className="py-4 text-end">{file.uploadDate}</td>
-                                <td className="py-4 pr-2 text-end">
+                                <td className="py-3">{file.service}</td>
+                                <td className="py-3 text-center">{file.format}</td>
+                                <td className="py-3 text-end">{file.uploadDate}</td>
+                                <td className="py-3 pr-2 text-end">
                                     <button
-                                        className="bg-primaryGreen font-medium text-primaryBlack text-end px-4 py-2 rounded-full"
+                                        className="bg-primaryGreen font-medium text-primaryBlack text-end px-4 py-1 rounded-full"
                                         onClick={() => handleDownloadClick(file)}
                                     >
                                         Download

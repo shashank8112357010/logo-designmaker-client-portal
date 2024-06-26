@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { HomeIcon, ClipboardDocumentListIcon, RectangleStackIcon, Cog6ToothIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/solid';
+import { removeToken } from '../../helpers/token.helper';
 
 const Sidebar = () => {
     const location = useLocation();
@@ -18,11 +19,6 @@ const Sidebar = () => {
     const handleLinkClick = (path) => {
         setActivePath(path);
         navigate(path);
-        // if (path.includes('/dashboard/help')) {
-        //     setHelpdeskOpen(true);
-        // } else {
-        //     setHelpdeskOpen(false);
-        // }
     };
 
     const toggleHelpdesk = () => {
@@ -51,13 +47,18 @@ const Sidebar = () => {
         return isActive ? 'border-l-8 border-primaryGreen rounded-tr-lg rounded-br-lg' : '';
     };
 
+    const handleLogout = () => {
+        removeToken(); 
+        // navigate('/auth/sign-in'); 
+    };
+
     return (
-        <aside className="w-[16.7%] bg-primaryBlack fixed top-0 overflow-y-auto h-screen">
-            <div className='flex flex-col justify-center space-y-10 w-full'>
+        <aside className="w-[16.7%] bg-primaryBlack fixed top-0 overflow-y-auto h-screen custom-scrollbar">
+            <div className='flex flex-col justify-center space-y-10 w-full mb-4'>
                 <div className='m-6'>
                     <img src="/img/Logo.png" className="h-10 w-64 mb-10" alt="Logo" />
                 </div>
-                <nav className="space-y-6 flex flex-col items-baseline justify-center w-full">
+                <nav className="space-y-4 flex flex-col items-baseline justify-center w-full">
                     <Link
                         to="/dashboard/overview"
                         className={getLinkClasses('/dashboard/overview')}
@@ -105,7 +106,7 @@ const Sidebar = () => {
                             <QuestionMarkCircleIcon className="h-6 w-6" />
                             <div className='flex justify-between items-center gap-3'>
                                 <span>Helpdesk</span>
-                                {helpdeskOpen ? <img src='/img/sidebar/downArrowGreen.png' alt='' className="h-1.5 w-2 ml-auto mt-2" /> : <img src='/img/sidebar/downArrow.png' alt='' className="h-1.5 w-2 ml-auto mt-2" />}
+                                <div className={`ml-auto mt-2 ${helpdeskOpen ? 'triangle-up' : (activePath === '/dashboard/help' ? 'triangle-down-green' : 'triangle-down-white')}`} />
                             </div>
                         </button>
                         {helpdeskOpen && (
@@ -137,6 +138,15 @@ const Sidebar = () => {
                         <span>Settings</span>
                     </Link>
                 </nav>
+                <button
+                    className="relative flex items-center space-x-5 space-y-8  w-full pl-4 text-white"
+                    onClick={handleLogout}
+                >
+                    <div className={`absolute left-0 h-full w-2 ${getPseudoClasses('/auth/sign-in')} `}></div>
+                    <img src="/img/sidebar/logout.png" className="h-6 w-6" alt="Logout Icon" />
+                    <span>Logout</span>
+                </button>
+
             </div>
         </aside>
     );

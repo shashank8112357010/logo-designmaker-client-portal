@@ -10,7 +10,7 @@ const NotificationsDropdown = ({ notifications, showNotifications, setShowNotifi
             setAnimationClass('fade-in');
         } else {
             setAnimationClass('fade-out');
-            const timeout = setTimeout(() => setIsVisible(false), 500); // Match the duration in your CSS
+            const timeout = setTimeout(() => setIsVisible(false), 500);
             return () => clearTimeout(timeout);
         }
     }, [showNotifications]);
