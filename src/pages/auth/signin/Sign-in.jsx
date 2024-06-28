@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import { setUser } from "../../../store/accountSlice";
 import { useDispatch } from "react-redux";
 import { BeatLoader } from "react-spinners";
+import { setToken } from "../../../helpers/token.helper";
 
 
 function SignIn() {
@@ -34,15 +35,6 @@ function SignIn() {
     setPasswordVisible(!passwordVisible);
   };
 
-  // const handleSubmitLoginAPIService = async(e) => {
-  //   e.preventDefault();
-  // await  signIn({workEmail, password}).then((res)=>{
-
-  //   }).catch((err)=>{
-  //     console.log(err);
-  //   })
-  //   setShowOTP(true);
-  // };
 
 
   const isFormValid = () => {
@@ -54,18 +46,17 @@ function SignIn() {
     mutationFn: signIn,
     onSuccess: (res) => {
       console.log(res);
+      console.log("hey", res.data.message !== "OTP sent successfully");
       if (res.data.message !== "OTP sent successfully") {
+        navigate('/dashboard/overview')
         dispatch(setUser({ user: res.data.user, ...res.data }))
         toast.success(res.data.message);
         setLoading(false)
-
-        navigate('/dashboard/overview')
+        dispatch(setToken(res.data.token))
       } else {
         toast.success(res.data.message);
         setShowOTP(true);
         setLoading(false)
-
-
         dispatch(setUser({ userId: res.data.userId }))
       }
     },
@@ -147,7 +138,7 @@ function SignIn() {
                   </div>
                   <button type="submit" className="mt-6 w-full p-3 bg-primaryGreen text-primaryBlack font-bold rounded-lg" >
                     {
-                      lodaing ? <BeatLoader  size={12} /> : "Login"
+                      lodaing ? <BeatLoader size={12} /> : "Login"
                     }
                   </button>
                   <div className="flex justify-center items-center my-6">
