@@ -1,38 +1,56 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useMutation } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
 import AccountSetupStep1 from './AccountSetup1';
 import AccountSetupStep2 from './AccountSetup2';
 import AccountSetupStep3 from './AccountSetup3';
 import AccountSetupStep4 from './AccountSetup4';
 import AccountSetupStep5 from './AccountSetup5';
-
-import { useSelector, useDispatch } from 'react-redux';
 import { updateFormData } from '../../store/accountSlice';
+import { accountSetup } from '../../services/api.service';
+import { useNavigate } from 'react-router-dom';
+import AccountSetupLayout from './Layout';
 
 function AccountSetup() {
     const [step, setStep] = useState(1);
     const formData = useSelector((state) => state.account);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const mutation = useMutation({
+        mutationFn: accountSetup,
+        onSuccess: (res) => {
+            dispatch(updateFormData({ user: res.data.user, ...res.data }));
+            toast.success(res.data.message);
+            navigate('/dashboard/overview');
+        },
+        onError: (error) => {
+            toast.error(error.response.data.message);
+        }
+    });
 
     const handleNextStep = (newData) => {
-        console.log('Updating formData with:', newData);
         dispatch(updateFormData(newData));
-        setTimeout(() => {
-            setStep(prevStep => prevStep + 1);
-        }, 100); 
+        setStep((prevStep) => prevStep + 1);
     };
 
     const handlePreviousStep = () => {
-        setStep(prevStep => prevStep - 1);
+        setStep((prevStep) => prevStep - 1);
+    };
+
+    const handleSubmit = () => {
+        mutation.mutate(formData);
     };
 
     return (
-        <div>
+        <AccountSetupLayout stepNumber={step} handlePreviousStep={handlePreviousStep}>
             {step === 1 && <AccountSetupStep1 formData={formData} handleNextStep={handleNextStep} />}
-            {step === 2 && <AccountSetupStep2 formData={formData} handleNextStep={handleNextStep} handlePreviousStep={handlePreviousStep} />}
-            {step === 3 && <AccountSetupStep3 formData={formData} handleNextStep={handleNextStep} handlePreviousStep={handlePreviousStep} />}
-            {step === 4 && <AccountSetupStep4 formData={formData} handleNextStep={handleNextStep} handlePreviousStep={handlePreviousStep} />}
-            {step === 5 && <AccountSetupStep5 formData={formData} handleNextStep={handleNextStep} handlePreviousStep={handlePreviousStep} />}
-        </div>
+            {step === 2 && <AccountSetupStep2 formData={formData} handleNextStep={handleNextStep} />}
+            {step === 3 && <AccountSetupStep3 formData={formData} handleNextStep={handleNextStep} />}
+            {step === 4 && <AccountSetupStep4 formData={formData} handleNextStep={handleNextStep} />}
+            {step === 5 && <AccountSetupStep5 formData={formData} handleSubmit={handleSubmit} />}
+        </AccountSetupLayout>
     );
 }
 

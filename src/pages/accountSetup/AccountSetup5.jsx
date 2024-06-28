@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
-import { DotGroup } from '../../components/Dot';
-import LeftSide from '../../components/LeftSide';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
-import { useNavigate } from 'react-router-dom';
-import {  useDispatch } from 'react-redux';
-import { resetFormData } from '../../store/accountSlice';
+// import { useNavigate } from 'react-router-dom';
+// import {  useDispatch } from 'react-redux';
+// import { resetFormData } from '../../store/accountSlice';
 const ColorPalette = ({ palette, isSelected, onClick }) => (
     <div
         className={`p-4 bg-primaryBlack rounded-lg flex flex-col justify-center cursor-pointer last: ${isSelected ? 'ring-2 ring-primaryGreen' : ''}`}
@@ -19,11 +16,11 @@ const ColorPalette = ({ palette, isSelected, onClick }) => (
     </div>
 );
 
-function AccountSetupStep5({ formData = {}, handleNextStep, handlePreviousStep }) {
+function AccountSetupStep5({ formData = {}, handleSubmit, handlePreviousStep }) {
     const [selectedPalettes, setSelectedPalettes] = useState(formData.selectedPalettes || []);
 
-    const navigate=useNavigate();
-    const dispatch = useDispatch();
+    // const navigate=useNavigate();
+    // const dispatch = useDispatch();
 
     const handlePaletteSelect = (paletteName) => {
         setSelectedPalettes(prev =>
@@ -31,39 +28,22 @@ function AccountSetupStep5({ formData = {}, handleNextStep, handlePreviousStep }
         );
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const updatedFormData = { ...formData, selectedPalettes };
-        handleNextStep(updatedFormData);
-        dispatch(resetFormData());
-        navigate('/dashboard/overview');
-    };
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     const updatedFormData = { ...formData, selectedPalettes };
+    //     handleNextStep(updatedFormData);
+    //     dispatch(resetFormData());
+    //     navigate('/dashboard/overview');
+    // };
 
     const colorPalettes = [
-        { name: "GrayScale", colors: ["#000000", "#444444", "#888888", "#cccccc","#ffffff"] },
-        { name: "Pastel Color", colors: ["#1b85b8", "#5a5255", "#559e83", "#ae5a41","#c3cb71"] },
-        { name: "Pencil Color", colors: ["#6cd6aa", "#f28caf", "#cb50e9", "#727dd6","#aba9a9"] },
-        { name: "Neon Colors", colors: ["#39FF14", "#FF073A", "#FEFE33", "#0FF0FC","#8F00FF"] },
+        { name: "GrayScale", colors: ["#000000", "#444444", "#888888", "#cccccc", "#ffffff"] },
+        { name: "Pastel Color", colors: ["#1b85b8", "#5a5255", "#559e83", "#ae5a41", "#c3cb71"] },
+        { name: "Pencil Color", colors: ["#6cd6aa", "#f28caf", "#cb50e9", "#727dd6", "#aba9a9"] },
+        { name: "Neon Colors", colors: ["#39FF14", "#FF073A", "#FEFE33", "#0FF0FC", "#8F00FF"] },
     ];
 
     return (
-        <section className="relative bg-secondaryBlack flex">
-        <LeftSide />
-        <div className="mmd:left-[38%] w-full mmd:w-[62%] p-10 mmd:absolute overflow-hidden bg-secondaryBlack min-h-screen">
-            <div className="hidden fixed top-1 left-[38%] ml-5 mmd:flex flex-col space-y-2">
-                <DotGroup />
-            </div>
-            <div className="hidden fixed top-1 left-[38%] ml-1.5 mmd:flex flex-col space-y-2">
-                <DotGroup />
-            </div>
-                <div className="flex justify-between items-center">
-                    <h3 className="text-white text-2xl font-bold">Account set up</h3>
-                    <p className="font-bold text-primaryGreen mt-1 mr-2 text-2xl">5/5</p>
-                </div>
-                <div className="w-full bg-white h-2 mt-4 rounded-lg">
-                    <div className="bg-primaryGreen h-2 rounded-lg" style={{ width: '100%' }}></div>
-                </div>
-                <ArrowLeftIcon className="text-gray-100 w-5 h-5 mt-5 ml-1 cursor-pointer" onClick={handlePreviousStep} />
                 <div className="flex flex-col items-start justify-center mt-8 max-h-screen mx-32">
                     <div className="">
                         <p className="text-3xl font-bold text-white">Have a design style in mind?</p>
@@ -97,8 +77,6 @@ function AccountSetupStep5({ formData = {}, handleNextStep, handlePreviousStep }
                         </div>
                     </form>
                 </div>
-            </div>
-        </section>
     );
 }
 

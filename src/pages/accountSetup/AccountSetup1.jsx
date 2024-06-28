@@ -1,14 +1,9 @@
 import { useState } from "react";
-import LeftSide from "../../components/LeftSide";
-import { DotGroup } from "../../components/Dot";
-import { useNavigate } from "react-router-dom";
-import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 
 function AccountSetup1({ formData, handleNextStep }) {
     const [firstName, setFirstName] = useState(formData?.firstName);
     const [lastName, setLastName] = useState(formData?.lastName);
     const [businessName, setBusinessName] = useState(formData?.businessName);
-    const navigate = useNavigate();
 
     const handleFirstNameChange = (e) => {
         setFirstName(e.target.value);
@@ -27,28 +22,8 @@ function AccountSetup1({ formData, handleNextStep }) {
         handleNextStep({ firstName, lastName, businessName });
     };
 
-    const handleGoBack = () => {
-        navigate("/auth/sign-up");
-    };
-
     return (
-        <section className="relative bg-secondaryBlack flex">
-            <LeftSide />
-            <div className="mmd:left-[38%] w-full mmd:w-[62%] p-10 mmd:absolute overflow-hidden bg-secondaryBlack h-screen">
-                <div className="hidden fixed top-1 left-[38%] ml-5 mmd:flex flex-col space-y-2">
-                    <DotGroup />
-                </div>
-                <div className="hidden fixed top-1 left-[38%] ml-1.5 mmd:flex flex-col space-y-2">
-                    <DotGroup />
-                </div>
-                <div className="flex justify-between items-center">
-                    <h3 className="text-white text-2xl font-bold">Account set up</h3>
-                    <p className="font-bold text-primaryGreen mt-1 mr-2 text-2xl">1/5</p>
-                </div>
-                <div className="w-full bg-white h-2 mt-4 rounded-lg">
-                    <div className="bg-primaryGreen h-2 rounded-lg" style={{ width: '20%' }}></div>
-                </div>
-                <ArrowLeftIcon className="text-gray-100 w-5 h-5 mt-5 ml-1 cursor-pointer" onClick={handleGoBack} />
+       
                 <div className="flex flex-col mmd:items-start justify-center mt-8 max-h-screen sm:mx-32">
                     <div>
                         <p className="text-3xl font-bold text-white">Tell us a bit about you</p>
@@ -94,8 +69,6 @@ function AccountSetup1({ formData, handleNextStep }) {
                         </div>
                     </form>
                 </div>
-            </div>
-        </section>
     );
 }
 

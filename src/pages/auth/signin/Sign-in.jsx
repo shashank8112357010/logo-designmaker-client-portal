@@ -87,7 +87,7 @@ function SignIn() {
   return (
     <section className="bg-secondaryBlack  flex flex-col mmd:flex-row">
       <LeftSide />
-      <div className="mmd:left-[38%] bg-secondaryBlack absolute  flex-grow w-full p-10 mmd:w-[62%] overflow-x-hidden  overflow-hidden">
+      <div className="mmd:left-[38%] bg-secondaryBlack absolute  flex-grow w-full p-10 mmd:w-[62%] overflow-x-hidden  overflow-hidden min-h-screen">
         <div>
           <div className="hidden fixed top-1 left-[38%] ml-5 mmd:flex flex-col space-y-2">
             <DotGroup />
@@ -97,8 +97,8 @@ function SignIn() {
           </div>
           <div >
             {!showOTP ? (
-              <div className="flex flex-col items-center justify-center bg-secondaryBlack min-h-screen">
-                <div className="text-center">
+              <div className="flex flex-col items-center justify-center bg-secondaryBlack">
+                <div className="text-center mt-10">
                   <h3 className="text-white text-2xl font-bold mb-4">Sign In to your Account</h3>
                   <p className="text-sm font-normal text-gray-400">Welcome back! Please enter your credentials to log in.</p>
                 </div>

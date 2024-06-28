@@ -18,5 +18,11 @@ export const resetPasswordLinkSend = async ({ workEmail }) => {
 export const resetPassword = async ({ token, newPassword, confirmPassword }) => {
     return await axios.post(`http://localhost:4000/api/dashboard/resetPassword/${token}`, { newPassword, confirmPassword });
 };
+export const accountSetup = async (data) => {
+    return await axios.post(`http://localhost:4000/api/dashboard/requirements/${data.userId}`, data);
+};
+export const updateUserProfile = async (data) => {
+    return await axios.put(`http://localhost:4000/api/dashboard/editProfile`, data);
+};
 
 

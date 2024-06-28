@@ -106,7 +106,7 @@ export function SignUp() {
           {isSubmitted ? (
             <CheckEmail email={email} />
           ) : (
-            <div className="flex flex-col items-center justify-center bg-secondaryBlack min-h-screen">
+            <div className="flex flex-col items-center justify-center bg-secondaryBlack">
               <div className="text-center">
                 <h3 className="text-white text-2xl font-bold mb-4">Sign up with free trial</h3>
                 <p className="text-sm font-normal text-gray-400">Empower your experience, sign up for a free account today</p>

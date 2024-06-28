@@ -14,7 +14,7 @@ const Otp = () => {
     const navigate = useNavigate();
     const otpRefs = useRef([]);
     const dispatch = useDispatch();
-    const {userId} = useSelector((state)=>state.account)
+    const { userId } = useSelector((state) => state.account)
     const [lodaing, setLoading] = useState(false)
 
     useEffect(() => {
@@ -48,7 +48,7 @@ const Otp = () => {
 
 
     const isFormValid = () => {
-        return otpDigits;
+        return otpDigits.every(digit => digit !== '');
     };
 
 
@@ -56,7 +56,11 @@ const Otp = () => {
         e.preventDefault();
         setLoading(true)
         if (isFormValid()) {
-            mutation.mutate({ otp: otpDigits[0]+otpDigits[1]+otpDigits[2]+otpDigits[3] , userId });
+            const otp = otpDigits.join('');
+            mutation.mutate({ otp, userId });
+        } else {
+            setLoading(false);
+            toast.error('Please enter a valid 4-digit OTP.');
         }
     };
 
@@ -91,8 +95,8 @@ const Otp = () => {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center bg-secondaryBlack min-h-screen">
-            <div className="text-center -mt-40">
+        <div className="flex flex-col items-center justify-center bg-secondaryBlack">
+            <div className="text-center mt-40">
                 <h3 className="text-white text-2xl font-bold mb-4">Sign In to your Account</h3>
                 <p className="text-sm font-normal text-gray-400">Enter OTP to Sign In to your Account</p>
             </div>
@@ -126,8 +130,8 @@ const Otp = () => {
                 </div>
                 <button type="submit" className="mt-4 w-full p-3 bg-primaryGreen text-primaryBlack font-bold rounded-lg">
 
-                {
-                      lodaing ? <BeatLoader  size={12} /> : "Proceed"
+                    {
+                        lodaing ? <BeatLoader size={12} /> : "Proceed"
                     }
                 </button>
             </form>

@@ -28,7 +28,7 @@ function ForgotPassword() {
         <>
             <section className="bg-secondaryBlack relative flex flex-col mmd:flex-row">
                 <LeftSide />
-                <div className="mmd:left-[38%] bg-secondaryBlack absolute flex-grow w-full p-10 mmd:w-[62%] overflow-x-hidden overflow-hidden">
+                <div className="mmd:left-[38%] bg-secondaryBlack absolute flex-grow w-full p-10 mmd:w-[62%] overflow-x-hidden overflow-hidden min-h-screen">
                     <div className="">
                         <div className="hidden fixed top-1 left-[38%] ml-5 mmd:flex flex-col space-y-2">
                             <DotGroup />
@@ -36,7 +36,7 @@ function ForgotPassword() {
                         <div className="hidden fixed top-1 left-[38%] ml-1.5 mmd:flex flex-col space-y-2">
                             <DotGroup />
                         </div>
-                        <div className="flex flex-col items-center justify-center bg-secondaryBlack min-h-screen ">
+                        <div className="flex flex-col items-center justify-center mt-40 ">
                             {showSentMail ? (
                                 <EmailSent />
                             ) : (
