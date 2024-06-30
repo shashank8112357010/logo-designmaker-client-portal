@@ -38,7 +38,8 @@ function AccountSetup() {
     });
 
     const handleNextStep = (newData) => {
-        dispatch(updateFormData(newData));
+        dispatch(updateFormData({ ...formData, ...newData }));
+        console.log(updateFormData(formData))
         setStep((prevStep) => prevStep + 1);
     };
 
@@ -46,11 +47,12 @@ function AccountSetup() {
         setStep((prevStep) => prevStep - 1);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = (updatedFormData) => {  
         if (isEditing) {
             navigate(previousRoute, { state: { isEditing: true } });
         } else {
             navigate('/dashboard/overview');
+            dispatch(updateFormData(updatedFormData));
         }
     };
 

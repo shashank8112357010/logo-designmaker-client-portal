@@ -20,6 +20,7 @@ const Choices = () => {
 
     useEffect(() => {
         setChoices(accountSetupValues);
+        setOriginalChoices(accountSetupValues)
     }, [accountSetupValues]);
 
     const handleEdit = () => {
@@ -33,9 +34,16 @@ const Choices = () => {
     };
 
     const handleCancel = () => {
-        setOriginalChoices(originalChoices)
-        setChoices(originalChoices);
+        dispatch(updateFormData(originalChoices));
         setIsEditing(false);
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setChoices((prevChoices) => ({
+            ...prevChoices,
+            [name]: value,
+        }));
     };
 
     return (
@@ -65,10 +73,7 @@ const Choices = () => {
                             type="text"
                             name={field.name}
                             value={choices[field.name] || ''}
-                            onChange={(e) => setChoices({
-                                ...choices,
-                                [e.target.name]: e.target.value,
-                            })}
+                              onChange={handleChange}
                             disabled
                             className={`mt-1 block w-full px-3 pt-2 pb-12 bg-primaryBlack ${isEditing ? 'text-white' : 'text-primarypurple'} rounded-md shadow-sm focus:outline-none`}
                         />

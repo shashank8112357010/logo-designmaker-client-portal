@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateUserProfile } from '../../../services/api.service';
-import { updateFormData, updateProfileField } from '../../../store/accountSlice';
+import { updateFormData } from '../../../store/accountSlice';
 import { toast } from 'react-toastify';
 
 const EditProfile = () => {
@@ -22,9 +22,8 @@ const EditProfile = () => {
             toast.success("Profile updated successfully!");
             setIsEditing(false);
         },
-        onError: (error) => {
+        onError: () => {
             toast.error("Error updating user profile");
-            // dispatch(resetFormData());
         }
     });
 
@@ -34,7 +33,6 @@ const EditProfile = () => {
             ...prevState,
             [name]: value,
         }));
-        dispatch(updateProfileField({ field: name, value }));
     };
 
     const handleSubmit = () => {
@@ -54,7 +52,7 @@ const EditProfile = () => {
         <div className="relative">
             <button
                 onClick={handleEdit}
-                className="absolute top-0 right-0 text-white border border-primaryGreen py-0.5 px-6 rounded-md "
+                className="absolute top-0 right-0 text-white border border-primaryGreen py-0.5 px-6 rounded-md"
             >
                 Edit
             </button>
@@ -78,7 +76,7 @@ const EditProfile = () => {
                             <input
                                 type="text"
                                 name={field}
-                                value={localProfile[field]}
+                                value={localProfile[field] || ''}
                                 onChange={handleChange}
                                 disabled={!isEditing}
                                 className={`mt-1 block w-full px-3 py-2 bg-primaryBlack rounded-md shadow-sm focus:outline-none ${isEditing ? 'text-white' : 'text-primarypurple'}`}

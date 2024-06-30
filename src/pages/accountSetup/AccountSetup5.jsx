@@ -28,13 +28,12 @@ function AccountSetupStep5({ formData = {}, handleSubmit, handlePreviousStep }) 
         );
     };
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     const updatedFormData = { ...formData, selectedPalettes };
-    //     handleNextStep(updatedFormData);
-    //     dispatch(resetFormData());
-    //     navigate('/dashboard/overview');
-    // };
+    const onSubmit = (e) => {
+        e.preventDefault();
+        const updatedFormData = {selectedPalettes };
+        handleSubmit(updatedFormData);
+    };
+
 
     const colorPalettes = [
         { name: "GrayScale", colors: ["#000000", "#444444", "#888888", "#cccccc", "#ffffff"] },
@@ -49,7 +48,7 @@ function AccountSetupStep5({ formData = {}, handleSubmit, handlePreviousStep }) 
                         <p className="text-3xl font-bold text-white">Have a design style in mind?</p>
                         <p className="text-customGray mt-2">Select as many as you'd like. (Optional)</p>
                     </div>
-                    <form className="md:mt-8 mb-2 text-center w-auto max-w-screen-lg md:w-full" onSubmit={handleSubmit}>
+                    <form className="md:mt-8 mb-2 text-center w-auto max-w-screen-lg md:w-full" onSubmit={onSubmit}>
                         <div className="mb-6">
                             <label className="text-customGray text-base font-medium mb-1">Choose from the Colour options given below</label>
                             <div className="grid grid-cols-2 gap-4 mt-4">
