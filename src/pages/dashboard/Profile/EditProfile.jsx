@@ -2,23 +2,25 @@ import React, { useState, useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateUserProfile } from '../../../services/api.service';
-import { updateFormData,updateProfileField } from '../../../store/accountSlice';
+import { updateFormData, updateProfileField } from '../../../store/accountSlice';
 import { toast } from 'react-toastify';
 
 const EditProfile = () => {
     const dispatch = useDispatch();
     const profile = useSelector((state) => state.account);
     const [localProfile, setLocalProfile] = useState(profile);
+    const [isEditing, setIsEditing] = useState(false);
 
     useEffect(() => {
         setLocalProfile(profile);
     }, [profile]);
 
-    const mutation = useMutation( {
-        mutationFn:updateUserProfile,
+    const mutation = useMutation({
+        mutationFn: updateUserProfile,
         onSuccess: (data) => {
             dispatch(updateFormData(data.user));
             toast.success("Profile updated successfully!");
+            setIsEditing(false);
         },
         onError: (error) => {
             toast.error("Error updating user profile");
@@ -39,9 +41,24 @@ const EditProfile = () => {
         mutation.mutate(localProfile);
     };
 
+    const handleEdit = () => {
+        setIsEditing(true);
+    };
+
+    const handleCancel = () => {
+        setLocalProfile(profile);
+        setIsEditing(false);
+    };
+
     return (
-        <div>
-            <div className="flex items-start mt-6">
+        <div className="relative">
+            <button
+                onClick={handleEdit}
+                className="absolute top-0 right-0 text-white border border-primaryGreen py-0.5 px-6 rounded-md "
+            >
+                Edit
+            </button>
+            <div className="flex items-start mt-4">
                 <div className="flex items-center mb-8 w-1/5 relative">
                     <img
                         src={profile.profileImg?.url || '/img/profile.jpg'}
@@ -52,104 +69,34 @@ const EditProfile = () => {
                         <img src="/img/pencil.png" alt="edit" />
                     </button>
                 </div>
-                <div className="grid grid-cols-2 gap-6 w-4/5">
-                    <div className="mb-4">
-                        <label className="block text-sm font-medium text-white">First Name</label>
-                        <input
-                            type="text"
-                            name="firstName"
-                            value={localProfile.firstName}
-                            onChange={handleChange}
-                            className="mt-1 block w-full px-3 py-2 bg-primaryBlack text-primarypurple rounded-md shadow-sm focus:outline-none"
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label className="block text-sm font-medium text-white">Last Name</label>
-                        <input
-                            type="text"
-                            name="lastName"
-                            value={localProfile.lastName}
-                            onChange={handleChange}
-                            className="mt-1 block w-full px-3 py-2 bg-primaryBlack text-primarypurple rounded-md shadow-sm focus:outline-none"
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label className="block text-sm font-medium text-white">Email</label>
-                        <input
-                            type="email"
-                            name="email"
-                            value={localProfile.email}
-                            onChange={handleChange}
-                            className="mt-1 block w-full px-3 py-2 bg-primaryBlack text-primarypurple rounded-md shadow-sm focus:outline-none"
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label className="block text-sm font-medium text-white">Phone number</label>
-                        <input
-                            type="text"
-                            name="phoneNumber"
-                            value={localProfile.phoneNumber}
-                            onChange={handleChange}
-                            className="mt-1 block w-full px-3 py-2 bg-primaryBlack text-primarypurple rounded-md shadow-sm focus:outline-none"
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label className="block text-sm font-medium text-white">Username</label>
-                        <input
-                            type="text"
-                            name="username"
-                            value={localProfile.username}
-                            onChange={handleChange}
-                            className="mt-1 block w-full px-3 py-2 bg-primaryBlack text-primarypurple rounded-md shadow-sm focus:outline-none"
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label className="block text-sm font-medium text-white">Address</label>
-                        <input
-                            type="text"
-                            name="address"
-                            value={localProfile.address}
-                            onChange={handleChange}
-                            className="mt-1 block w-full px-3 py-2 bg-primaryBlack text-primarypurple rounded-md shadow-sm focus:outline-none"
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label className="block text-sm font-medium text-white">City</label>
-                        <input
-                            type="text"
-                            name="city"
-                            value={localProfile.city}
-                            onChange={handleChange}
-                            className="mt-1 block w-full px-3 py-2 bg-primaryBlack text-primarypurple rounded-md shadow-sm focus:outline-none"
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label className="block text-sm font-medium text-white">Postal Code</label>
-                        <input
-                            type="text"
-                            name="postalCode"
-                            value={localProfile.postalCode}
-                            onChange={handleChange}
-                            className="mt-1 block w-full px-3 py-2 bg-primaryBlack text-primarypurple rounded-md shadow-sm focus:outline-none"
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label className="block text-sm font-medium text-white">Country</label>
-                        <input
-                            type="text"
-                            name="country"
-                            value={localProfile.country}
-                            onChange={handleChange}
-                            className="mt-1 block w-full px-3 py-2 bg-primaryBlack text-primarypurple rounded-md shadow-sm focus:outline-none"
-                        />
-                    </div>
+                <div className="grid grid-cols-2 gap-6 w-4/5 mt-10">
+                    {["firstName", "lastName", "email", "phoneNumber", "username", "address", "city", "postalCode", "country"].map((field) => (
+                        <div key={field} className="mb-4">
+                            <label className="block text-sm font-medium text-white">
+                                {field.charAt(0).toUpperCase() + field.slice(1).replace(/([A-Z])/g, ' $1').trim()}
+                            </label>
+                            <input
+                                type="text"
+                                name={field}
+                                value={localProfile[field]}
+                                onChange={handleChange}
+                                disabled={!isEditing}
+                                className={`mt-1 block w-full px-3 py-2 bg-primaryBlack rounded-md shadow-sm focus:outline-none ${isEditing ? 'text-white' : 'text-primarypurple'}`}
+                            />
+                        </div>
+                    ))}
                 </div>
             </div>
-            <div className="flex justify-end">
-                <button onClick={handleSubmit} className="bg-primaryGreen font-bold text-primaryBlack px-12 py-2 rounded">
-                    Save
-                </button>
-            </div>
+            {isEditing && (
+                <div className="flex justify-end space-x-4">
+                    <button onClick={handleCancel} className="border border-primaryGreen font-bold text-white px-12 py-2 rounded">
+                        Cancel
+                    </button>
+                    <button onClick={handleSubmit} className="bg-primaryGreen font-bold text-primaryBlack px-12 py-2 rounded">
+                        Save
+                    </button>
+                </div>
+            )}
         </div>
     );
 };
