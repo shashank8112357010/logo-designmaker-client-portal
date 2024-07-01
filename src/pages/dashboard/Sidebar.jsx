@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { HomeIcon, ClipboardDocumentListIcon, RectangleStackIcon, Cog6ToothIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/solid';
+import { HomeIcon, ClipboardDocumentListIcon, RectangleStackIcon, Cog6ToothIcon, QuestionMarkCircleIcon ,ArrowLeftStartOnRectangleIcon} from '@heroicons/react/24/solid';
 import { removeToken } from '../../helpers/token.helper';
 
 const Sidebar = () => {
@@ -139,12 +139,11 @@ const Sidebar = () => {
                     </Link>
                 </nav>
                 <button
-                    className="relative pt-5   w-fit px-6 text-white"
+                    className="relative py-2 font-medium w-fit  mx-5 text-red-500 px-4 hover:border hover:border-red-500 rounded-lg "
                     onClick={handleLogout}
                 >
-                    <div className='bg-red-500 flex items-center pl-4 pr-8 py-2 space-x-5 w-fit rounded-lg '>
-                    {/* <div className={`absolute left-0 h-full w-2 ${getPseudoClasses('/auth/sign-in')} `}></div> */}
-                    <img src="/img/sidebar/logout.png" className="h-6 w-6" alt="Logout Icon" />
+                    <div className=' flex items-center gap-5 pr-4 w-fit rounded-lg '>
+                    <ArrowLeftStartOnRectangleIcon className="h-6 w-6" />
                     <span>Logout</span>
                     </div>
                 </button>

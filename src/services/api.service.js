@@ -25,4 +25,20 @@ export const updateUserProfile = async (data) => {
     return await axios.put(`http://localhost:4000/api/dashboard/editProfile`, data);
 };
 
+export const updatePassword = async ({currentPassword, newPassword}) => {
+    return await axios.put(`http://localhost:4000/api/dashboard/changePassword`, {currentPassword, newPassword});
+};
+
+export const toggleTwoFactorAuth = async (isEnabled) => {
+    return await axios.post(`http://localhost:4000/api/dashboard/twoFactor`, { twoFactorEnabled: isEnabled });
+};
+
+export const getAccountSetupData = async () => {
+    return await axios.get(`http://localhost:4000/api/dashboard/userDetailsAndReq`);
+};
+
+export const updateChoices= async (data) => {
+    return await axios.put(`http://localhost:4000/api/dashboard/editRequirements`, data);
+};
+
 

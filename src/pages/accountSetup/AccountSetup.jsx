@@ -48,11 +48,12 @@ function AccountSetup() {
     };
 
     const handleSubmit = (updatedFormData) => {  
+        dispatch(updateFormData(updatedFormData));
         if (isEditing) {
             navigate(previousRoute, { state: { isEditing: true } });
         } else {
             navigate('/dashboard/overview');
-            dispatch(updateFormData(updatedFormData));
+            
         }
     };
 

@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { updateChoices, getAccountSetupData } from '../../../services/api.service';
 import { updateFormData } from '../../../store/accountSlice';
+import { toast } from 'react-toastify';
 
 const Choices = () => {
     const dispatch = useDispatch();
@@ -10,18 +13,36 @@ const Choices = () => {
     const accountSetupValues = useSelector((state) => state.account);
     const [isEditing, setIsEditing] = useState(location.state?.isEditing || false);
     const [choices, setChoices] = useState(accountSetupValues);
-    const [originalChoices, setOriginalChoices] = useState(accountSetupValues);
 
-    useEffect(() => {
-        if (location.state?.isEditing) {
-            setIsEditing(true);
+    const {refetch} = useQuery({
+        queryKey: ['accountSetupData'],
+        queryFn: getAccountSetupData,
+        onSuccess: (data) => {
+            dispatch(updateFormData(data.data));
+            setChoices(data.data);
+        },
+        onError: (error) => {
+            toast.error(error.response.data.message);
         }
-    }, [location.state]);
+    });
 
     useEffect(() => {
-        setChoices(accountSetupValues);
-        setOriginalChoices(accountSetupValues)
-    }, [accountSetupValues]);
+        if (Object.keys(accountSetupValues).length === 0) {
+            refetch();
+        }
+    }, [accountSetupValues, refetch]);
+
+    const updateMutation = useMutation({
+        mutationFn: updateChoices,
+        onSuccess: (data) => {
+            toast.success('Data saved successfully');
+            setIsEditing(false);
+            dispatch(updateFormData(data));
+        },
+        onError: (error) => {
+            toast.error(error.response.data.message);
+        }
+    });
 
     const handleEdit = () => {
         setIsEditing(true);
@@ -29,12 +50,11 @@ const Choices = () => {
     };
 
     const handleSave = () => {
-        dispatch(updateFormData(choices));
-        setIsEditing(false);
+        updateMutation.mutate(choices);
     };
 
     const handleCancel = () => {
-        dispatch(updateFormData(originalChoices));
+        refetch();
         setIsEditing(false);
     };
 
@@ -48,13 +68,16 @@ const Choices = () => {
 
     return (
         <div className="rounded-xl">
-            <div className="relative flex">
-                <button
-                    onClick={handleEdit}
-                    className="absolute top-0 right-0 text-white border border-primaryGreen py-0.5 px-6 rounded-md"
-                >
-                    Edit
-                </button>
+            <div className="relative">
+                {!isEditing && (
+                    <button
+                        onClick={handleEdit}
+                        className="absolute top-0 right-0 text-primaryBlack mt-2 flex items-center gap-2 bg-primaryGreen p-2 rounded-md"
+                    >
+                        <img src="/img/pencil.png" alt="edit" className='h-4 w-4' />
+                        <span className='font-medium'> Edit</span>
+                    </button>
+                )}
             </div>
             <div className="grid grid-cols-2 gap-6 px-20 pt-10">
                 {[
@@ -73,8 +96,8 @@ const Choices = () => {
                             type="text"
                             name={field.name}
                             value={choices[field.name] || ''}
-                              onChange={handleChange}
-                            disabled
+                            onChange={handleChange}
+                            disabled={!isEditing}
                             className={`mt-1 block w-full px-3 pt-2 pb-12 bg-primaryBlack ${isEditing ? 'text-white' : 'text-primarypurple'} rounded-md shadow-sm focus:outline-none`}
                         />
                     </div>
@@ -82,7 +105,7 @@ const Choices = () => {
             </div>
             {isEditing && (
                 <div className="flex justify-end space-x-4">
-                        <button onClick={handleCancel} className="border border-primaryGreen font-bold text-white px-12 py-2 rounded">
+                    <button onClick={handleCancel} className="border border-primaryGreen font-bold text-white px-12 py-2 rounded">
                         Cancel
                     </button>
                     <button onClick={handleSave} className="bg-primaryGreen font-bold text-primaryBlack px-12 py-2 rounded">
