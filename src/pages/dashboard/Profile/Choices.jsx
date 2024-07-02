@@ -11,10 +11,10 @@ const Choices = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const accountSetupValues = useSelector((state) => state.account);
-    const [isEditing, setIsEditing] = useState(location.state?.isEditing || false);
+    const [isEditing, setIsEditing] = useState(false);
     const [choices, setChoices] = useState(accountSetupValues);
 
-    const {refetch} = useQuery({
+    const { refetch } = useQuery({
         queryKey: ['accountSetupData'],
         queryFn: getAccountSetupData,
         onSuccess: (data) => {
@@ -31,6 +31,13 @@ const Choices = () => {
             refetch();
         }
     }, [accountSetupValues, refetch]);
+
+    useEffect(() => {
+        if (location.state?.isEditing) {
+            setIsEditing(true);
+            navigate(location.pathname, { replace: true, state: {} });
+        }
+    }, [location, navigate]);
 
     const updateMutation = useMutation({
         mutationFn: updateChoices,

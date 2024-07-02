@@ -53,10 +53,10 @@ const EditProfile = () => {
             {!isEditing && (
             <button
                 onClick={handleEdit}
-                className="absolute top-0 right-0 text-primaryBlack flex items-center gap-2 bg-primaryGreen p-2 rounded-md"
+                className="absolute top-0 right-0 text-primaryBlack flex items-center gap-2 bg-primaryGreen p-2 rounded-full"
             >
                  <img src="/img/pencil.png" alt="edit" className='h-4 w-4' />
-               <span className='font-medium'> Edit</span>
+               {/* <span className='font-medium'> Edit</span> */}
             </button>
             )}
             <div className="flex items-start mt-4">
