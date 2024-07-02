@@ -5,22 +5,28 @@ import { toggleTwoFactorAuth, updatePassword } from '../../../services/api.servi
 import { toast } from 'react-toastify';
 
 const Security = () => {
-    const [twoFactorEnabled, setTwoFactorEnabled] = useState(true);
+    const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
 
-    const passwordMutation = useMutation( {
-        mutationFn:updatePassword,
+    const passwordMutation = useMutation({
+        mutationFn: updatePassword,
         onSuccess: (res) => {
             toast.success(res.data.message);
         },
         onError: (error) => {
-           toast.error(error.response.data.message)
-        }
+            toast.error(error.response.data.message);
+        },
     });
 
-    const twoFactorMutation = useMutation( {
-        mutationFn:toggleTwoFactorAuth
+    const twoFactorMutation = useMutation({
+        mutationFn: toggleTwoFactorAuth,
+        onSuccess: (res) => {
+            toast.success(res.data.message);
+        },
+        onError: (error) => {
+            toast.error(error.response.data.message);
+        },
     });
 
     const handleSave = () => {
@@ -28,17 +34,19 @@ const Security = () => {
     };
 
     const handleToggleTwoFactor = () => {
-        setTwoFactorEnabled(!twoFactorEnabled);
-        twoFactorMutation.mutate(!twoFactorEnabled);
+        const newTwoFactorState = !twoFactorEnabled;
+        console.log(newTwoFactorState)
+        setTwoFactorEnabled(newTwoFactorState);
+        twoFactorMutation.mutate(newTwoFactorState);
     };
 
     return (
         <div className="mt-6 bg-secondaryBlack py-2 rounded-xl">
             <div className="mb-4">
-                <label className="block  font-medium text-white mb-4">Two-factor Authentication</label>
+                <label className="block font-medium text-white mb-4">Two-factor Authentication</label>
                 <ToggleSwitch
-                   isOn={twoFactorEnabled}
-                   handleToggle={handleToggleTwoFactor}
+                    isOn={twoFactorEnabled}
+                    handleToggle={handleToggleTwoFactor}
                     label="Enable or disable two-factor authentication"
                 />
             </div>

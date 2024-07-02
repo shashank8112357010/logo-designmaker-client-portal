@@ -21,7 +21,7 @@ const initialState = {
     postalCode: '',
     country: '',
     profileImg: {},
-    token : null
+    token: null
 };
 
 const accountSlice = createSlice({
@@ -31,15 +31,23 @@ const accountSlice = createSlice({
         updateFormData: (state, action) => {
             return { ...state, ...action.payload };
         },
+      
         setUser: (state, action) => {
-            return { ...state, ...action.payload };
+            
+            const { user, token, userId } = action.payload;
+            state.user = user;
+            state.userId=userId;
+            state.token = token;
+            localStorage.setItem('token', token); // persist token in localStorage
+            localStorage.setItem('user', JSON.stringify(user)); // persist user in localStorage
         },
-        setToken: (state, action) => {
-           state.token = action.payload
+        removeToken: (state) => {
+            state.token = null;
+            state.user = null;
+            state.userId = null;
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
         },
-        removeToken: (state, action) => {
-            state.token = action.payload
-         },
         resetFormData: () => initialState,
         updateProfileField: (state, action) => {
             const { field, value } = action.payload;
@@ -47,5 +55,6 @@ const accountSlice = createSlice({
         }
     },
 });
-export const { updateFormData, setUser , setToken, removeToken ,resetFormData, updateProfileField } = accountSlice.actions;
+
+export const { updateFormData, setUser, removeToken, resetFormData, updateProfileField } = accountSlice.actions;
 export default accountSlice.reducer;

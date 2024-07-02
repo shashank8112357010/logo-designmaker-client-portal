@@ -1,7 +1,7 @@
 import React from 'react';
-import { Routes, Route, useLocation, Navigate} from "react-router-dom";
-import { Overview, TicketMain, Setting, Header, Sidebar, Services, File ,Transaction,Refunds} from "../pages/dashboard";
-import { getToken } from '../helpers/token.helper';
+import { Routes, Route, useLocation, Navigate } from "react-router-dom";
+import { Overview, TicketMain, Setting, Header, Sidebar, Services, File, Transaction, Refunds } from "../pages/dashboard";
+import { useSelector } from 'react-redux';
 
 const routes = [
   {
@@ -43,14 +43,14 @@ const getHeading = (path) => {
 export function Dashboard() {
   const location = useLocation();
   const heading = getHeading(location.pathname);
+  const token = useSelector((state) => state.account.token);
 
-
-
-
+  if (!token) {
+    return <Navigate to={"/auth/sign-in"} />;
+  }
 
   return (
     <div className="">
-         {/* {!getToken() && <Navigate to={"/auth/sign-in"} />} */}
       <div className="flex bg-primaryBlack flex-row relative">
         <Sidebar />
         <div className="lg:ml-[16.7%] lg:w-[83.3%] w-full bg-primaryBlack min-h-screen flex-1 flex flex-col flex-grow absolute border-l-2 border-secondaryBlack">
@@ -70,6 +70,6 @@ export function Dashboard() {
   );
 }
 
-Dashboard.displayName = "/src/layout/Dasboard.jsx";
+Dashboard.displayName = "/src/layout/Dashboard.jsx";
 
 export default Dashboard;

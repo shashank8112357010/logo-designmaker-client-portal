@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { HomeIcon, ClipboardDocumentListIcon, RectangleStackIcon, Cog6ToothIcon, QuestionMarkCircleIcon ,ArrowLeftStartOnRectangleIcon} from '@heroicons/react/24/solid';
-import { removeToken } from '../../helpers/token.helper';
+import { removeToken } from '../../store/accountSlice';
+import { useDispatch } from 'react-redux';
 
 const Sidebar = () => {
     const location = useLocation();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [activePath, setActivePath] = useState(location.pathname);
     const [helpdeskOpen, setHelpdeskOpen] = useState(location.pathname.includes('/dashboard/help'));
 
@@ -48,8 +50,8 @@ const Sidebar = () => {
     };
 
     const handleLogout = () => {
-        removeToken(); 
-        // navigate('/auth/sign-in'); 
+        dispatch(removeToken());
+        navigate('/auth/sign-in'); 
     };
 
     return (

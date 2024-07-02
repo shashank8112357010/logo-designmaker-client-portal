@@ -18,7 +18,8 @@ const EditProfile = () => {
     const mutation = useMutation({
         mutationFn: updateUserProfile,
         onSuccess: (data) => {
-            dispatch(updateFormData(data.user));
+            console.log(data);
+            dispatch(updateFormData(data));
             toast.success("Profile updated successfully!");
             setIsEditing(false);
         },
@@ -36,6 +37,7 @@ const EditProfile = () => {
     };
 
     const handleSubmit = () => {
+        console.log('Submitting profile:', localProfile);
         mutation.mutate(localProfile);
     };
 
@@ -51,13 +53,13 @@ const EditProfile = () => {
     return (
         <div className="relative">
             {!isEditing && (
-            <button
-                onClick={handleEdit}
-                className="absolute top-0 right-0 text-primaryBlack flex items-center gap-2 bg-primaryGreen p-2 rounded-full"
-            >
-                 <img src="/img/pencil.png" alt="edit" className='h-4 w-4' />
-               {/* <span className='font-medium'> Edit</span> */}
-            </button>
+                <button
+                    onClick={handleEdit}
+                    className="absolute top-0 right-0 text-primaryBlack flex items-center gap-2 bg-primaryGreen p-2 rounded-full"
+                >
+                    <img src="/img/pencil.png" alt="edit" className='h-4 w-4' />
+                    {/* <span className='font-medium'> Edit</span> */}
+                </button>
             )}
             <div className="flex items-start mt-4">
                 <div className="flex items-center mb-8 w-1/5 relative">
@@ -67,12 +69,12 @@ const EditProfile = () => {
                         className="h-32 w-32 mt-8 ml-2 rounded-full"
                     />
                     {isEditing && (
-                    <button className="ml-4 bg-primaryGreen text-primaryBlack py-2 px-2 rounded-full absolute left-24 top-28">
-                        <img src="/img/pencil.png" alt="edit" />
-                    </button>
-                     )}
+                        <button className="ml-4 bg-primaryGreen text-primaryBlack py-2 px-2 rounded-full absolute left-24 top-28">
+                            <img src="/img/pencil.png" alt="edit" />
+                        </button>
+                    )}
                 </div>
-           
+
                 <div className="grid grid-cols-2 gap-6 w-4/5 mt-10">
                     {["firstName", "lastName", "email", "phoneNumber", "username", "address", "city", "postalCode", "country"].map((field) => (
                         <div key={field} className="mb-4">

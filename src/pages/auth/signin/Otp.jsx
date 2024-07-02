@@ -58,6 +58,7 @@ const Otp = () => {
         if (isFormValid()) {
             const otp = otpDigits.join('');
             mutation.mutate({ otp, userId });
+
         } else {
             setLoading(false);
             toast.error('Please enter a valid 4-digit OTP.');
