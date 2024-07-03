@@ -26,9 +26,11 @@ function AccountSetup() {
         slogan: state.account.slogan,
         designRequirements: state.account.designRequirements,
         niche: state.account.niche,
-        otherDetails: state.account.otherDetails,
+        other: state.account.other,
         fontOptions: state.account.fontOptions,
         colorOptions: state.account.colorOptions,
+        user: state.account.user,
+        userId: state.account.user.userId
     }));
     
     const dispatch = useDispatch();
@@ -46,7 +48,8 @@ function AccountSetup() {
             }
         },
         onError: (error) => {
-            toast.error(error.response.data.message);
+            console.error('Error response:', error);
+            toast.error(error.response?.data?.message || 'An error occurred');
         }
     });
 
@@ -67,7 +70,11 @@ function AccountSetup() {
             dispatch(updateProfileField({ field: key, value: updatedFormData[key] }));
         });
         console.log('Submitting form data:', { ...formData, ...updatedFormData });
-        mutation.mutate({...formData});
+        const payload = {
+            ...formData,
+            ...updatedFormData,
+        };
+        mutation.mutate(payload);
     };
 
     return (

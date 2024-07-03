@@ -8,7 +8,7 @@ const initialState = {
     slogan: '',
     designRequirements: [],
     niche: [],
-    otherDetails: '',
+    other: '',
     fontOptions: [],
     colorOptions: [],
     user: null,

@@ -4,11 +4,11 @@ import Select from '../../components/Select';
 function AccountSetupStep3({ formData, handleNextStep}) {
     const [designRequirements, setDesignType] = useState(formData?.designRequirements || []);
     const [niche, setTargetNiche] = useState(formData?.niche || []);
-    const [otherDetails, setOtherDetails] = useState(formData?.otherDetails);
+    const [other, setOtherDetails] = useState(formData?.other);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        handleNextStep({ designRequirements, niche, otherDetails });
+        handleNextStep({ designRequirements, niche, other });
     };
     const tags1 = [
         "Abstract Logos",
@@ -42,7 +42,7 @@ function AccountSetupStep3({ formData, handleNextStep}) {
                 <div className="mb-6">
                     <label className="text-white text-base font-medium mb-1">If 'Other' selected, please specify</label>
                     <textarea
-                        value={otherDetails}
+                        value={other}
                         onChange={(e) => { setOtherDetails(e.target.value); }}
                         placeholder="Please Add your Description"
                         className="w-full p-3 bg-primaryBlack border-none text-white rounded-lg resize-none mt-1"
