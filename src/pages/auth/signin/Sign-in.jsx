@@ -48,7 +48,11 @@ function SignIn() {
       console.log(res);
       console.log("hey", res.data.message !== "OTP sent successfully");
       if (res.data.message !== "OTP sent successfully") {
-        navigate('/dashboard/overview')
+          if(res.isUserReq==true){
+             navigate('/dashboard/overview')
+          }else{
+            navigate('/accountsetup')
+          }
         dispatch(setUser({ user: res.data.user, ...res.data }))
         toast.success(res.data.message);
         setLoading(false)

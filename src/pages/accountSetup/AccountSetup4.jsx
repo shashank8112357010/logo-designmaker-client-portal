@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 function AccountSetupStep4({ formData, handleNextStep, handlePreviousStep }) {
-    const [selectedFonts, setSelectedFonts] = useState(formData?.selectedFonts || []);
+    const [fontOptions, setSelectedFonts] = useState(formData?.selectedFonts || []);
 
     const handleFontSelect = (font) => {
         setSelectedFonts(prev =>
@@ -11,9 +11,9 @@ function AccountSetupStep4({ formData, handleNextStep, handlePreviousStep }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        handleNextStep({ selectedFonts });
+        handleNextStep({ fontOptions });
     };
-    const fontOptions = [
+    const fontOption = [
         { name: "Roboto", class: "font-roboto" },
         { name: "Open Sans", class: "font-open-sans" },
         { name: "Poppins", class: "font-poppins" },
@@ -30,10 +30,10 @@ function AccountSetupStep4({ formData, handleNextStep, handlePreviousStep }) {
                         <div className="mb-6 text-center">
                             <label className="text-customGray text-center text-base font-medium mb-1">Choose from the Font options given below</label>
                             <div className="grid grid-cols-2 gap-4 mt-4">
-                                {fontOptions.map((font, index) => (
+                                {fontOption.map((font, index) => (
                                     <div
                                         key={index}
-                                        className={`p-6 bg-primaryBlack rounded-lg flex justify-center cursor-pointer ${selectedFonts?.includes(font.name) ? 'ring-2 ring-primaryGreen' : ''}`}
+                                        className={`p-6 bg-primaryBlack rounded-lg flex justify-center cursor-pointer ${fontOptions?.includes(font.name) ? 'ring-2 ring-primaryGreen' : ''}`}
                                         onClick={() => handleFontSelect(font.name)}
                                     >
                                         <div key={index} className={`h-24 w-40 flex items-center justify-center bg-gray-800 rounded-lg ${font.class}`}>
@@ -44,7 +44,7 @@ function AccountSetupStep4({ formData, handleNextStep, handlePreviousStep }) {
                             </div>
                         </div>
                         <div className="flex flex-wrap gap-2 mb-4">
-                            {selectedFonts?.map((font, index) => {
+                            {fontOptions?.map((font, index) => {
                                 const fontClass = fontOptions.find(f => f.name === font)?.class || '';
                                 return (
                                     <span key={index} className={`p-2 bg-primaryBlack rounded-lg ${fontClass}`}>

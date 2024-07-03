@@ -8,7 +8,7 @@ import AccountSetupStep2 from './AccountSetup2';
 import AccountSetupStep3 from './AccountSetup3';
 import AccountSetupStep4 from './AccountSetup4';
 import AccountSetupStep5 from './AccountSetup5';
-import { updateFormData } from '../../store/accountSlice';
+import { updateFormData, updateProfileField } from '../../store/accountSlice';
 import { accountSetup } from '../../services/api.service';
 import AccountSetupLayout from './Layout';
 
@@ -17,17 +17,30 @@ function AccountSetup() {
     const isEditing = location.state?.isEditing || false;
     const previousRoute = location.state?.previousRoute || '/dashboard/overview';
     const [step, setStep] = useState(location.state?.isEditing ? 2 : 1);
-    const formData = useSelector((state) => state.account);
+
+    const formData = useSelector((state) => ({
+        firstName: state.account.firstName,
+        lastName: state.account.lastName,
+        businessName: state.account.businessName,
+        brandName: state.account.brandName,
+        slogan: state.account.slogan,
+        designRequirements: state.account.designRequirements,
+        niche: state.account.niche,
+        otherDetails: state.account.otherDetails,
+        fontOptions: state.account.fontOptions,
+        colorOptions: state.account.colorOptions,
+    }));
+    
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const mutation = useMutation({
         mutationFn: accountSetup,
         onSuccess: (res) => {
-            dispatch(updateFormData({ user: res.data.user, ...res.data }));
             toast.success(res.data.message);
+            dispatch(updateFormData())
             if (location.state?.isEditing) {
-                navigate('/choices', { state: { isEditing: true } });
+                navigate(previousRoute, { state: { isEditing: true } });
             } else {
                 navigate('/dashboard/overview');
             }
@@ -38,8 +51,10 @@ function AccountSetup() {
     });
 
     const handleNextStep = (newData) => {
-        dispatch(updateFormData({ ...formData, ...newData }));
-        console.log(updateFormData(formData))
+        Object.keys(newData).forEach((key) => {
+            dispatch(updateProfileField({ field: key, value: newData[key] }));
+        });
+        console.log('Form data after next step:', { ...formData, ...newData });
         setStep((prevStep) => prevStep + 1);
     };
 
@@ -47,14 +62,12 @@ function AccountSetup() {
         setStep((prevStep) => prevStep - 1);
     };
 
-    const handleSubmit = (updatedFormData) => {  
-        dispatch(updateFormData(updatedFormData));
-        if (isEditing) {
-            navigate(previousRoute, { state: { isEditing: true } });
-        } else {
-            navigate('/dashboard/overview');
-            
-        }
+    const handleSubmit = (updatedFormData) => {
+        Object.keys(updatedFormData).forEach((key) => {
+            dispatch(updateProfileField({ field: key, value: updatedFormData[key] }));
+        });
+        console.log('Submitting form data:', { ...formData, ...updatedFormData });
+        mutation.mutate({...formData});
     };
 
     return (

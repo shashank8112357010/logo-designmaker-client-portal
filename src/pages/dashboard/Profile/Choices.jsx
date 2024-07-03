@@ -10,7 +10,7 @@ const Choices = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    const accountSetupValues = useSelector((state) => state.account);
+    const accountSetupValues = useSelector((state) => state.account.userReq);
     const [isEditing, setIsEditing] = useState(false);
     const [choices, setChoices] = useState(accountSetupValues);
 
@@ -44,7 +44,7 @@ const Choices = () => {
         onSuccess: (data) => {
             toast.success('Data saved successfully');
             setIsEditing(false);
-            dispatch(updateFormData(data));
+            dispatch(updateFormData(data.userReq));
         },
         onError: (error) => {
             toast.error(error.response.data.message);
@@ -90,10 +90,10 @@ const Choices = () => {
                 {[
                     { label: 'Your Brand Name', name: 'brandName' },
                     { label: 'Your Brand Slogan', name: 'slogan' },
-                    { label: 'Your Service Type', name: 'designType' },
-                    { label: 'Your Niche', name: 'targetNiche' },
-                    { label: 'Your Font Option', name: 'selectedFonts' },
-                    { label: 'Your Colour Option', name: 'selectedPalettes' },
+                    { label: 'Your Service Type', name: 'designRequirements' },
+                    { label: 'Your Niche', name: 'niche' },
+                    { label: 'Your Font Option', name: 'fontOptions' },
+                    { label: 'Your Colour Option', name: 'colorOptions' },
                 ].map((field) => (
                     <div key={field.name} className="mb-4 mx-5">
                         <label className="block text-sm font-medium text-white">

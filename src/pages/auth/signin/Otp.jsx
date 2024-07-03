@@ -37,7 +37,7 @@ const Otp = () => {
             dispatch(setUser({ user: res.data.user, ...res.data }))
             toast.success(res.data.message);
             setLoading(false)
-            navigate('/dashboard/overview')
+            navigate('/accountsetup')
         },
         onError: (error) => {
             setLoading(false)

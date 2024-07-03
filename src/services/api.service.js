@@ -19,13 +19,18 @@ export const resetPassword = async ({ token, newPassword, confirmPassword }) => 
     return await axios.post(`http://localhost:4000/api/dashboard/resetPassword/${token}`, { newPassword, confirmPassword });
 };
 export const accountSetup = async (data) => {
-    return await axios.post(`http://localhost:4000/api/dashboard/requirements/${data.userId}`, data);
+    return await axios.post(`http://localhost:4000/api/dashboard/requirements/${data.user.userId}`, data);
 };
 
 export const updateUserProfile = async (data) => {
-    return await axios.put(`http://localhost:4000/api/dashboard/editProfile`, data);
+    try {
+        const response = await axios.put('http://localhost:4000/api/dashboard/editProfile', data);
+        return response.data;
+    } catch (error) {
+        console.error('Error updating user profile:', error);
+        throw error;
+    }
 };
-
 export const updatePassword = async ({currentPassword, newPassword}) => {
     return await axios.put(`http://localhost:4000/api/dashboard/changePassword`, {currentPassword, newPassword});
 };

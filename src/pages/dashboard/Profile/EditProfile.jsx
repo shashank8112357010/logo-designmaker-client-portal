@@ -2,29 +2,39 @@ import React, { useState, useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateUserProfile } from '../../../services/api.service';
-import { updateFormData } from '../../../store/accountSlice';
+import { updateFormData ,removeToken} from '../../../store/accountSlice';
 import { toast } from 'react-toastify';
 
 const EditProfile = () => {
     const dispatch = useDispatch();
-    const profile = useSelector((state) => state.account);
+    const {firstName, lastName,  workEmail, phoneNo, username, address, city, postalCode, country, profileImg } = useSelector(state => state.account);
+    // const {firstName, lastName,}=useSelector(state => state.account.userReq)
+    const profile = { firstName, lastName, workEmail, phoneNo, username, address, city, postalCode, country, profileImg };
+
     const [localProfile, setLocalProfile] = useState(profile);
     const [isEditing, setIsEditing] = useState(false);
+    const formData = useSelector((state) => state.account);
 
-    useEffect(() => {
-        setLocalProfile(profile);
-    }, [profile]);
+    // useEffect(() => {
+    //     setLocalProfile(profile);
+    // }, [profile]);
 
     const mutation = useMutation({
         mutationFn: updateUserProfile,
-        onSuccess: (data) => {
-            console.log(data);
-            dispatch(updateFormData(data));
-            toast.success("Profile updated successfully!");
+        onSuccess: (res) => {
+            console.log(res.data);
+            dispatch(updateFormData(res.data));
+            toast.success(res.data.message);
             setIsEditing(false);
         },
-        onError: () => {
-            toast.error("Error updating user profile");
+        onError: (error) => {
+            if (error.response && error.response.data && error.response.data.msg === 'Token is not valid') {
+                toast.error('Session expired. Please log in again.');
+                dispatch(removeToken());
+                // Redirect to login or perform other actions
+            } else {
+                toast.error('Error updating user profile');
+            }
         }
     });
 
@@ -38,6 +48,7 @@ const EditProfile = () => {
 
     const handleSubmit = () => {
         console.log('Submitting profile:', localProfile);
+        console.log(formData)
         mutation.mutate(localProfile);
     };
 
@@ -58,13 +69,12 @@ const EditProfile = () => {
                     className="absolute top-0 right-0 text-primaryBlack flex items-center gap-2 bg-primaryGreen p-2 rounded-full"
                 >
                     <img src="/img/pencil.png" alt="edit" className='h-4 w-4' />
-                    {/* <span className='font-medium'> Edit</span> */}
                 </button>
             )}
             <div className="flex items-start mt-4">
                 <div className="flex items-center mb-8 w-1/5 relative">
                     <img
-                        src={profile.profileImg?.url || '/img/profile.jpg'}
+                        src={profileImg?.url || '/img/profile.jpg'}
                         alt="Profile"
                         className="h-32 w-32 mt-8 ml-2 rounded-full"
                     />
@@ -76,7 +86,7 @@ const EditProfile = () => {
                 </div>
 
                 <div className="grid grid-cols-2 gap-6 w-4/5 mt-10">
-                    {["firstName", "lastName", "email", "phoneNumber", "username", "address", "city", "postalCode", "country"].map((field) => (
+                    {["firstName", "lastName", "workEmail", "phoneNo", "username", "address", "city", "postalCode", "country"].map((field) => (
                         <div key={field} className="mb-4">
                             <label className="block text-sm font-medium text-white">
                                 {field.charAt(0).toUpperCase() + field.slice(1).replace(/([A-Z])/g, ' $1').trim()}

@@ -16,8 +16,8 @@ const ColorPalette = ({ palette, isSelected, onClick }) => (
     </div>
 );
 
-function AccountSetupStep5({ formData = {}, handleSubmit, handlePreviousStep }) {
-    const [selectedPalettes, setSelectedPalettes] = useState(formData.selectedPalettes || []);
+function AccountSetupStep5({ formData = {}, handleSubmit }) {
+    const [colorOptions, setSelectedPalettes] = useState(formData.selectedPalettes || []);
 
     // const navigate=useNavigate();
     // const dispatch = useDispatch();
@@ -30,7 +30,7 @@ function AccountSetupStep5({ formData = {}, handleSubmit, handlePreviousStep }) 
 
     const onSubmit = (e) => {
         e.preventDefault();
-        const updatedFormData = {selectedPalettes };
+        const updatedFormData = { ...formData,colorOptions};
         handleSubmit(updatedFormData);
     };
 
@@ -56,14 +56,14 @@ function AccountSetupStep5({ formData = {}, handleSubmit, handlePreviousStep }) 
                                     <ColorPalette
                                         key={index}
                                         palette={palette}
-                                        isSelected={selectedPalettes?.includes(palette.name)}
+                                        isSelected={colorOptions?.includes(palette.name)}
                                         onClick={() => handlePaletteSelect(palette.name)}
                                     />
                                 ))}
                             </div>
                         </div>
                         <div className="flex flex-wrap gap-2 mb-4">
-                            {selectedPalettes.map((palette, index) => {
+                            {colorOptions.map((palette, index) => {
                                 return (
                                     <span key={index} className="p-2 bg-primaryBlack rounded-lg">
                                         <p className="text-white">{palette}</p>
