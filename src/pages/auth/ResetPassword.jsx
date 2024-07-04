@@ -52,10 +52,10 @@ function ResetPassword() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!passwordsMatch) {
-      setErrorMessage("Passwords do not match!");
-      return;
-    }
+    // if (!passwordsMatch) {
+    //   setErrorMessage("Passwords do not match!");
+    //   return;
+    // }
     mutation.mutate({ token, newPassword, confirmPassword });
   };
 

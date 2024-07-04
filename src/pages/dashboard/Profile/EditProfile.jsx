@@ -1,45 +1,35 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateUserProfile } from '../../../services/api.service';
-import { updateFormData, removeToken } from '../../../store/accountSlice';
+import { updateProfileField,setProfileImage } from '../../../store/accountSlice';
 import { toast } from 'react-toastify';
 
 const EditProfile = () => {
     const dispatch = useDispatch();
-    const { firstName, lastName, address, city, postalCode, country, profileImg } = useSelector(state => state.account);
-    const { workEmail, phoneNo, username, } = useSelector(state => state.account.user);
+    const { firstName, lastName, address, city, postalCode, country, profileImg, username } = useSelector(state => state.account);
+    const { workEmail, phoneNo } = useSelector(state => state.account.user || {});
     const profile = { firstName, lastName, workEmail, phoneNo, username, address, city, postalCode, country, profileImg };
 
     const [localProfile, setLocalProfile] = useState(profile);
     const [isEditing, setIsEditing] = useState(false);
-    const formData = useSelector((state) => state.account);
-
-    // useEffect(() => {
-    //     setLocalProfile(profile);
-    // }, [profile]);
+    const [previewImage, setPreviewImage] = useState(profileImg);
 
     const mutation = useMutation({
         mutationFn: updateUserProfile,
         onSuccess: (res) => {
-            console.log(res.data);
-            dispatch(updateFormData(res.data));
+            const updatedData = {
+                ...res.user,
+                ...res.userReq,
+            };
+            Object.entries(updatedData).forEach(([key, value]) => {
+                dispatch(updateProfileField({ field: key, value }));
+            });
             toast.success(res.message);
             setIsEditing(false);
         },
         onError: (error) => {
-            if (error.response) {
-                console.error('Error response:', error.response);
-                if (error.response.data && error.response.data.msg === 'Token is not valid') {
-                    toast.error('Session expired. Please log in again.');
-                    dispatch(removeToken());
-                } else {
-                    toast.error('Error updating user profile37');
-                }
-            } else {
-                console.error('Error:', error);
-                toast.error('Error updating user profile41');
-            }
+            toast.error(error.response.data.message);
         }
     });
 
@@ -51,10 +41,24 @@ const EditProfile = () => {
         }));
     };
 
+    const handlePhotoChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setLocalProfile((prevState) => ({
+                ...prevState,
+                profileImg: file,
+            }));
+            setPreviewImage(URL.createObjectURL(file));
+        }
+    };
+
     const handleSubmit = () => {
-        console.log('Submitting profile:', localProfile);
-        console.log(formData)
-        mutation.mutate(localProfile);
+        const formData = new FormData();
+        Object.entries(localProfile).forEach(([key, value]) => {
+            formData.append(key, value);
+        });
+
+        mutation.mutate(formData);
     };
 
     const handleEdit = () => {
@@ -63,6 +67,7 @@ const EditProfile = () => {
 
     const handleCancel = () => {
         setLocalProfile(profile);
+        setPreviewImage(profileImg);
         setIsEditing(false);
     };
 
@@ -78,13 +83,29 @@ const EditProfile = () => {
             )}
             <div className="flex items-start mt-4">
                 <div className="flex items-center mb-8 w-1/5 relative">
-                    <img
-                        src={profileImg?.url || '/img/profile.jpg'}
-                        alt="Profile"
-                        className="h-32 w-32 mt-8 ml-2 rounded-full"
-                    />
                     {isEditing && (
-                        <button className="ml-4 bg-primaryGreen text-primaryBlack py-2 px-2 rounded-full absolute left-24 top-28">
+                        <input
+                            type="file"
+                            accept=".png, .jpg, .jpeg"
+                            onChange={handlePhotoChange}
+                            className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
+                        />
+                    )}
+                    {previewImage ? (
+                        <img
+                            src={previewImage}
+                            alt="Profile"
+                            className="rounded-full w-36 h-36 mt-8 ml-2 object-cover"
+                        />
+                    ) : (
+                        <img
+                            src="/img/profile.jpg"
+                            alt="Profile"
+                            className="rounded-full w-36 h-36 object-cover"
+                        />
+                    )}
+                    {isEditing && (
+                        <button className="ml-4 bg-primaryGreen text-primaryBlack py-2 px-2 rounded-full absolute left-28 top-32">
                             <img src="/img/pencil.png" alt="edit" />
                         </button>
                     )}

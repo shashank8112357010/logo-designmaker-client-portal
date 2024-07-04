@@ -31,12 +31,12 @@ const accountSlice = createSlice({
         updateFormData: (state, action) => {
             return { ...state, ...action.payload };
         },
-      
+
         setUser: (state, action) => {
-            
+
             const { user, token, userId } = action.payload;
             state.user = user;
-            state.userId=userId;
+            state.userId = userId;
             state.token = token;
             localStorage.setItem('token', token); // persist token in localStorage
             localStorage.setItem('user', JSON.stringify(user)); // persist user in localStorage

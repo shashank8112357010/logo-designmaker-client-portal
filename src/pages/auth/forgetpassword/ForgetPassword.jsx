@@ -4,24 +4,31 @@ import LeftSide from "../../../components/LeftSide";
 import { DotGroup } from "../../../components/Dot";
 import { resetPasswordLinkSend } from "../../../services/api.service";
 import EmailSent from "./EmailSent";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 function ForgotPassword() {
-    const [email, setEmail] = useState("");
+    const [workEmail, setEmail] = useState("");
     const [showSentMail, setShowSentMail] = useState(false);
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
     };
 
+const mutation=useMutation({
+    mutationFn:resetPasswordLinkSend,
+    onSuccess:(res)=>{
+        toast.success(res.message)
+        setShowSentMail(true)
+    },
+    onError:(error)=>{
+        toast.error(error.response.data.message)
+    }
+})
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await resetPasswordLinkSend({ workEmail: email }).then((res) => {
-            console.log(res);
-        }).catch((err) => {
-            console.log(err);
-        })
-        setShowSentMail(true)
+      mutation.mutate({workEmail})
     }
 
     return (
@@ -53,7 +60,7 @@ function ForgotPassword() {
                                             <div className="relative">
                                                 <input
                                                     type="email"
-                                                    value={email}
+                                                    value={workEmail}
                                                     onChange={handleEmailChange}
                                                     placeholder="name@mail.com"
                                                     className="w-full p-3 bg-primaryBlack border-none text-white rounded-lg mt-1"

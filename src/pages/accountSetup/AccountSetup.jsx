@@ -73,7 +73,11 @@ function AccountSetup() {
             ...formData,
             ...updatedFormData,
         };
-        mutation.mutate(payload);
+        if(!isEditing){
+            mutation.mutate(payload);
+        }else{
+            navigate(previousRoute, { state: { isEditing: true } });
+        }
     };
 
     return (

@@ -12,23 +12,51 @@ const Choices = () => {
     const location = useLocation();
     const accountSetupValues = useSelector((state) => state.account);
     const [isEditing, setIsEditing] = useState(false);
-    const [choices, setChoices] = useState(accountSetupValues);
+
+    const initialChoices = {
+        brandName: accountSetupValues.brandName || '',
+        slogan: accountSetupValues.slogan || '',
+        designRequirements: accountSetupValues.designRequirements || [],
+        niche: accountSetupValues.niche || [],
+        fontOptions: accountSetupValues.fontOptions || [],
+        colorOptions: accountSetupValues.colorOptions || []
+    };
+
+    console.log(initialChoices);
+    const [choices, setChoices] = useState(initialChoices);
 
     const { refetch } = useQuery({
         queryKey: ['accountSetupData'],
         queryFn: getAccountSetupData,
-        onSuccess: (data) => {
-            dispatch(updateFormData(data.data));
-            setChoices(data.data);
+        onSuccess: (res) => {
+            toast.success(res.message);
+
+            if (res.user && res.user.userRequirements && res.user.userRequirements.length > 0) {
+                const userRequirements = res.user.userRequirements[0];
+                const updatedChoices = {
+                    brandName: userRequirements.brandName || '',
+                    slogan: userRequirements.slogan || '',
+                    designRequirements: userRequirements.designRequirements || [],
+                    niche: userRequirements.niche || [],
+                    fontOptions: userRequirements.fontOptions || [],
+                    colorOptions: userRequirements.colorOptions || []
+                };
+
+                dispatch(updateFormData(updatedChoices));
+                setChoices(updatedChoices);
+            }
         },
         onError: (error) => {
-            toast.error(error.response.data.message);
-        }
+            toast.error(error.response?.data?.message || 'Failed to fetch data');
+        },
+        enabled: false, // Disable automatic query on mount
     });
 
     useEffect(() => {
         if (Object.keys(accountSetupValues).length === 0) {
             refetch();
+        } else {
+            setChoices(initialChoices);
         }
     }, [accountSetupValues, refetch]);
 
@@ -47,7 +75,7 @@ const Choices = () => {
             dispatch(updateFormData(data));
         },
         onError: (error) => {
-            toast.error(error.response.data.message);
+            toast.error(error.response?.data?.message || 'Failed to update data');
         }
     });
 
@@ -61,8 +89,24 @@ const Choices = () => {
     };
 
     const handleCancel = () => {
-        refetch();
-        setIsEditing(false);
+        refetch().then((res) => {
+            if (res.user && res.user.userRequirements && res.user.userRequirements.length > 0) {
+                const userRequirements = res.user.userRequirements[0];
+                const updatedChoices = {
+                    brandName: userRequirements.brandName || '',
+                    slogan: userRequirements.slogan || '',
+                    designRequirements: userRequirements.designRequirements || [],
+                    niche: userRequirements.niche || [],
+                    fontOptions: userRequirements.fontOptions || [],
+                    colorOptions: userRequirements.colorOptions || []
+                };
+                setChoices(updatedChoices);
+                setIsEditing(false);
+            }
+        }).catch((error) => {
+            toast.error('Failed to fetch data');
+            console.error(error);
+        });
     };
 
     const handleChange = (e) => {
@@ -79,10 +123,9 @@ const Choices = () => {
                 {!isEditing && (
                     <button
                         onClick={handleEdit}
-                        className="absolute top-0 right-0 text-primaryBlack mt-2 flex items-center gap-2 bg-primaryGreen p-2 rounded-md"
+                        className="absolute top-0 right-0 text-primaryBlack mt-2 flex items-center gap-2 bg-primaryGreen p-2 rounded-full"
                     >
                         <img src="/img/pencil.png" alt="edit" className='h-4 w-4' />
-                        <span className='font-medium'> Edit</span>
                     </button>
                 )}
             </div>

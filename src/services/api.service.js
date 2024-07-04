@@ -36,7 +36,7 @@ export const updatePassword = async ({currentPassword, newPassword}) => {
 };
 
 export const toggleTwoFactorAuth = async (isEnabled) => {
-    return await axios.post(`http://localhost:4000/api/dashboard/enableTwoFactor`, { twoFactor: isEnabled });
+    return await axios.post(`http://localhost:4000/api/dashboard/enableTwoFactor?twoFactor=${isEnabled}`);
 };
 export const getAccountSetupData = async () => {
     return await axios.get(`http://localhost:4000/api/dashboard/userDetailsAndReq`);

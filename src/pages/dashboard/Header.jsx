@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NotificationsDropdown from './Notification';
 import { BellIcon } from '@heroicons/react/24/outline';
@@ -7,7 +7,12 @@ import { useSelector } from 'react-redux';
 const Header = ({ heading }) => {
     const [showNotifications, setShowNotifications] = useState(false);
     const navigate = useNavigate();
-    const { user } = useSelector((state) => state.account)
+    const { username } = useSelector((state) => state.account);
+    const [username1, setUsername] = useState(username);
+
+    useEffect(() => {
+        setUsername(username);
+    }, [username]);
 
     const toggleNotifications = () => {
         if (!showNotifications) {
@@ -59,7 +64,7 @@ const Header = ({ heading }) => {
                             className="h-12 w-12 rounded-full text-white"
                         />
                         <div className='text-white ml-2'>
-                            <h3>{user?.username.toUpperCase() || "John Doe"}</h3>
+                            <h3>{username?.toUpperCase() || "John Doe"}</h3>
                         </div>
                     </div>
                 </div>
