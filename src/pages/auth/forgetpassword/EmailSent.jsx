@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 function EmailSent() {
     return (
                 <div className="text-center">
@@ -12,7 +14,7 @@ function EmailSent() {
                         We just sent a link to your registered email address
                     </p>
                     <p className="text-sm font-normal text-gray-400 mt-40">
-                        Didn’t receive a Mail? <span className="text-primaryGreen cursor-pointer">Resend</span>
+                        Didn’t receive a Mail? <Link to="/auth/sign-in" ><span className="text-primaryGreen cursor-pointer">Resend</span></Link>
                     </p>
                 </div>
     );
