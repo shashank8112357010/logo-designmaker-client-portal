@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import React, { useState, useRef } from 'react';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateUserProfile } from '../../../services/api.service';
-import { updateProfileField,setProfileImage } from '../../../store/accountSlice';
+import { getAccountSetupData, updateUserProfile } from '../../../services/api.service';
+import { updateProfileField } from '../../../store/accountSlice';
 import { toast } from 'react-toastify';
 
 const EditProfile = () => {
@@ -13,7 +13,21 @@ const EditProfile = () => {
 
     const [localProfile, setLocalProfile] = useState(profile);
     const [isEditing, setIsEditing] = useState(false);
-    const [previewImage, setPreviewImage] = useState(profileImg);
+    const [previewImage, setPreviewImage] = useState(profileImg?.url || '/img/profile.jpg');
+    // const [isImageRemoved, setIsImageRemoved] = useState(false);
+
+    const fileInputRef = useRef(null);
+    useQuery({
+        queryKey: ['getAccountSetupData'],
+        queryFn: getAccountSetupData,
+        onSuccess: (res) => {
+            const profileImageUrl = res.user.profileImg?.url || '/img/profile.jpg';
+            setPreviewImage(profileImageUrl);
+        },
+        onError: () => {
+            setPreviewImage('/img/profile.jpg');
+        },
+    });
 
     const mutation = useMutation({
         mutationFn: updateUserProfile,
@@ -49,13 +63,32 @@ const EditProfile = () => {
                 profileImg: file,
             }));
             setPreviewImage(URL.createObjectURL(file));
+            // setIsImageRemoved(false);
         }
     };
+
+    const handlePhotoEditClick = () => {
+        fileInputRef.current.click();
+    };
+
+    // const handleRemoveImage = () => {
+    //     setLocalProfile((prevState) => ({
+    //         ...prevState,
+    //         profileImg: null,
+    //     }));
+    //     setPreviewImage('/img/profile.jpg');
+    //     setIsImageRemoved(true);
+    //     dispatch(updateProfileField({ field: 'profileImg', value: null }));
+    // };
 
     const handleSubmit = () => {
         const formData = new FormData();
         Object.entries(localProfile).forEach(([key, value]) => {
+            // if (key === 'profileImg' && isImageRemoved) {
+            //     formData.append(key, '');
+            // } else {
             formData.append(key, value);
+            // }
         });
 
         mutation.mutate(formData);
@@ -67,7 +100,8 @@ const EditProfile = () => {
 
     const handleCancel = () => {
         setLocalProfile(profile);
-        setPreviewImage(profileImg);
+        setPreviewImage(profileImg?.url || '/img/profile.jpg');
+        // setIsImageRemoved(false);
         setIsEditing(false);
     };
 
@@ -82,32 +116,34 @@ const EditProfile = () => {
                 </button>
             )}
             <div className="flex items-start mt-4">
-                <div className="flex items-center mb-8 w-1/5 relative">
+                <div className=" mb-8 w-1/5 relative">
+                    <img
+                        src={previewImage || "/img/profile.jpg"}
+                        alt="Profile"
+                        className="rounded-full w-36 h-36 mt-8 ml-2 object-cover"
+                    />
                     {isEditing && (
-                        <input
-                            type="file"
-                            accept=".png, .jpg, .jpeg"
-                            onChange={handlePhotoChange}
-                            className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
-                        />
-                    )}
-                    {previewImage ? (
-                        <img
-                            src={previewImage}
-                            alt="Profile"
-                            className="rounded-full w-36 h-36 mt-8 ml-2 object-cover"
-                        />
-                    ) : (
-                        <img
-                            src="/img/profile.jpg"
-                            alt="Profile"
-                            className="rounded-full w-36 h-36 object-cover"
-                        />
-                    )}
-                    {isEditing && (
-                        <button className="ml-4 bg-primaryGreen text-primaryBlack py-2 px-2 rounded-full absolute left-28 top-32">
-                            <img src="/img/pencil.png" alt="edit" />
-                        </button>
+                        <>
+                            <input
+                                type="file"
+                                accept=".png, .jpg, .jpeg"
+                                onChange={handlePhotoChange}
+                                className="hidden"
+                                ref={fileInputRef}
+                            />
+                            <button
+                                className="ml-4 bg-primaryGreen text-primaryBlack py-2 px-2 rounded-full absolute left-28 top-32"
+                                onClick={handlePhotoEditClick}
+                            >
+                                <img src="/img/pencil.png" alt="edit" />
+                            </button>
+                            {/* <button
+                                className="ml-4 mt-4 bg-red-500 text-primaryBlack font-medium py-2 px-2 rounded-full"
+                                onClick={handleRemoveImage}
+                            >
+                                Remove Profile
+                            </button> */}
+                        </>
                     )}
                 </div>
 

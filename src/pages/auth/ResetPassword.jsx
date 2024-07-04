@@ -13,7 +13,7 @@ function ResetPassword() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const [passwordsMatch, setPasswordsMatch] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage] = useState("");
 
   const { token } = useParams();
   // console.log(token)

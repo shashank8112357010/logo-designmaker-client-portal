@@ -52,13 +52,10 @@ const Choices = () => {
         enabled: false, // Disable automatic query on mount
     });
 
-    useEffect(() => {
-        if (Object.keys(accountSetupValues).length === 0) {
-            refetch();
-        } else {
-            setChoices(initialChoices);
-        }
-    }, [accountSetupValues, refetch]);
+
+    // useEffect(() => {
+    //      setChoices(initialChoices);
+    // }, [initialChoices]);
 
     useEffect(() => {
         if (location.state?.isEditing) {

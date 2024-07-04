@@ -64,7 +64,7 @@ const Header = ({ heading }) => {
                             className="h-12 w-12 rounded-full text-white"
                         />
                         <div className='text-white ml-2'>
-                            <h3>{username?.toUpperCase() || "John Doe"}</h3>
+                            <h3>{username1?.toUpperCase() || "John Doe"}</h3>
                         </div>
                     </div>
                 </div>

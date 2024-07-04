@@ -46,4 +46,3 @@ export const updateChoices= async (data) => {
     return await axios.put(`http://localhost:4000/api/dashboard/editRequirements`, data);
 };
 
-

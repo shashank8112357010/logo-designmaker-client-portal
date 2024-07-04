@@ -76,7 +76,6 @@ export function SignUp() {
       console.log(res);
       toast.success(res.data.message);
        navigate('/auth/sign-in')
-
        setIsSubmitted(true);
     },
     onError: (error) => {
