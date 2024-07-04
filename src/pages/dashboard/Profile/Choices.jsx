@@ -10,7 +10,7 @@ const Choices = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    const accountSetupValues = useSelector((state) => state.account.userReq);
+    const accountSetupValues = useSelector((state) => state.account);
     const [isEditing, setIsEditing] = useState(false);
     const [choices, setChoices] = useState(accountSetupValues);
 
@@ -44,7 +44,7 @@ const Choices = () => {
         onSuccess: (data) => {
             toast.success('Data saved successfully');
             setIsEditing(false);
-            dispatch(updateFormData(data.userReq));
+            dispatch(updateFormData(data));
         },
         onError: (error) => {
             toast.error(error.response.data.message);

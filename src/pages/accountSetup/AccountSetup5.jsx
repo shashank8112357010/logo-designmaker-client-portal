@@ -37,9 +37,9 @@ function AccountSetupStep5({ formData = {}, handleSubmit }) {
 
     const colorPalettes = [
         { name: "GrayScale", colors: ["#000000", "#444444", "#888888", "#cccccc", "#ffffff"] },
-        { name: "Pastel Color", colors: ["#1b85b8", "#5a5255", "#559e83", "#ae5a41", "#c3cb71"] },
-        { name: "Pencil Color", colors: ["#6cd6aa", "#f28caf", "#cb50e9", "#727dd6", "#aba9a9"] },
-        { name: "Neon Colors", colors: ["#39FF14", "#FF073A", "#FEFE33", "#0FF0FC", "#8F00FF"] },
+        { name: "Red", colors: ["#1b85b8", "#5a5255", "#559e83", "#ae5a41", "#c3cb71"] },
+        { name: "Blue", colors: ["#6cd6aa", "#f28caf", "#cb50e9", "#727dd6", "#aba9a9"] },
+        { name:  "Green", colors: ["#39FF14", "#FF073A", "#FEFE33", "#0FF0FC", "#8F00FF"] },
     ];
 
     return (

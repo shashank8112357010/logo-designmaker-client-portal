@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateUserProfile } from '../../../services/api.service';
-import { updateFormData ,removeToken} from '../../../store/accountSlice';
+import { updateFormData, removeToken } from '../../../store/accountSlice';
 import { toast } from 'react-toastify';
 
 const EditProfile = () => {
     const dispatch = useDispatch();
-    const {firstName, lastName,  workEmail, phoneNo, username, address, city, postalCode, country, profileImg } = useSelector(state => state.account);
-    // const {firstName, lastName,}=useSelector(state => state.account.userReq)
+    const { firstName, lastName, address, city, postalCode, country, profileImg } = useSelector(state => state.account);
+    const { workEmail, phoneNo, username, } = useSelector(state => state.account.user);
     const profile = { firstName, lastName, workEmail, phoneNo, username, address, city, postalCode, country, profileImg };
 
     const [localProfile, setLocalProfile] = useState(profile);
@@ -24,16 +24,21 @@ const EditProfile = () => {
         onSuccess: (res) => {
             console.log(res.data);
             dispatch(updateFormData(res.data));
-            toast.success(res.data.message);
+            toast.success(res.message);
             setIsEditing(false);
         },
         onError: (error) => {
-            if (error.response && error.response.data && error.response.data.msg === 'Token is not valid') {
-                toast.error('Session expired. Please log in again.');
-                dispatch(removeToken());
-                // Redirect to login or perform other actions
+            if (error.response) {
+                console.error('Error response:', error.response);
+                if (error.response.data && error.response.data.msg === 'Token is not valid') {
+                    toast.error('Session expired. Please log in again.');
+                    dispatch(removeToken());
+                } else {
+                    toast.error('Error updating user profile37');
+                }
             } else {
-                toast.error('Error updating user profile');
+                console.error('Error:', error);
+                toast.error('Error updating user profile41');
             }
         }
     });

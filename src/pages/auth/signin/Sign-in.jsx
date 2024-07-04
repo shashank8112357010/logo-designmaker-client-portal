@@ -46,23 +46,24 @@ function SignIn() {
     mutationFn: signIn,
     onSuccess: (res) => {
       console.log(res);
+      const { message, isUserReq, user, token } = res.data;
       console.log("hey", res.data.message !== "OTP sent successfully");
-      if (res.data.message !== "OTP sent successfully") {
-          if(res.isUserReq==true){
-             navigate('/dashboard/overview')
-          }else{
-            navigate('/accountsetup')
-          }
-        dispatch(setUser({ user: res.data.user, ...res.data }))
-        toast.success(res.data.message);
-        setLoading(false)
-        dispatch(setToken(res.data.token))
+      if (message !== "OTP sent successfully") {
+        dispatch(setUser({ user, ...res.data }));
+        if (isUserReq) {
+          navigate('/dashboard/overview');
+        } else {
+          navigate('/accountsetup');
+        }
+        toast.success(message);
+        dispatch(setToken(token));
       } else {
-        toast.success(res.data.message);
+        toast.success(message);
         setShowOTP(true);
-        setLoading(false)
-        dispatch(setUser({ userId: res.data.userId }))
+        dispatch(setUser({ userId: res.data.userId }));
       }
+  
+      setLoading(false);
     },
     onError: (error) => {
       console.error('Error', error.response.data.message);

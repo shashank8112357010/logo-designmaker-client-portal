@@ -32,23 +32,24 @@ function AccountSetup() {
         user: state.account.user,
         userId: state.account.user.userId
     }));
-    
+
+    // const token = useSelector((state) => state.account.token);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const mutation = useMutation({
-        mutationFn: accountSetup,
+        mutationFn:accountSetup,
         onSuccess: (res) => {
             toast.success(res.data.message);
-            dispatch(updateFormData())
-            if (location.state?.isEditing) {
+            dispatch(updateFormData());
+            if (isEditing) {
                 navigate(previousRoute, { state: { isEditing: true } });
             } else {
                 navigate('/dashboard/overview');
             }
         },
         onError: (error) => {
-            console.error('Error response:', error);
             toast.error(error.response?.data?.message || 'An error occurred');
         }
     });
@@ -57,7 +58,6 @@ function AccountSetup() {
         Object.keys(newData).forEach((key) => {
             dispatch(updateProfileField({ field: key, value: newData[key] }));
         });
-        console.log('Form data after next step:', { ...formData, ...newData });
         setStep((prevStep) => prevStep + 1);
     };
 
@@ -69,7 +69,6 @@ function AccountSetup() {
         Object.keys(updatedFormData).forEach((key) => {
             dispatch(updateProfileField({ field: key, value: updatedFormData[key] }));
         });
-        console.log('Submitting form data:', { ...formData, ...updatedFormData });
         const payload = {
             ...formData,
             ...updatedFormData,

@@ -6,6 +6,7 @@ import { setUser } from '../../../store/accountSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { BeatLoader } from 'react-spinners';
+import { setToken } from '../../../helpers/token.helper';
 
 const Otp = () => {
     const [otpDigits, setOTPDigits] = useState(["", "", "", ""]);
@@ -33,11 +34,16 @@ const Otp = () => {
     const mutation = useMutation({
         mutationFn: signInOTPVerification,
         onSuccess: (res) => {
+            const { message, isUserReq, user, token } = res.data;
             console.log(res);
-            dispatch(setUser({ user: res.data.user, ...res.data }))
-            toast.success(res.data.message);
-            setLoading(false)
-            navigate('/accountsetup')
+            dispatch(setUser({ user, ...res.data }))
+            if (isUserReq) {
+                navigate('/dashboard/overview');
+              } else {
+                navigate('/accountsetup');
+              }
+              toast.success(message);
+              dispatch(setToken(token));
         },
         onError: (error) => {
             setLoading(false)

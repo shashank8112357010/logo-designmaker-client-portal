@@ -19,10 +19,6 @@ export const resetPassword = async ({ token, newPassword, confirmPassword }) => 
     return await axios.post(`http://localhost:4000/api/dashboard/resetPassword/${token}`, { newPassword, confirmPassword });
 };
 export const accountSetup = async (data) => {
-    console.log('Account setup data:', data);
-    if (!data.user || !data.user.userId) {
-        throw new Error('Missing user or userId in data');
-    }
     return await axios.post(`http://localhost:4000/api/dashboard/requirements/${data.user.userId}`, data);
 };
 

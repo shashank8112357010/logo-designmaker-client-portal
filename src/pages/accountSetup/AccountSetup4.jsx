@@ -15,8 +15,8 @@ function AccountSetupStep4({ formData, handleNextStep, handlePreviousStep }) {
     };
     const fontOption = [
         { name: "Roboto", class: "font-roboto" },
-        { name: "Open Sans", class: "font-open-sans" },
-        { name: "Poppins", class: "font-poppins" },
+        { name:  "Sans serif", class: "font-open-sans" },
+        { name: "Monospace", class: "font-monospace" },
         { name: "Merriweather", class: "font-merriweather" },
     ];
 
