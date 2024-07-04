@@ -47,6 +47,7 @@ function SignIn() {
     onSuccess: (res) => {
       console.log(res);
       const { message, isUserReq, user, token } = res.data;
+      
       console.log("hey", res.data.message !== "OTP sent successfully");
       if (message !== "OTP sent successfully") {
         dispatch(setUser({ user, ...res.data }));

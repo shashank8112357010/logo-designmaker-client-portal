@@ -15,7 +15,8 @@ const EditProfile = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [previewImage, setPreviewImage] = useState(profileImg?.url || '/img/profile.jpg');
     // const [isImageRemoved, setIsImageRemoved] = useState(false);
-
+      const formData = useSelector(state => state.account);
+    console.log(formData)
     const fileInputRef = useRef(null);
     useQuery({
         queryKey: ['getAccountSetupData'],
@@ -27,6 +28,7 @@ const EditProfile = () => {
         onError: () => {
             setPreviewImage('/img/profile.jpg');
         },
+        enabled:false
     });
 
     const mutation = useMutation({

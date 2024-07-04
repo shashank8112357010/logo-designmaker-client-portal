@@ -5,7 +5,7 @@ import Security from './Security';
 import Choices from './Choices';
 
 const UserProfile = () => {
-    const [activeTab, setActiveTab] = useState('Choices');
+    const [activeTab, setActiveTab] = useState('Edit Profile');
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);

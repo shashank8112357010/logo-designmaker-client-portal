@@ -7,12 +7,17 @@ import { useSelector } from 'react-redux';
 const Header = ({ heading }) => {
     const [showNotifications, setShowNotifications] = useState(false);
     const navigate = useNavigate();
-    const { username } = useSelector((state) => state.account);
+    const { username, profileImg } = useSelector((state) => state.account);
     const [username1, setUsername] = useState(username);
+    const [profileImage, setProfileImage] = useState(profileImg?.url || '/img/profile.jpg');
 
     useEffect(() => {
         setUsername(username);
     }, [username]);
+
+    useEffect(() => {
+        setProfileImage(profileImg?.url || '/img/profile.jpg');
+    }, [profileImg]);
 
     const toggleNotifications = () => {
         if (!showNotifications) {
@@ -43,7 +48,7 @@ const Header = ({ heading }) => {
     return (
         <header className="flex flex-col lg:flex-row sticky items-start lg:items-center justify-between p-2 bg-primaryBlack border-b-2 border-secondaryBlack h-16 lg:h-24 top-0 z-50">
             <h1 className="text-white text-3xl font-semibold ml-2 mb-4 lg:mb-0">{heading}</h1>
-            <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between  space-y-4 lg:space-y-0">
+            <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between space-y-4 lg:space-y-0">
                 <div className="ml-0 lg:ml-4 flex justify-center items-center space-x-4 lg:space-x-8 p-2 mr-6">
                     <div
                         className='bg-secondaryBlack rounded-full w-12 h-12 flex items-center justify-center relative cursor-pointer'
@@ -59,7 +64,7 @@ const Header = ({ heading }) => {
                     </div>
                     <div className='flex items-center cursor-pointer' onClick={() => navigate('/dashboard/settings')}>
                         <img
-                            src="/img/profile.jpg"
+                            src={profileImage}
                             alt="Profile"
                             className="h-12 w-12 rounded-full text-white"
                         />
