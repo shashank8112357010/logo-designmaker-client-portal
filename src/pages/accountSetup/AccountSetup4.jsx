@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 function AccountSetupStep4({ formData, handleNextStep, handlePreviousStep }) {
-    const [fontOptions, setSelectedFonts] = useState(formData?.selectedFonts || []);
+    const [fontOptions, setSelectedFonts] = useState(formData?.fontOptions || []);
 
     const handleFontSelect = (font) => {
         setSelectedFonts(prev =>

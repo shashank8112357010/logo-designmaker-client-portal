@@ -11,12 +11,7 @@ const initialState = {
     other: '',
     fontOptions: [],
     colorOptions: [],
-    user: null,
-    address: '',
-    city: '',
-    postalCode: '',
-    country: '',
-    profileImg: {},
+    user:null,
     token: null
 };
 
@@ -36,22 +31,23 @@ const accountSlice = createSlice({
             localStorage.setItem('token', token); // persist token in localStorage
             localStorage.setItem('user', JSON.stringify(user)); // persist user in localStorage
         },
-        
+
         removeToken: (state) => {
             state.token = null;
             state.user = null;
             state.userId = null;
+            Object.assign(state, initialState);
             localStorage.removeItem('token');
             localStorage.removeItem('user');
         },
-        
+
         resetFormData: () => initialState,
 
         updateProfileField: (state, action) => {
             const { field, value } = action.payload;
             state[field] = value;
         },
-        
+
         setToken: (state, action) => {
             const { token } = action.payload;
             state.token = token;

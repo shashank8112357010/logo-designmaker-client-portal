@@ -17,7 +17,7 @@ const ColorPalette = ({ palette, isSelected, onClick }) => (
 );
 
 function AccountSetupStep5({ formData = {}, handleSubmit }) {
-    const [colorOptions, setSelectedPalettes] = useState(formData.selectedPalettes || []);
+    const [colorOptions, setSelectedPalettes] = useState(formData.colorOptions || []);
 
     // const navigate=useNavigate();
     // const dispatch = useDispatch();

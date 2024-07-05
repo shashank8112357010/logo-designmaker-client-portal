@@ -7,8 +7,8 @@ import { toast } from 'react-toastify';
 
 const EditProfile = () => {
     const dispatch = useDispatch();
-    const { firstName, lastName, address, city, postalCode, country, profileImg, username } = useSelector(state => state.account);
-    const { workEmail, phoneNo } = useSelector(state => state.account.user || {});
+    const { firstName, lastName} = useSelector(state => state.account);
+    const { workEmail, phoneNo, username , address, city, postalCode, country, profileImg} = useSelector(state => state.account.user || {});
     const profile = { firstName, lastName, workEmail, phoneNo, username, address, city, postalCode, country, profileImg };
 
     const [localProfile, setLocalProfile] = useState(profile);

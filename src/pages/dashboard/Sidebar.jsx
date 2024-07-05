@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { HomeIcon, ClipboardDocumentListIcon, RectangleStackIcon, Cog6ToothIcon, QuestionMarkCircleIcon ,ArrowLeftStartOnRectangleIcon} from '@heroicons/react/24/solid';
 import { removeToken } from '../../store/accountSlice';
 import { useDispatch } from 'react-redux';
+import { persistor } from '../../store/store';
 
 const Sidebar = () => {
     const location = useLocation();
@@ -51,6 +52,7 @@ const Sidebar = () => {
 
     const handleLogout = () => {
         dispatch(removeToken());
+        persistor.purge();
         navigate('/auth/sign-in'); 
     };
 
