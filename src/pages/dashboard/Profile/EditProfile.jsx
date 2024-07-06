@@ -1,42 +1,69 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { getAccountSetupData, updateUserProfile } from '../../../services/api.service';
 import { updateProfileField } from '../../../store/accountSlice';
 import { toast } from 'react-toastify';
 
 const EditProfile = () => {
     const dispatch = useDispatch();
-    const { firstName, lastName} = useSelector(state => state.account);
-    const { workEmail, phoneNo, username , address, city, postalCode, country, profileImg} = useSelector(state => state.account.user || {});
-    const profile = { firstName, lastName, workEmail, phoneNo, username, address, city, postalCode, country, profileImg };
-
-    const [localProfile, setLocalProfile] = useState(profile);
-    const [isEditing, setIsEditing] = useState(false);
-    const [previewImage, setPreviewImage] = useState(profileImg?.url || '/img/profile.jpg');
-    // const [isImageRemoved, setIsImageRemoved] = useState(false);
-      const formData = useSelector(state => state.account);
-    console.log(formData)
     const fileInputRef = useRef(null);
-    useQuery({
+    const [isEditing, setIsEditing] = useState(false);
+    const [localProfile, setLocalProfile] = useState({});
+    const [previewImage, setPreviewImage] = useState('/img/profile.jpg');
+
+    const { data, isLoading, isError } = useQuery({
         queryKey: ['getAccountSetupData'],
         queryFn: getAccountSetupData,
-        onSuccess: (res) => {
-            const profileImageUrl = res.user.profileImg?.url || '/img/profile.jpg';
-            setPreviewImage(profileImageUrl);
-        },
-        onError: () => {
-            setPreviewImage('/img/profile.jpg');
-        },
-        enabled:false
+        // onSuccess: (res) => {
+        //     console.log('API Response:', res);
+        //     const profileImageUrl = res.user.profileImg?.url || '/img/profile.jpg';
+        //     setPreviewImage(profileImageUrl);
+        //     const userRequirements = res.user.userRequirements[0] || {};
+        //     setLocalProfile({
+        //         firstName: userRequirements.firstName,
+        //         lastName: userRequirements.lastName,
+        //         workEmail: res.user.workEmail,
+        //         phoneNo: res.user.phoneNo,
+        //         username: res.user.username,
+        //         address: res.user.address,
+        //         city: res.user.city,
+        //         postalCode: res.user.postalCode,
+        //         country: res.user.country,
+        //         profileImg: res.user.profileImg
+        //     });
+        // },
+        // onError: (err) => {
+        //     console.error('Error fetching data:', err);
+        //     setPreviewImage('/img/profile.jpg');
+        // }
     });
 
-    const mutation = useMutation({
-        mutationFn: updateUserProfile,
+    useEffect(() => {
+        if ( data?.user) {
+            const userRequirements = data.user.userRequirements[0] || {};
+            setLocalProfile({
+                firstName: userRequirements.firstName,
+                lastName: userRequirements.lastName,
+                workEmail: data.user.workEmail,
+                phoneNo: data.user.phoneNo,
+                username: data.user.username,
+                address: data.user.address,
+                city: data.user.city,
+                postalCode: data.user.postalCode,
+                country: data.user.country,
+               
+            });
+            setPreviewImage(data.user.profileImg?.url)
+        }
+    }, [ data]);
+
+    const mutation = useMutation( {
+        mutationFn:updateUserProfile,
         onSuccess: (res) => {
             const updatedData = {
                 ...res.user,
-                ...res.userReq,
+                ...res.user.userRequirements[0],
             };
             Object.entries(updatedData).forEach(([key, value]) => {
                 dispatch(updateProfileField({ field: key, value }));
@@ -65,7 +92,6 @@ const EditProfile = () => {
                 profileImg: file,
             }));
             setPreviewImage(URL.createObjectURL(file));
-            // setIsImageRemoved(false);
         }
     };
 
@@ -73,24 +99,10 @@ const EditProfile = () => {
         fileInputRef.current.click();
     };
 
-    // const handleRemoveImage = () => {
-    //     setLocalProfile((prevState) => ({
-    //         ...prevState,
-    //         profileImg: null,
-    //     }));
-    //     setPreviewImage('/img/profile.jpg');
-    //     setIsImageRemoved(true);
-    //     dispatch(updateProfileField({ field: 'profileImg', value: null }));
-    // };
-
     const handleSubmit = () => {
         const formData = new FormData();
         Object.entries(localProfile).forEach(([key, value]) => {
-            // if (key === 'profileImg' && isImageRemoved) {
-            //     formData.append(key, '');
-            // } else {
             formData.append(key, value);
-            // }
         });
 
         mutation.mutate(formData);
@@ -101,11 +113,26 @@ const EditProfile = () => {
     };
 
     const handleCancel = () => {
-        setLocalProfile(profile);
-        setPreviewImage(profileImg?.url || '/img/profile.jpg');
-        // setIsImageRemoved(false);
+        if (data?.user) {
+            const userRequirements = data.user.userRequirements[0] || {};
+            setLocalProfile({
+                firstName: userRequirements.firstName,
+                lastName: userRequirements.lastName,
+                workEmail: data.user.workEmail,
+                phoneNo: data.user.phoneNo,
+                username: data.user.username,
+                address: data.user.address,
+                city: data.user.city,
+                postalCode: data.user.postalCode,
+                country: data.user.country,
+            });
+            setPreviewImage(data.user.profileImg?.url || '/img/profile.jpg');
+        }
         setIsEditing(false);
     };
+
+    if (isLoading) return <div>Loading...</div>;
+    if (isError) return <div>Error loading data!</div>;
 
     return (
         <div className="relative">
@@ -118,9 +145,9 @@ const EditProfile = () => {
                 </button>
             )}
             <div className="flex items-start mt-4">
-                <div className=" mb-8 w-1/5 relative">
+                <div className="mb-8 w-1/5 relative">
                     <img
-                        src={previewImage || "/img/profile.jpg"}
+                        src={previewImage}
                         alt="Profile"
                         className="rounded-full w-36 h-36 mt-8 ml-2 object-cover"
                     />
@@ -139,12 +166,6 @@ const EditProfile = () => {
                             >
                                 <img src="/img/pencil.png" alt="edit" />
                             </button>
-                            {/* <button
-                                className="ml-4 mt-4 bg-red-500 text-primaryBlack font-medium py-2 px-2 rounded-full"
-                                onClick={handleRemoveImage}
-                            >
-                                Remove Profile
-                            </button> */}
                         </>
                     )}
                 </div>

@@ -45,7 +45,7 @@ function SignIn() {
   const mutation = useMutation({
     mutationFn: signIn,
     onSuccess: (res) => {
-      console.log(res);
+      // console.log(res);
       const { message, isUserReq, user, token } = res.data;
       
       console.log("hey", res.data.message !== "OTP sent successfully");

@@ -44,7 +44,13 @@ export const updatePreferences= async ({isGeneralNotification,isPlatformUpdates,
 };
 
 export const getAccountSetupData = async () => {
-    return await axios.get(`http://localhost:4000/api/dashboard/userDetailsAndReq`);
+    try {
+        const response = await axios.get('http://localhost:4000/api/dashboard/userDetailsAndReq');
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching account setup data:', error);
+        throw error;
+    }
 };
 
 export const updateChoices= async (data) => {

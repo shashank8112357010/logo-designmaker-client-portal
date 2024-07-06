@@ -12,50 +12,45 @@ const Choices = () => {
     const location = useLocation();
     const accountSetupValues = useSelector((state) => state.account);
     const [isEditing, setIsEditing] = useState(false);
+    const [choices, setChoices] = useState({});
 
-    const initialChoices = {
-        brandName: accountSetupValues.brandName || '',
-        slogan: accountSetupValues.slogan || '',
-        designRequirements: accountSetupValues.designRequirements || [],
-        niche: accountSetupValues.niche || [],
-        fontOptions: accountSetupValues.fontOptions || [],
-        colorOptions: accountSetupValues.colorOptions || []
-    };
-
-    console.log(initialChoices);
-    const [choices, setChoices] = useState(initialChoices);
-
-    const { refetch } = useQuery({
-        queryKey: ['accountSetupData'],
+    const { data, isLoading, isError, refetch } = useQuery({
+        queryKey: ['getAccountSetupData'],
         queryFn: getAccountSetupData,
-        onSuccess: (res) => {
-            toast.success(res.message);
-
-            if (res.user && res.user.userRequirements && res.user.userRequirements.length > 0) {
-                const userRequirements = res.user.userRequirements[0];
-                const updatedChoices = {
-                    brandName: userRequirements.brandName || '',
-                    slogan: userRequirements.slogan || '',
-                    designRequirements: userRequirements.designRequirements || [],
-                    niche: userRequirements.niche || [],
-                    fontOptions: userRequirements.fontOptions || [],
-                    colorOptions: userRequirements.colorOptions || []
-                };
-
-                dispatch(updateFormData(updatedChoices));
-                setChoices(updatedChoices);
-            }
-        },
-        onError: (error) => {
-            toast.error(error.response?.data?.message || 'Failed to fetch data');
-        },
-        enabled: false, // Disable automatic query on mount
+        // onSuccess: (res) => {
+        //     toast.success(res.message);
+        //     if (res.user && res.user.userRequirements && res.user.userRequirements.length > 0) {
+        //         const userRequirements = res.user.userRequirements[0];
+        //         const updatedChoices = {
+        //             brandName: userRequirements.brandName || '',
+        //             slogan: userRequirements.slogan || '',
+        //             designRequirements: userRequirements.designRequirements || [],
+        //             niche: userRequirements.niche || [],
+        //             fontOptions: userRequirements.fontOptions || [],
+        //             colorOptions: userRequirements.colorOptions || []
+        //         };
+        //         setChoices(updatedChoices);
+        //         dispatch(updateFormData(updatedChoices));
+        //     }
+        // },
+        // onError: (error) => {
+        //     toast.error(error.response?.data?.message || 'Failed to fetch data');
+        // },
     });
 
-
-    // useEffect(() => {
-    //      setChoices(initialChoices);
-    // }, [initialChoices]);
+    useEffect(() => {
+        if (data?.user) {
+            const userRequirements = data.user.userRequirements[0] || {};
+            setChoices({
+                brandName: userRequirements.brandName,
+                slogan: userRequirements.slogan,
+                designRequirements: userRequirements.designRequirements || [],
+                niche: userRequirements.niche || [],
+                fontOptions: userRequirements.fontOptions || [],
+                colorOptions: userRequirements.colorOptions || []
+        })
+        }
+    }, [ data]);
 
     useEffect(() => {
         if (location.state?.isEditing) {
@@ -78,7 +73,6 @@ const Choices = () => {
 
     const handleEdit = () => {
         setIsEditing(true);
-        navigate('/accountsetup', { state: { isEditing: true, previousRoute: '/dashboard/settings' } });
     };
 
     const handleSave = () => {
@@ -86,24 +80,18 @@ const Choices = () => {
     };
 
     const handleCancel = () => {
-        refetch().then((res) => {
-            if (res.user && res.user.userRequirements && res.user.userRequirements.length > 0) {
-                const userRequirements = res.user.userRequirements[0];
-                const updatedChoices = {
-                    brandName: userRequirements.brandName || '',
-                    slogan: userRequirements.slogan || '',
-                    designRequirements: userRequirements.designRequirements || [],
-                    niche: userRequirements.niche || [],
-                    fontOptions: userRequirements.fontOptions || [],
-                    colorOptions: userRequirements.colorOptions || []
-                };
-                setChoices(updatedChoices);
-                setIsEditing(false);
-            }
-        }).catch((error) => {
-            toast.error('Failed to fetch data');
-            console.error(error);
-        });
+        if (data?.user) {
+            const userRequirements = data.user.userRequirements[0] || {};
+            setChoices({
+                brandName: userRequirements.brandName,
+                slogan: userRequirements.slogan,
+                designRequirements: userRequirements.designRequirements,
+                niche: userRequirements.niche,
+                fontOptions: userRequirements.fontOptions,
+                colorOptions: userRequirements.colorOptions,
+            });
+        }
+        setIsEditing(false);
     };
 
     const handleChange = (e) => {
@@ -113,6 +101,9 @@ const Choices = () => {
             [name]: value,
         }));
     };
+
+    if (isLoading) return <div>Loading...</div>;
+    if (isError) return <div>Error loading data!</div>;
 
     return (
         <div className="rounded-xl">
