@@ -8,7 +8,7 @@ import AccountSetupStep2 from './AccountSetup2';
 import AccountSetupStep3 from './AccountSetup3';
 import AccountSetupStep4 from './AccountSetup4';
 import AccountSetupStep5 from './AccountSetup5';
-import { setToken, updateFormData, updateProfileField } from '../../store/accountSlice';
+import { setToken, updateProfileField } from '../../store/accountSlice';
 import { accountSetup } from '../../services/api.service';
 import AccountSetupLayout from './Layout';
 
@@ -29,32 +29,27 @@ function AccountSetup() {
         other: state.account.other,
         fontOptions: state.account.fontOptions,
         colorOptions: state.account.colorOptions,
-        // user: state.account.user,
-        // userId: state.account.user.userId
+        user: state.account.user,
+        userId: state.account.user.userId,
+        token: state.account.token,
     }));
-
-    // const token = useSelector((state) => state.account.token);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const mutation = useMutation({
-        mutationFn:accountSetup,
-        
+        mutationFn: accountSetup,
+
         onSuccess: (res) => {
-            const { message, token, }=res.data
-            toast.success(message);
-            dispatch(updateFormData());
-            dispatch(setToken(token));
-            if (isEditing) {
-                navigate(previousRoute, { state: { isEditing: true } });
-            } else {
-                navigate('/dashboard/overview');
-                dispatch(setToken(token));
-            }
+            toast.success(res.data.message);
+            const token = res.data.token;
+            console.log('Setting token:', token);
+            dispatch(setToken({ token }));
+            navigate('/dashboard/overview');
         },
         onError: (error) => {
-            toast.error(error.response?.data?.message || 'An error occurred');
+            console.log(error.message)
+            toast.error(error.message);
         }
     });
 
@@ -70,6 +65,7 @@ function AccountSetup() {
     };
 
     const handleSubmit = (updatedFormData) => {
+        console.log('isEditing:', isEditing); // Debug log
         Object.keys(updatedFormData).forEach((key) => {
             dispatch(updateProfileField({ field: key, value: updatedFormData[key] }));
         });
@@ -77,10 +73,11 @@ function AccountSetup() {
             ...formData,
             ...updatedFormData,
         };
-        if(!isEditing){
+        console.log(payload)
+        if (!isEditing) {
             mutation.mutate(payload);
-        }else{
-            navigate(previousRoute, { state: { isEditing: true } });
+        } else {
+            navigate(previousRoute, { state: { isEditing: true, fromAccountSetup: true } });
         }
     };
 

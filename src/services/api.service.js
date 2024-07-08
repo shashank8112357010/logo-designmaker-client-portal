@@ -19,7 +19,8 @@ export const resetPassword = async ({ token, newPassword, confirmPassword }) => 
     return await axios.post(`http://localhost:4000/api/dashboard/resetPassword/${token}`, { newPassword, confirmPassword });
 };
 export const accountSetup = async (data) => {
-    return await axios.post(`http://localhost:4000/api/dashboard/requirements/${data.user.userId}`, data);
+    const response =await axios.post(`http://localhost:4000/api/dashboard/requirements/${data.userId}`, data);
+    return response;
 };
 
 export const updateUserProfile = async (data) => {

@@ -1,11 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import EditProfile from './EditProfile';
 import Preferences from './Preferences';
 import Security from './Security';
 import Choices from './Choices';
 
 const UserProfile = () => {
+    const location = useLocation();
     const [activeTab, setActiveTab] = useState('Edit Profile');
+
+    useEffect(() => {
+        if (location.state?.fromAccountSetup) {
+            setActiveTab('Choices');
+        }
+    }, [location.state]);
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);

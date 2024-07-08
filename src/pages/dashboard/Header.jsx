@@ -10,14 +10,14 @@ const Header = ({ heading }) => {
     const { username } = useSelector((state) => state.account.user);
     const { profileImg } = useSelector((state) => state.account.user);
     const [username1, setUsername] = useState(username);
-    const [profileImage, setProfileImage] = useState(profileImg || '/img/profile.jpg');
+    const [profileImage, setProfileImage] = useState(profileImg?.url || '/img/profile.jpg');
 
     useEffect(() => {
         setUsername(username);
     }, [username]);
 
     useEffect(() => {
-        setProfileImage(profileImg || '/img/profile.jpg');
+        setProfileImage(profileImg?.url || '/img/profile.jpg');
     }, [profileImg]);
 
     const toggleNotifications = () => {

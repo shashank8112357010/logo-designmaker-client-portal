@@ -24,7 +24,7 @@ export const useSignIn = () => {
       const { message, isUserReq, user, token,userReq } = res.data;
 
       if (message !== "OTP sent successfully") {
-        dispatch(setUser({ user }));
+        dispatch(setUser({ user,...res.data }));
         if (isUserReq) {
           navigate('/dashboard/overview');
           const { firstName, lastName, businessName,brandName,slogan, designRequirements, niche, other, fontOptions, colorOptions } = userReq;

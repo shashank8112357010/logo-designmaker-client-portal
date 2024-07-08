@@ -7,6 +7,8 @@ import { useMutation } from "@tanstack/react-query";
 import LeftSide from "../../../components/LeftSide.jsx";
 import { signUp } from "../../../services/api.service.js";
 import { toast } from "react-toastify";
+import { BeatLoader } from "react-spinners";
+
 
 export function SignUp() {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -23,6 +25,8 @@ export function SignUp() {
     minLength: false,
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false)
+
   const navigate = useNavigate()
 
   const togglePasswordVisibility = () => {
@@ -76,17 +80,20 @@ export function SignUp() {
       console.log(res);
       toast.success(res.data.message);
        navigate('/auth/sign-in')
+      setLoading(false);
        setIsSubmitted(true);
     },
     onError: (error) => {
       console.error('Error', error.response.data.message);
       toast.error( error.response.data.message)
+      setLoading(false);
     }
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isFormValid()) {
+      setLoading(true);
       mutation.mutate({ workEmail :email, username, phoneNo :phonenumber, password });
     }
   };
@@ -236,7 +243,9 @@ export function SignUp() {
                   type="submit"
                   className={`mt-6 w-full p-3 font-bold bg-primaryGreen text-primaryBlack rounded-lg ${isFormValid() ? "cursor-pointer" : "cursor-not-allowed hover:bg-primaryGrey"}`}
                   disabled={!isFormValid()}
-                >Get started free</button>
+                >{
+                  loading ? <BeatLoader size={12} /> : "Get started Free"
+                }</button>
                 <p className="text-center text-white font-medium mt-4">
                   Already have an account?
                   <Link to="/auth/sign-in" className="text-primaryGreen ml-1">Login</Link>

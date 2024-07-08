@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { useDispatch } from 'react-redux';
 import { getAccountSetupData, updateUserProfile } from '../../../services/api.service';
-import { updateProfileField } from '../../../store/accountSlice';
+import { updateFormData, updateProfileField } from '../../../store/accountSlice';
 import { toast } from 'react-toastify';
 
 const EditProfile = () => {
@@ -40,14 +40,14 @@ const EditProfile = () => {
         mutationFn: updateUserProfile,
         onSuccess: (res) => {
             console.log(res)
+            const user=res.user;
             const updatedData = {  
-                ...res.user,
+                user,
                 ...res.userReq
             };
+            dispatch(updateFormData(updatedData));
             console.log(updatedData)
-            Object.entries(updatedData).forEach(([key, value]) => {
-                dispatch(updateProfileField({ field: key, value }));
-            });
+            
             toast.success(res.message);
             setIsEditing(false);
         },

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { updateChoices, getAccountSetupData } from '../../../services/api.service';
-import { updateFormData } from '../../../store/accountSlice';
+import { setupFields, updateFormData } from '../../../store/accountSlice';
 import { toast } from 'react-toastify';
 
 const Choices = () => {
@@ -22,34 +22,26 @@ const Choices = () => {
         colorOptions: accountSetupValues.colorOptions || []
     };
 
-    console.log(initialChoices);
     const [choices, setChoices] = useState(initialChoices);
 
-    const { refetch } = useQuery({
+    const { data, isLoading, isError} = useQuery({
         queryKey: ['accountSetupData'],
         queryFn: getAccountSetupData,
-        onSuccess: (res) => {
-            toast.success(res.message);
-
-            if (res.user && res.user.userRequirements && res.user.userRequirements.length > 0) {
-                const userRequirements = res.user.userRequirements[0];
-                const updatedChoices = {
-                    brandName: userRequirements.brandName || '',
-                    slogan: userRequirements.slogan || '',
-                    designRequirements: userRequirements.designRequirements || [],
-                    niche: userRequirements.niche || [],
-                    fontOptions: userRequirements.fontOptions || [],
-                    colorOptions: userRequirements.colorOptions || []
-                };
-
-                dispatch(updateFormData(updatedChoices));
-                setChoices(updatedChoices);
-            }
-        },
-        onError: (error) => {
-            toast.error(error.response?.data?.message || 'Failed to fetch data');
-        },
     });
+
+    // useEffect(() => {
+    //     if (data?.user) {
+    //         const userRequirements = data.user.userRequirements[0];
+    //         setChoices({
+    //             brandName: userRequirements.brandName || '',
+    //             slogan: userRequirements.slogan || '',
+    //             designRequirements: userRequirements.designRequirements || [],
+    //             niche: userRequirements.niche || [],
+    //             fontOptions: userRequirements.fontOptions || [],
+    //             colorOptions: userRequirements.colorOptions || [],
+    //         });
+    //     }
+    // }, [data]);
 
     useEffect(() => {
         if (location.state?.isEditing) {
@@ -63,7 +55,7 @@ const Choices = () => {
         onSuccess: (data) => {
             toast.success('Data saved successfully');
             setIsEditing(false);
-            dispatch(updateFormData(data));
+            dispatch(updateFormData(data.userReq));
         },
         onError: (error) => {
             toast.error(error.response?.data?.message || 'Failed to update data');
@@ -80,24 +72,31 @@ const Choices = () => {
     };
 
     const handleCancel = () => {
-        refetch().then((res) => {
-            if (res.user && res.user.userRequirements && res.user.userRequirements.length > 0) {
-                const userRequirements = res.user.userRequirements[0];
-                const updatedChoices = {
-                    brandName: userRequirements.brandName || '',
-                    slogan: userRequirements.slogan || '',
-                    designRequirements: userRequirements.designRequirements || [],
-                    niche: userRequirements.niche || [],
-                    fontOptions: userRequirements.fontOptions || [],
-                    colorOptions: userRequirements.colorOptions || []
-                };
-                setChoices(updatedChoices);
-                setIsEditing(false);
-            }
-        }).catch((error) => {
-            toast.error('Failed to fetch data');
-            console.error(error);
-        });
+        if (data?.user) {
+                    const userRequirements = data.user.userRequirements[0];
+                    setChoices({
+                        brandName: userRequirements.brandName || '',
+                        slogan: userRequirements.slogan || '',
+                        designRequirements: userRequirements.designRequirements || [],
+                        niche: userRequirements.niche || [],
+                        fontOptions: userRequirements.fontOptions || [],
+                        colorOptions: userRequirements.colorOptions || [],
+                    });
+                    dispatch(setupFields({
+                        firstName: userRequirements.firstName || '',
+                        lastName: userRequirements.lastName || '',
+                        businessName: userRequirements.businessName || '',
+                        brandName: userRequirements.brandName || '',
+                        slogan: userRequirements.slogan || '',
+                        designRequirements: userRequirements.designRequirements || [],
+                        niche: userRequirements.niche || [],
+                        other:userRequirements.other || '',
+                        fontOptions: userRequirements.fontOptions || [],
+                        colorOptions: userRequirements.colorOptions || [],
+                    }))
+                }
+                
+        setIsEditing(false);
     };
 
     const handleChange = (e) => {
@@ -107,6 +106,9 @@ const Choices = () => {
             [name]: value,
         }));
     };
+
+    // if (isLoading) return <div>Loading...</div>;
+    // if (isError) return <div>Error loading data!</div>;
 
     return (
         <div className="rounded-xl">
