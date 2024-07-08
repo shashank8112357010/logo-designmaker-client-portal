@@ -3,20 +3,31 @@ import ToggleSwitch from '../../../components/ToggleSwitch';
 import { useMutation } from '@tanstack/react-query';
 import { updatePreferences } from '../../../services/api.service';
 import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateNotification } from '../../../store/accountSlice';
 
 const Preferences = () => {
     const [currency, setCurrency] = useState('USD');
     const [timeZone, setTimeZone] = useState('(GMT-12:00) International Date Line West');
+    const dispatch = useDispatch();
+    const general = useSelector((state) => state.account.user.generalNotification);
+    const platform = useSelector((state) => state.account.user.platformUpdates);
+    const promotion= useSelector((state) => state.account.user.promotion);
     const [preferences, setPreferences] = useState({
-        isGeneralNotification: false,
-        isPlatformUpdates: false,
-        isPromotions: false,
+        isGeneralNotification: general,
+        isPlatformUpdates: platform,
+        isPromotions: promotion,
     });
 
     const mutation = useMutation({
         mutationFn: updatePreferences,
         onSuccess: (res) => {
             toast.success(res.data.message);
+            dispatch(updateNotification({
+                generalNotification: preferences.isGeneralNotification,
+                platformUpdates: preferences.isPlatformUpdates,
+                promotion: preferences.isPromotions,
+            }));
         },
         onError: (error) => {
             toast.error(error.response.data.message);
@@ -28,11 +39,9 @@ const Preferences = () => {
             ...prevState,
             [type]: !prevState[type]
         }));
-        
-        // Trigger the API call with the updated preferences
         mutation.mutate({
             ...preferences,
-            [type]: !preferences[type]  // Ensure the mutation is called with the latest state
+            [type]: !preferences[type]
         });
     };
 
@@ -76,9 +85,9 @@ const Preferences = () => {
                     label="Promotion"
                 />
             </div>
-            <div className="flex justify-end">
+            {/* <div className="flex justify-end">
                 <button className="bg-primaryGreen font-bold text-primaryBlack px-12 py-2 rounded">Save</button>
-            </div>
+            </div> */}
         </div>
     );
 };

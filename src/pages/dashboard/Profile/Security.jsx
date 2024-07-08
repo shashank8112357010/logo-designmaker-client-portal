@@ -3,9 +3,13 @@ import ToggleSwitch from '../../../components/ToggleSwitch';
 import { useMutation } from '@tanstack/react-query';
 import { toggleTwoFactorAuth, updatePassword } from '../../../services/api.service';
 import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateTwoFactor } from '../../../store/accountSlice';
 
 const Security = () => {
-    const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
+    const dispatch = useDispatch();
+    const twoFactor = useSelector((state) => state.account.user.twoFactor);
+    const [twoFactorEnabled, setTwoFactorEnabled] = useState(twoFactor);
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
 
@@ -23,6 +27,7 @@ const Security = () => {
         mutationFn: toggleTwoFactorAuth,
         onSuccess: (res) => {
             toast.success(res.data.message);
+            dispatch(updateTwoFactor(twoFactorEnabled));
         },
         onError: (error) => {
             toast.error(error.response.data.message);

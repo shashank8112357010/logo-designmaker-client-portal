@@ -15,32 +15,10 @@ const EditProfile = () => {
     const { data, isLoading, isError } = useQuery({
         queryKey: ['getAccountSetupData'],
         queryFn: getAccountSetupData,
-        // onSuccess: (res) => {
-        //     console.log('API Response:', res);
-        //     const profileImageUrl = res.user.profileImg?.url || '/img/profile.jpg';
-        //     setPreviewImage(profileImageUrl);
-        //     const userRequirements = res.user.userRequirements[0] || {};
-        //     setLocalProfile({
-        //         firstName: userRequirements.firstName,
-        //         lastName: userRequirements.lastName,
-        //         workEmail: res.user.workEmail,
-        //         phoneNo: res.user.phoneNo,
-        //         username: res.user.username,
-        //         address: res.user.address,
-        //         city: res.user.city,
-        //         postalCode: res.user.postalCode,
-        //         country: res.user.country,
-        //         profileImg: res.user.profileImg
-        //     });
-        // },
-        // onError: (err) => {
-        //     console.error('Error fetching data:', err);
-        //     setPreviewImage('/img/profile.jpg');
-        // }
     });
 
     useEffect(() => {
-        if ( data?.user) {
+        if (data?.user) {
             const userRequirements = data.user.userRequirements[0] || {};
             setLocalProfile({
                 firstName: userRequirements.firstName,
@@ -52,19 +30,21 @@ const EditProfile = () => {
                 city: data.user.city,
                 postalCode: data.user.postalCode,
                 country: data.user.country,
-               
-            });
-            setPreviewImage(data.user.profileImg?.url)
-        }
-    }, [ data]);
 
-    const mutation = useMutation( {
-        mutationFn:updateUserProfile,
+            });
+            setPreviewImage(data.user.profileImg?.url || '/img/profile.jpg')
+        }
+    }, [data]);
+
+    const mutation = useMutation({
+        mutationFn: updateUserProfile,
         onSuccess: (res) => {
-            const updatedData = {
+            console.log(res)
+            const updatedData = {  
                 ...res.user,
-                ...res.user.userRequirements[0],
+                ...res.userReq
             };
+            console.log(updatedData)
             Object.entries(updatedData).forEach(([key, value]) => {
                 dispatch(updateProfileField({ field: key, value }));
             });
@@ -102,10 +82,24 @@ const EditProfile = () => {
     const handleSubmit = () => {
         const formData = new FormData();
         Object.entries(localProfile).forEach(([key, value]) => {
-            formData.append(key, value);
+            if (value instanceof Array) {
+                value.forEach((val, i) => formData.append(`${key}[${i}]`, val));
+            } else if (value instanceof Object && !(value instanceof File)) {
+                Object.entries(value).forEach(([subKey, subValue]) => {
+                    formData.append(`${key}[${subKey}]`, subValue);
+                });
+            } else {
+                formData.append(key, value);
+            }
         });
 
+        // // Logging FormData contents for debugging
+        // for (let [key, value] of formData.entries()) {
+        //     console.log(key, value);
+        // }
+
         mutation.mutate(formData);
+        setIsEditing(false)
     };
 
     const handleEdit = () => {

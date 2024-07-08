@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { Auth } from "../src/layouts/auth"
 import AccountSetup from "./pages/accountSetup/AccountSetup";
 import Dashboard from "./layouts/dashboard";
@@ -28,6 +28,7 @@ function App() {
   return (
     <>
       <Routes>
+      <Route path="/" element={<Navigate to="/auth/sign-in" />} />
         <Route path="*" element={<NoPageFound />} />
         <Route path="/auth/*" element={<Auth />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />

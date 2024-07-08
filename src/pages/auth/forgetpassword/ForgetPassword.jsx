@@ -6,30 +6,35 @@ import { resetPasswordLinkSend } from "../../../services/api.service";
 import EmailSent from "./EmailSent";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import { BeatLoader } from "react-spinners";
 
 function ForgotPassword() {
     const [workEmail, setEmail] = useState("");
     const [showSentMail, setShowSentMail] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
     };
 
-const mutation=useMutation({
-    mutationFn:resetPasswordLinkSend,
-    onSuccess:(res)=>{
-        toast.success(res.message)
-        setShowSentMail(true)
-    },
-    onError:(error)=>{
-        toast.error(error.response.data.message)
-    }
-})
+    const mutation = useMutation({
+        mutationFn: resetPasswordLinkSend,
+        onSuccess: (res) => {
+            toast.success(res.message);
+            setShowSentMail(true);
+            setLoading(false);
+        },
+        onError: (error) => {
+            toast.error(error.response.data.message);
+            setLoading(false);
+        },
+    });
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-      mutation.mutate({workEmail})
-    }
+        setLoading(true);
+        mutation.mutate({ workEmail });
+    };
 
     return (
         <>
@@ -69,7 +74,7 @@ const mutation=useMutation({
                                             </div>
                                         </div>
                                         <button type="submit" className="mt-6 w-full p-3 bg-primaryGreen text-primaryBlack font-bold rounded-lg">
-                                            Send Reset Link
+                                            {loading ? <BeatLoader size={12} color="#000000" /> : "Send Reset Link"}
                                         </button>
                                         <p className="text-center text-white font-medium mt-4">
                                             Remember your password?
@@ -86,4 +91,4 @@ const mutation=useMutation({
     );
 }
 
-export default ForgotPassword
+export default ForgotPassword;

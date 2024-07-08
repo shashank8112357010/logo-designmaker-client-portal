@@ -23,6 +23,7 @@ const accountSlice = createSlice({
             return { ...state, ...action.payload };
         },
 
+
         setUser: (state, action) => {
             const { user, token, userId } = action.payload;
             state.user = user;
@@ -30,6 +31,19 @@ const accountSlice = createSlice({
             state.token = token;
             localStorage.setItem('token', token); // persist token in localStorage
             localStorage.setItem('user', JSON.stringify(user)); // persist user in localStorage
+        },
+        setupFields: (state, action) => {
+            const { firstName, lastName, designRequirements, businessName,brandName,slogan, niche, other, fontOptions, colorOptions } = action.payload;
+            state.firstName = firstName;
+            state.lastName = lastName;
+            state.businessName=businessName;
+            state.brandName=brandName;
+            state.slogan=slogan;
+            state.designRequirements = designRequirements;
+            state.niche = niche;
+            state.other = other;
+            state.fontOptions = fontOptions;
+            state.colorOptions = colorOptions;
         },
 
         removeToken: (state) => {
@@ -52,10 +66,19 @@ const accountSlice = createSlice({
             const { token } = action.payload;
             state.token = token;
             localStorage.setItem('token', token);
-        }
+        },
+
+        updateTwoFactor: (state, action) => {
+            state.user.twoFactor = action.payload;
+        },
+        updateNotification: (state, action) => {
+            state.user.generalNotification = action.payload.generalNotification;
+            state.user.platformUpdates = action.payload.platformUpdates;
+            state.user.promotion = action.payload.promotion;
+        },
     },
 });
 
-export const { updateFormData, setUser, removeToken, resetFormData, updateProfileField, setToken } = accountSlice.actions;
+export const { updateFormData, setUser, removeToken, resetFormData, updateProfileField, setToken ,updateTwoFactor,updateNotification,setupFields} = accountSlice.actions;
 
 export default accountSlice.reducer;

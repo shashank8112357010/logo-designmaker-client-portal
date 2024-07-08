@@ -1,22 +1,24 @@
-import { useMutation } from '@tanstack/react-query';
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import { signInOTPVerification } from '../../../services/api.service';
-import { setUser } from '../../../store/accountSlice';
+import { useMutation } from '@tanstack/react-query';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { BeatLoader } from 'react-spinners';
+import { signInOTPVerification } from '../../../services/api.service';
+import { setupFields, setUser } from '../../../store/accountSlice';
 import { setToken } from '../../../helpers/token.helper';
+import {useSignIn} from './Sign-in';
 
-const Otp = () => {
+const Otp = ({ workEmail, password }) => {
     const [otpDigits, setOTPDigits] = useState(["", "", "", ""]);
     const [timer, setTimer] = useState(60);
     const [isResendEnabled, setIsResendEnabled] = useState(false);
     const navigate = useNavigate();
     const otpRefs = useRef([]);
     const dispatch = useDispatch();
-    const { userId } = useSelector((state) => state.account)
-    const [lodaing, setLoading] = useState(false)
+    const { userId } = useSelector((state) => state.account);
+    const [loading, setLoading] = useState(false);
+    const { handleSubmitLoginAPIService } = useSignIn();
 
     useEffect(() => {
         let interval;
@@ -30,41 +32,48 @@ const Otp = () => {
         return () => clearInterval(interval);
     }, [timer]);
 
-
-    const mutation = useMutation({
+    const otpVerificationMutation = useMutation({
         mutationFn: signInOTPVerification,
         onSuccess: (res) => {
-            const { message, isUserReq, user, token } = res.data;
-            console.log(res);
-            dispatch(setUser({ user, ...res.data }))
+            const { message, isUserReq, user, token ,userReq } = res.data;
+            dispatch(setUser({ user , ...res.data}));
             if (isUserReq) {
+                const { firstName, lastName, businessName,brandName,slogan, designRequirements, niche, other, fontOptions, colorOptions } = userReq;
+                dispatch(setupFields({
+                    firstName,
+                    lastName,
+                    businessName,
+                    brandName,
+                    slogan,
+                    designRequirements,
+                    niche,
+                    other,
+                    fontOptions,
+                    colorOptions
+                }));
                 navigate('/dashboard/overview');
-              } else {
+            } else {
                 navigate('/accountsetup');
-              }
-              toast.success(message);
-              dispatch(setToken(token));
+            }
+            toast.success(message);
+            dispatch(setToken(token));
         },
         onError: (error) => {
-            setLoading(false)
-            console.error('Error', error.response.data.message);
-            toast.error(error.response.data.message)
+            setLoading(false);
+            toast.error(error.response.data.message);
         }
     });
-
 
     const isFormValid = () => {
         return otpDigits.every(digit => digit !== '');
     };
 
-
     const handleOTPSubmit = (e) => {
         e.preventDefault();
-        setLoading(true)
+        setLoading(true);
         if (isFormValid()) {
             const otp = otpDigits.join('');
-            mutation.mutate({ otp, userId });
-
+            otpVerificationMutation.mutate({ otp, userId });
         } else {
             setLoading(false);
             toast.error('Please enter a valid 4-digit OTP.');
@@ -90,6 +99,7 @@ const Otp = () => {
 
     const handleResendClick = () => {
         if (isResendEnabled) {
+            handleSubmitLoginAPIService(workEmail, password);
             setTimer(60);
             setIsResendEnabled(false);
         }
@@ -136,10 +146,7 @@ const Otp = () => {
                     </span>
                 </div>
                 <button type="submit" className="mt-4 w-full p-3 bg-primaryGreen text-primaryBlack font-bold rounded-lg">
-
-                    {
-                        lodaing ? <BeatLoader size={12} /> : "Proceed"
-                    }
+                    {loading ? <BeatLoader size={12} /> : "Proceed"}
                 </button>
             </form>
         </div>

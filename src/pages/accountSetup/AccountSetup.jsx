@@ -8,7 +8,7 @@ import AccountSetupStep2 from './AccountSetup2';
 import AccountSetupStep3 from './AccountSetup3';
 import AccountSetupStep4 from './AccountSetup4';
 import AccountSetupStep5 from './AccountSetup5';
-import { updateFormData, updateProfileField } from '../../store/accountSlice';
+import { setToken, updateFormData, updateProfileField } from '../../store/accountSlice';
 import { accountSetup } from '../../services/api.service';
 import AccountSetupLayout from './Layout';
 
@@ -29,8 +29,8 @@ function AccountSetup() {
         other: state.account.other,
         fontOptions: state.account.fontOptions,
         colorOptions: state.account.colorOptions,
-        user: state.account.user,
-        userId: state.account.user.userId
+        // user: state.account.user,
+        // userId: state.account.user.userId
     }));
 
     // const token = useSelector((state) => state.account.token);
@@ -40,13 +40,17 @@ function AccountSetup() {
 
     const mutation = useMutation({
         mutationFn:accountSetup,
+        
         onSuccess: (res) => {
-            toast.success(res.data.message);
+            const { message, token, }=res.data
+            toast.success(message);
             dispatch(updateFormData());
+            dispatch(setToken(token));
             if (isEditing) {
                 navigate(previousRoute, { state: { isEditing: true } });
             } else {
                 navigate('/dashboard/overview');
+                dispatch(setToken(token));
             }
         },
         onError: (error) => {

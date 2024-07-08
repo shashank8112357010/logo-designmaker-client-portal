@@ -8,20 +8,108 @@ import Otp from "./Otp";
 import { signIn } from "../../../services/api.service";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import { setUser } from "../../../store/accountSlice";
+import { setUser,setupFields } from "../../../store/accountSlice";
 import { useDispatch } from "react-redux";
 import { BeatLoader } from "react-spinners";
 import { setToken } from "../../../helpers/token.helper";
 
+export const useSignIn = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+
+  const mutation = useMutation({
+    mutationFn: signIn,
+    onSuccess: (res) => {
+      const { message, isUserReq, user, token,userReq } = res.data;
+
+      if (message !== "OTP sent successfully") {
+        dispatch(setUser({ user }));
+        if (isUserReq) {
+          navigate('/dashboard/overview');
+          const { firstName, lastName, businessName,brandName,slogan, designRequirements, niche, other, fontOptions, colorOptions } = userReq;
+          dispatch(setupFields({
+              firstName,
+              lastName,
+              businessName,
+              brandName,
+              slogan,
+              designRequirements,
+              niche,
+              other,
+              fontOptions,
+              colorOptions
+          }));
+        } else {
+          navigate('/accountsetup');
+          dispatch(setToken(token));
+        }
+        toast.success(message);
+        dispatch(setToken(token));
+      } else {
+        toast.success(message);
+        dispatch(setUser({ userId: res.data.userId }));
+        
+      }
+
+      setLoading(false);
+    },
+    onError: (error) => {
+      setLoading(false);
+      toast.error(error.response.data.message);
+    }
+  });
+
+  const handleSubmitLoginAPIService = (workEmail, password) => {
+    setLoading(true);
+    mutation.mutate({ workEmail, password });
+  };
+
+  return { handleSubmitLoginAPIService, loading };
+}
 
 function SignIn() {
   const [workEmail, setWorkEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [showOTP, setShowOTP] = useState(false);
+  // const { handleSubmitLoginAPIService, loading } = useSignIn();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [lodaing, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+
+  const mutation = useMutation({
+    mutationFn: signIn,
+    onSuccess: (res) => {
+      const { message, isUserReq, user, token } = res.data;
+
+      if (message !== "OTP sent successfully") {
+        dispatch(setUser({ user, ...res.data }));
+        if (isUserReq) {
+          navigate('/dashboard/overview');
+        } else {
+          navigate('/accountsetup');
+        }
+        toast.success(message);
+        dispatch(setToken(token));
+      } else {
+        toast.success(message);
+        dispatch(setUser({ userId: res.data.userId }));
+        setShowOTP(true)
+      }
+
+      setLoading(false);
+    },
+    onError: (error) => {
+      setLoading(false);
+      toast.error(error.response.data.message);
+    }
+  });
+
+  const handleSubmitLoginAPIService = (workEmail, password) => {
+    setLoading(true);
+    mutation.mutate({ workEmail, password });
+  };
 
   const handleUsernameChange = (e) => {
     setWorkEmail(e.target.value);
@@ -35,56 +123,22 @@ function SignIn() {
     setPasswordVisible(!passwordVisible);
   };
 
-
-
   const isFormValid = () => {
     return workEmail && password;
   };
 
-
-  const mutation = useMutation({
-    mutationFn: signIn,
-    onSuccess: (res) => {
-      // console.log(res);
-      const { message, isUserReq, user, token } = res.data;
-      
-      console.log("hey", res.data.message !== "OTP sent successfully");
-      if (message !== "OTP sent successfully") {
-        dispatch(setUser({ user, ...res.data }));
-        if (isUserReq) {
-          navigate('/dashboard/overview');
-        } else {
-          navigate('/accountsetup');
-        }
-        toast.success(message);
-        dispatch(setToken(token));
-      } else {
-        toast.success(message);
-        setShowOTP(true);
-        dispatch(setUser({ userId: res.data.userId }));
-      }
-  
-      setLoading(false);
-    },
-    onError: (error) => {
-      console.error('Error', error.response.data.message);
-      setLoading(false)
-      toast.error(error.response.data.message)
-    }
-  });
-
-  const handleSubmitLoginAPIService = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true)
+    setLoading(true);
     if (isFormValid()) {
-      mutation.mutate({ workEmail, password });
+      handleSubmitLoginAPIService(workEmail, password);
     }
   };
 
   return (
-    <section className="bg-secondaryBlack  flex flex-col mmd:flex-row">
+    <section className="bg-secondaryBlack flex flex-col mmd:flex-row">
       <LeftSide />
-      <div className="mmd:left-[38%] bg-secondaryBlack absolute  flex-grow w-full p-10 mmd:w-[62%] overflow-x-hidden  overflow-hidden min-h-screen">
+      <div className="mmd:left-[38%] bg-secondaryBlack absolute flex-grow w-full p-10 mmd:w-[62%] overflow-x-hidden overflow-hidden min-h-screen">
         <div>
           <div className="hidden fixed top-1 left-[38%] ml-5 mmd:flex flex-col space-y-2">
             <DotGroup />
@@ -92,7 +146,7 @@ function SignIn() {
           <div className="hidden fixed top-1 left-[38%] ml-1.5 mmd:flex flex-col space-y-2">
             <DotGroup />
           </div>
-          <div >
+          <div>
             {!showOTP ? (
               <div className="flex flex-col items-center justify-center bg-secondaryBlack">
                 <div className="text-center mt-10">
@@ -100,7 +154,7 @@ function SignIn() {
                   <p className="text-sm font-normal text-gray-400">Welcome back! Please enter your credentials to log in.</p>
                 </div>
 
-                <form className="mb-2 w-auto md:w-[60%] mt-4" onSubmit={handleSubmitLoginAPIService}>
+                <form className="mb-2 w-auto md:w-[60%] mt-4" onSubmit={handleSubmit}>
                   <div className="mb-6">
                     <label className="text-white text-base font-medium ">Work Email*</label>
                     <input
@@ -142,14 +196,12 @@ function SignIn() {
                     </div>
                     <Link to="/auth/forget-password" className="text-primaryGreen text-sm">Forgot Password?</Link>
                   </div>
-                  <button type="submit" className="mt-6 w-full p-3 bg-primaryGreen text-primaryBlack font-bold rounded-lg" >
-                    {
-                      lodaing ? <BeatLoader size={12} /> : "Login"
-                    }
+                  <button type="submit" className="mt-6 w-full p-3 bg-primaryGreen text-primaryBlack font-bold rounded-lg">
+                    {loading ? <BeatLoader size={12} /> : "Login"}
                   </button>
                   <div className="flex justify-center items-center my-6">
                     <div className="bg-customGray ml-2 mr-2 w-[40%] h-0.5"></div>
-                    <p className="text-white ">Or</p>
+                    <p className="text-white">Or</p>
                     <div className="bg-customGray mr-2 ml-2 w-[40%] h-0.5"></div>
                   </div>
                   <button
@@ -164,7 +216,7 @@ function SignIn() {
                 </form>
               </div>
             ) : (
-              <Otp />
+              <Otp workEmail={workEmail} password={password} />
             )}
           </div>
         </div>
