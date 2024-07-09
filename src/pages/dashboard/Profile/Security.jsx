@@ -5,6 +5,7 @@ import { toggleTwoFactorAuth, updatePassword } from '../../../services/api.servi
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateTwoFactor } from '../../../store/accountSlice';
+import { BeatLoader } from 'react-spinners';
 
 const Security = () => {
     const dispatch = useDispatch();
@@ -12,14 +13,18 @@ const Security = () => {
     const [twoFactorEnabled, setTwoFactorEnabled] = useState(twoFactor);
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const passwordMutation = useMutation({
         mutationFn: updatePassword,
         onSuccess: (res) => {
             toast.success(res.data.message);
+            setLoading(false)
         },
+       
         onError: (error) => {
             toast.error(error.response.data.message);
+            setLoading(false)
         },
     });
 
@@ -35,6 +40,7 @@ const Security = () => {
     });
 
     const handleSave = () => {
+        setLoading(true)
         passwordMutation.mutate({ currentPassword, newPassword });
     };
 
@@ -79,8 +85,8 @@ const Security = () => {
                 </div>
             </div>
             <div className="flex justify-end">
-                <button onClick={handleSave} className="bg-primaryGreen font-bold text-primaryBlack px-12 py-2 rounded">
-                    Save
+                <button onClick={handleSave} className="bg-primaryGreen font-bold text-primaryBlack px-12 py-2 rounded flex items-center justify-center">
+                    {loading ? <BeatLoader size={8} color={"#000"} /> : 'Save'}
                 </button>
             </div>
         </div>

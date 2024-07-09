@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { getAccountSetupData, updateUserProfile } from '../../../services/api.service';
 import { updateFormData, updateProfileField } from '../../../store/accountSlice';
 import { toast } from 'react-toastify';
+import { BeatLoader } from 'react-spinners';
 
 const EditProfile = () => {
     const dispatch = useDispatch();
@@ -11,6 +12,7 @@ const EditProfile = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [localProfile, setLocalProfile] = useState({});
     const [previewImage, setPreviewImage] = useState('/img/profile.jpg');
+    const [loading, setLoading] = useState(false);
 
     const { data, isLoading, isError } = useQuery({
         queryKey: ['getAccountSetupData'],
@@ -49,10 +51,12 @@ const EditProfile = () => {
             console.log(updatedData)
             
             toast.success(res.message);
+            setLoading(false);
             setIsEditing(false);
         },
         onError: (error) => {
             toast.error(error.response.data.message);
+            setLoading(false);
         }
     });
 
@@ -97,9 +101,8 @@ const EditProfile = () => {
         // for (let [key, value] of formData.entries()) {
         //     console.log(key, value);
         // }
-
+        setLoading(true);
         mutation.mutate(formData);
-        setIsEditing(false)
     };
 
     const handleEdit = () => {
@@ -187,8 +190,8 @@ const EditProfile = () => {
                     <button onClick={handleCancel} className="border border-primaryGreen font-bold text-white px-12 py-2 rounded">
                         Cancel
                     </button>
-                    <button onClick={handleSubmit} className="bg-primaryGreen font-bold text-primaryBlack px-12 py-2 rounded">
-                        Save
+                    <button onClick={handleSubmit} className="bg-primaryGreen font-bold text-primaryBlack px-12 py-2 rounded flex items-center justify-center">
+                        {loading ? <BeatLoader size={8} color={"#000"} /> : 'Save'}
                     </button>
                 </div>
             )}

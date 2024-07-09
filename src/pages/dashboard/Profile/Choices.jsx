@@ -5,6 +5,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { updateChoices, getAccountSetupData } from '../../../services/api.service';
 import { setupFields, updateFormData } from '../../../store/accountSlice';
 import { toast } from 'react-toastify';
+import { BeatLoader } from 'react-spinners';
 
 const Choices = () => {
     const dispatch = useDispatch();
@@ -12,6 +13,7 @@ const Choices = () => {
     const location = useLocation();
     const accountSetupValues = useSelector((state) => state.account);
     const [isEditing, setIsEditing] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const initialChoices = {
         brandName: accountSetupValues.brandName || '',
@@ -24,7 +26,7 @@ const Choices = () => {
 
     const [choices, setChoices] = useState(initialChoices);
 
-    const { data, isLoading, isError} = useQuery({
+    const { data} = useQuery({
         queryKey: ['accountSetupData'],
         queryFn: getAccountSetupData,
     });
@@ -56,8 +58,10 @@ const Choices = () => {
             toast.success('Data saved successfully');
             setIsEditing(false);
             dispatch(updateFormData(data.userReq));
+            setLoading(false)
         },
         onError: (error) => {
+            setLoading(false)
             toast.error(error.response?.data?.message || 'Failed to update data');
         }
     });
@@ -68,6 +72,7 @@ const Choices = () => {
     };
 
     const handleSave = () => {
+        setLoading(true)
         updateMutation.mutate(choices);
     };
 
@@ -151,9 +156,9 @@ const Choices = () => {
                     <button onClick={handleCancel} className="border border-primaryGreen font-bold text-white px-12 py-2 rounded">
                         Cancel
                     </button>
-                    <button onClick={handleSave} className="bg-primaryGreen font-bold text-primaryBlack px-12 py-2 rounded">
-                        Save
-                    </button>
+                    <button onClick={handleSave} className="bg-primaryGreen font-bold text-primaryBlack px-12 py-2 rounded flex items-center justify-center">
+                    {loading ? <BeatLoader size={8} color={"#000"} /> : 'Save'}
+                </button>
                 </div>
             )}
         </div>

@@ -1,8 +1,10 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { CustomDropdown } from '../../../../components/CustomSelect';
 import TicketCard from './TicketCard';
 import TicketView from './TicketView';
 import CreateTicket from './CreateTicket';
+import { getAllTickets } from '../../../../services/api.service';
 
 const TicketMain = () => {
     const ticketOptions = [
@@ -12,15 +14,16 @@ const TicketMain = () => {
         { label: 'Resolved Tickets', value: 'Resolved Tickets', color: 'bg-green-500' },
     ];
 
-    const timeframeOptions = [
-        { label: 'This Week', value: 'This Week' },
-        { label: 'This Month', value: 'This Month' },
-    ];
-
-    const [selectedPriority, setSelectedPriority] = useState(ticketOptions[0]);
-    const [selectedTimeframe, setSelectedTimeframe] = useState(timeframeOptions[0]);
+    const [selectedPriority, setSelectedPriority] = useState('All Tickets');
     const [openedTicket, setOpenedTicket] = useState(null);
     const [showCreateTicket, setShowCreateTicket] = useState(false);
+
+    const queryClient = useQueryClient();
+
+    const { data, isLoading, error } = useQuery({
+        queryKey: ['tickets', selectedPriority],
+        queryFn: () => getAllTickets(selectedPriority),
+    });
 
     const handleOpenTicket = (ticket) => {
         setOpenedTicket(ticket);
@@ -38,39 +41,12 @@ const TicketMain = () => {
         setOpenedTicket(null);
     };
 
-    const tickets = [
-        {
-            id: '2023-CS123',
-            status: 'New Tickets',
-            statusColor: 'bg-blue-500',
-            description: 'How to deposit money to my portal?',
-            details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            date: '12:00 PM',
-            user: 'John Snow'
-        },
-        {
-            id: '2023-CS124',
-            status: 'On-Going Tickets',
-            statusColor: 'bg-orange-500',
-            description: 'How to deposit money to my portal?',
-            details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            date: '1:00 PM',
-            user: 'John Snow'
-        },
-        {
-            id: '2023-CS125',
-            status: 'Resolved Tickets',
-            statusColor: 'bg-green-500',
-            description: 'How to deposit money to my portal?',
-            details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            date: '2:00 PM',
-            user: 'John Snow'
-        },
-    ];
+    const refetchTickets = () => {
+        queryClient.invalidateQueries(['tickets']);
+    };
 
-    const filteredTickets = tickets.filter(ticket =>
-        selectedPriority.value === 'All Tickets' || ticket.status === selectedPriority.value
-    );
+    if (isLoading) return <div>Loading...</div>;
+    if (error) return <div>Error loading tickets</div>;
 
     return (
         <div className="ticket-main-container px-4 pt-12">
@@ -95,13 +71,6 @@ const TicketMain = () => {
                                             setSelectedOption={setSelectedPriority}
                                         />
                                     </div>
-                                    <div className="relative w-40">
-                                        <CustomDropdown
-                                            options={timeframeOptions}
-                                            selectedOption={selectedTimeframe}
-                                            setSelectedOption={setSelectedTimeframe}
-                                        />
-                                    </div>
                                     <button
                                         onClick={handleNewTicketClick}
                                         className="bg-primaryGreen text-primaryBlack px-4 py-2 rounded font-bold flex items-center gap-1"
@@ -111,8 +80,8 @@ const TicketMain = () => {
                                     </button>
                                 </div>
                             </div>
-                            {filteredTickets.map(ticket => (
-                                <TicketCard key={ticket.id} ticket={ticket} onOpenTicket={handleOpenTicket} />
+                            {data?.tickets?.map(ticket => (
+                                <TicketCard key={ticket._id} ticketId={ticket._id} username={ticket.username} userId={ticket.userId} title={ticket.title} ticketType={ticket.ticketType} priorityStatus={ticket.priorityStatus} ticketBody={ticket.ticketBody} postedAt={ticket.postedAt} onOpenTicket={handleOpenTicket} />
                             ))}
                             <div className="flex justify-end items-center mt-4 space-x-6">
                                 <button className="text-customGray">Previous</button>
@@ -135,7 +104,7 @@ const TicketMain = () => {
 
             <div className={`fade ${showCreateTicket ? 'fade-enter-active' : 'fade-exit-active'}`}>
                 {showCreateTicket && (
-                    <CreateTicket onBack={handleBackFromCreateTicket} />
+                    <CreateTicket onBack={handleBackFromCreateTicket} onSuccess={refetchTickets} />
                 )}
             </div>
         </div>

@@ -58,3 +58,20 @@ export const updateChoices= async (data) => {
     return await axios.put(`http://localhost:4000/api/dashboard/editRequirements`, data);
 };
 
+
+
+//ticket api 
+
+export const createTicket = async (ticketData) => {
+    return await axios.post('http://localhost:4000/api/ticket/createTicket', ticketData);
+   
+};
+
+export const getAllTickets = async (priority = 'All Tickets') => {
+    const response = await axios.get('http://localhost:4000/api/ticket/getAll', {
+        params: {
+            priority,
+        },
+    });
+    return response.data;
+};
