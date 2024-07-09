@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { useDispatch } from 'react-redux';
 import { getAccountSetupData, updateUserProfile } from '../../../services/api.service';
-import { updateFormData, updateProfileField } from '../../../store/accountSlice';
+import { updateFormData } from '../../../store/accountSlice';
 import { toast } from 'react-toastify';
 import { BeatLoader } from 'react-spinners';
 

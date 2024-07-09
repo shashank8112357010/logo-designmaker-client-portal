@@ -67,11 +67,27 @@ export const createTicket = async (ticketData) => {
    
 };
 
-export const getAllTickets = async (priority = 'All Tickets') => {
+export const getAllTickets = async ({ pageNum = 1, status = '' }) => {
     const response = await axios.get('http://localhost:4000/api/ticket/getAll', {
-        params: {
-            priority,
-        },
+        params: { pageNum, status }
     });
     return response.data;
+};
+
+export const getTicketById = async (ticket) => {
+    try {
+        const response = await axios.get(`http://localhost:4000/api/ticket/openTicket/${ticket}`);
+        return response.data;
+    } catch (error) {
+        throw new Error(error.response?.data?.message || 'Failed to fetch ticket by ID');
+    }
+};
+
+export const addReplyToTicket = async ({ticketId, replyBody}) => {
+    try {
+        const response = await axios.post('http://localhost:4000/api/ticket/reply', { ticketId, replyBody });
+        return response.data;
+    } catch (error) {
+        throw new Error(error.response?.data?.message || 'Failed to add reply to ticket');
+    }
 };

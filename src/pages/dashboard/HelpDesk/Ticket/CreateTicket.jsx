@@ -3,18 +3,16 @@ import { useMutation } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import { Dropdown } from '../../../../components/CustomSelect';
 import { createTicket } from '../../../../services/api.service';
-import { useNavigate } from 'react-router-dom';
 
 const CreateTicket = ({ onBack, onSuccess }) => {
   const [priority, setPriority] = useState(null);
   const [title, setTitle] = useState('');
   const [requestType, setRequestType] = useState('');
   const [ticketBody, setTicketBody] = useState('');
-  const navigate = useNavigate();
 
   const options = [
     { label: "New Ticket", color: "bg-blue-500" },
-    { label: "On-going Ticket", color: "bg-yellow-500" },
+    { label: "On-Going Ticket", color: "bg-yellow-500" },
     { label: "Resolved Ticket", color: "bg-green-500" }
   ];
 

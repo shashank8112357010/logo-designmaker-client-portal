@@ -1,6 +1,11 @@
 import React from 'react';
 
 const TicketCard = ({ticketId,userId, username, title,ticketType,priorityStatus,ticketBody,postedAt, onOpenTicket }) => {
+
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+        return new Date(dateString).toLocaleString(undefined, options);
+    };
     return (
         <div className="bg-primaryBlack p-4 mb-4 rounded-lg ">
             <div className="flex justify-between items-start">
@@ -11,7 +16,7 @@ const TicketCard = ({ticketId,userId, username, title,ticketType,priorityStatus,
                 <div className="text-sm flex items-center space-x-2 text-customGray">
                 <div className={`w-2 h-2 rounded-full ${priorityStatus?.color}`}></div>
                     <span>{priorityStatus?.label}</span>
-                    <span>Posted at {postedAt}</span>
+                    <span>Posted at {formatDate(postedAt)}</span>
                 </div>
             </div>
             <div className="mt-2">
@@ -27,7 +32,7 @@ const TicketCard = ({ticketId,userId, username, title,ticketType,priorityStatus,
                     <span className='text-white'>{username}</span>
                 </div>
                 <button 
-                    onClick={() => onOpenTicket(userId)}
+                    onClick={() => onOpenTicket(ticketId)}
                     className="text-blue-500 underline"
                 >
                     Open Ticket

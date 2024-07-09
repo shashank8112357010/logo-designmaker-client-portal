@@ -1,32 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { CustomDropdown } from '../../../../components/CustomSelect';
 import TicketCard from './TicketCard';
 import TicketView from './TicketView';
 import CreateTicket from './CreateTicket';
-import { getAllTickets } from '../../../../services/api.service';
+import NoData from './NoData'; // Import the NoData component
+import { getAllTickets, getTicketById } from '../../../../services/api.service';
 
 const TicketMain = () => {
     const ticketOptions = [
-        { label: 'All Tickets', value: 'All Tickets', color: 'bg-gray-500' },
-        { label: 'New Tickets', value: 'New Tickets', color: 'bg-blue-500' },
-        { label: 'On-Going Tickets', value: 'On-Going Tickets', color: 'bg-orange-500' },
-        { label: 'Resolved Tickets', value: 'Resolved Tickets', color: 'bg-green-500' },
+        { label: 'All Tickets', value: '', color: 'bg-gray-500' },
+        { label: 'New Tickets', value: 'New Ticket', color: 'bg-blue-500' },
+        { label: 'On-Going Tickets', value: 'On-Going Ticket', color: 'bg-orange-500' },
+        { label: 'Resolved Tickets', value: 'Resolved Ticket', color: 'bg-green-500' },
     ];
 
-    const [selectedPriority, setSelectedPriority] = useState('All Tickets');
-    const [openedTicket, setOpenedTicket] = useState(null);
+    const timeframeOptions = [
+        { label: 'This Week', value: 'This Week' },
+        { label: 'This Month', value: 'This Month' },
+    ];
+
+    const [selectedPriority, setSelectedPriority] = useState(ticketOptions[0]);
+    const [selectedTimeframe, setSelectedTimeframe] = useState(timeframeOptions[0]);
+    const [openedTicketId, setOpenedTicketId] = useState(null);
     const [showCreateTicket, setShowCreateTicket] = useState(false);
+    const [pageNum, setPageNum] = useState(1);
+    const [totalTickets, setTotalTickets] = useState(0);
 
     const queryClient = useQueryClient();
 
-    const { data, isLoading, error } = useQuery({
-        queryKey: ['tickets', selectedPriority],
-        queryFn: () => getAllTickets(selectedPriority),
+    const { data: ticketsData, refetch } = useQuery({
+        queryKey: ['tickets', { pageNum, status: selectedPriority?.value }],
+        queryFn: async () => {
+            const response = await getAllTickets({ pageNum, status: selectedPriority?.value });
+            setTotalTickets(response.ticketCount);
+            return response;
+        },
     });
 
-    const handleOpenTicket = (ticket) => {
-        setOpenedTicket(ticket);
+    useEffect(() => {
+        refetch();
+    }, [selectedPriority, pageNum, selectedTimeframe]);
+
+    const { data: ticketData, isLoading: isLoadingTicket, isError: isErrorTicket, error: errorTicket } = useQuery({
+        queryKey: ['ticket', openedTicketId],
+        queryFn: () => getTicketById(openedTicketId),
+        enabled: !!openedTicketId,
+    });
+
+    const handleOpenTicket = (ticketId) => {
+        setOpenedTicketId(ticketId);
     };
 
     const handleNewTicketClick = () => {
@@ -38,20 +61,34 @@ const TicketMain = () => {
     };
 
     const handleBackFromTicketView = () => {
-        setOpenedTicket(null);
+        setOpenedTicketId(null);
     };
 
     const refetchTickets = () => {
         queryClient.invalidateQueries(['tickets']);
     };
 
-    if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>Error loading tickets</div>;
+    const handleNextClick = () => {
+        if (pageNum < Math.ceil(totalTickets / 3)) {
+            setPageNum(prev => prev + 1);
+        }
+    };
+
+    const handlePreviousClick = () => {
+        setPageNum(prev => Math.max(prev - 1, 1));
+    };
+
+    useEffect(() => {
+        setPageNum(1);
+    }, [selectedPriority, selectedTimeframe]);
+
+    const pageButtons = [pageNum, pageNum + 1].filter(num => num <= Math.ceil(totalTickets / 3));
+    const tickets = ticketsData?.tickets || [];
 
     return (
         <div className="ticket-main-container px-4 pt-12">
-            <div className={`fade ${!openedTicket && !showCreateTicket ? 'fade-enter-active' : 'fade-exit-active'}`}>
-                {!openedTicket && !showCreateTicket && (
+            <div className={`fade ${!openedTicketId && !showCreateTicket ? 'fade-enter-active' : 'fade-exit-active'}`}>
+                {!openedTicketId && !showCreateTicket && (
                     <main className="main">
                         <div className='bg-secondaryBlack mr-4 p-4'>
                             <div className="flex justify-between items-center mb-6">
@@ -71,6 +108,13 @@ const TicketMain = () => {
                                             setSelectedOption={setSelectedPriority}
                                         />
                                     </div>
+                                    <div className="relative w-40">
+                                        <CustomDropdown
+                                            options={timeframeOptions}
+                                            selectedOption={selectedTimeframe}
+                                            setSelectedOption={setSelectedTimeframe}
+                                        />
+                                    </div>
                                     <button
                                         onClick={handleNewTicketClick}
                                         className="bg-primaryGreen text-primaryBlack px-4 py-2 rounded font-bold flex items-center gap-1"
@@ -80,26 +124,62 @@ const TicketMain = () => {
                                     </button>
                                 </div>
                             </div>
-                            {data?.tickets?.map(ticket => (
-                                <TicketCard key={ticket._id} ticketId={ticket._id} username={ticket.username} userId={ticket.userId} title={ticket.title} ticketType={ticket.ticketType} priorityStatus={ticket.priorityStatus} ticketBody={ticket.ticketBody} postedAt={ticket.postedAt} onOpenTicket={handleOpenTicket} />
-                            ))}
-                            <div className="flex justify-end items-center mt-4 space-x-6">
-                                <button className="text-customGray">Previous</button>
-                                <div className="flex space-x-2 w-28">
-                                    <button className="bg-primaryGreen text-center text-primaryBlack px-4 py-2 rounded-lg font-bold w-1/2">1</button>
-                                    <button className="text-white border-white border-2 w-1/2 rounded-lg">2</button>
-                                </div>
-                                <button className="text-customGray">Next</button>
-                            </div>
+                            {tickets.length > 0 ? (
+                                <>
+                                    {tickets.map(ticket => (
+                                        <TicketCard
+                                            key={ticket._id}
+                                            ticketId={ticket._id}
+                                            username={ticket.username}
+                                            userId={ticket.userId}
+                                            title={ticket.title}
+                                            ticketType={ticket.ticketType}
+                                            priorityStatus={ticket.priorityStatus}
+                                            ticketBody={ticket.ticketBody}
+                                            postedAt={ticket.postedAt}
+                                            onOpenTicket={handleOpenTicket}
+                                        />
+                                    ))}
+                                    <div className="flex justify-end items-center mt-4 space-x-6">
+                                        <button className="text-customGray" onClick={handlePreviousClick}>Previous</button>
+                                        <div className="flex space-x-2 w-28">
+                                            {pageButtons.map((num) => (
+                                                <button
+                                                    key={num}
+                                                    className={`text-center px-4 py-2 rounded-lg font-bold ${pageNum === num ? 'bg-primaryGreen text-primaryBlack' : 'text-white border-white border-2'}`}
+                                                    onClick={() => setPageNum(num)}
+                                                >
+                                                    {num}
+                                                </button>
+                                            ))}
+                                        </div>
+                                        <button className="text-customGray" onClick={handleNextClick} disabled={pageNum >= Math.ceil(totalTickets / 3)}>Next</button>
+                                    </div>
+                                </>
+                            ) : (
+                                <NoData /> // Display NoData component when there are no tickets
+                            )}
                         </div>
                     </main>
                 )}
             </div>
 
-            <div className={`fade ${openedTicket ? 'fade-enter-active' : 'fade-exit-active'}`}>
-                {openedTicket && (
-                    <TicketView ticket={openedTicket} onBack={handleBackFromTicketView} />
+            <div className={`fade ${openedTicketId ? 'fade-enter-active' : 'fade-exit-active'}`}>
+                {openedTicketId && !isLoadingTicket && ticketData && (
+                    <TicketView
+                        ticketId={ticketData?.ticket._id}
+                        username={ticketData?.ticket.username}
+                        priorityStatus={ticketData?.ticket.priorityStatus}
+                        ticketTitle={ticketData?.ticket.title}
+                        ticketType={ticketData?.ticket.ticketType}
+                        ticketBody={ticketData?.ticket.ticketBody}
+                        postedAt={ticketData?.ticket.postedAt}
+                        replies={ticketData?.ticket.replies}
+                        onBack={handleBackFromTicketView}
+                    />
                 )}
+                {isLoadingTicket && <div>Loading...</div>}
+                {isErrorTicket && <div>Error: {errorTicket.message}</div>}
             </div>
 
             <div className={`fade ${showCreateTicket ? 'fade-enter-active' : 'fade-exit-active'}`}>
