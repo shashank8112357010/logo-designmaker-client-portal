@@ -3,12 +3,14 @@ import { useMutation } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import { Dropdown } from '../../../../components/CustomSelect';
 import { createTicket } from '../../../../services/api.service';
+import { BeatLoader } from 'react-spinners';
 
 const CreateTicket = ({ onBack, onSuccess }) => {
   const [priority, setPriority] = useState(null);
   const [title, setTitle] = useState('');
   const [requestType, setRequestType] = useState('');
   const [ticketBody, setTicketBody] = useState('');
+  const [loading,setLoading] =useState(false);
 
   const options = [
     { label: "New Ticket", color: "bg-blue-500" },
@@ -20,16 +22,19 @@ const CreateTicket = ({ onBack, onSuccess }) => {
     mutationFn: createTicket,
     onSuccess: (data) => {
       toast.success('Ticket created successfully!');
-      onSuccess(); 
+      setLoading(false)
+      onSuccess();
       onBack();
     },
     onError: (error) => {
-      toast.error(error.response?.data?.message || 'An error occurred');
+      setLoading(false)
+      toast.error(error.message || 'An error occurred');
     }
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true)
     mutation.mutate({
       title,
       ticketType: requestType,
@@ -50,6 +55,7 @@ const CreateTicket = ({ onBack, onSuccess }) => {
               <input
                 id='title'
                 type="text"
+                required
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Type Title"
@@ -61,6 +67,7 @@ const CreateTicket = ({ onBack, onSuccess }) => {
               <input
                 id='request'
                 type="text"
+                required
                 value={requestType}
                 onChange={(e) => setRequestType(e.target.value)}
                 placeholder="Type Request Type"
@@ -82,6 +89,7 @@ const CreateTicket = ({ onBack, onSuccess }) => {
           <textarea
             id='body'
             value={ticketBody}
+            required
             onChange={(e) => setTicketBody(e.target.value)}
             placeholder="Type ticket issue here.."
             className="w-full p-4 bg-primaryBlack text-white rounded mt-2 mb-6 border-none resize-none placeholder:text-customGray"
@@ -90,10 +98,9 @@ const CreateTicket = ({ onBack, onSuccess }) => {
           <div className="flex justify-end items-center gap-6">
             <button
               type="submit"
-              className="bg-primaryGreen text-primaryBlack font-bold py-3 px-6 rounded"
-              disabled={mutation.isLoading}
+              className="bg-primaryGreen text-primaryBlack font-bold py-3 px-6 rounded w-36 "
             >
-              {mutation.isLoading ? 'Sending...' : 'Send Ticket'}
+             {loading ?   <BeatLoader size={8} color={"#000"} /> : 'Send Ticket'}
             </button>
             <button onClick={onBack} className="border-primaryGreen border text-white font-bold py-3 px-10 rounded">Back</button>
           </div>

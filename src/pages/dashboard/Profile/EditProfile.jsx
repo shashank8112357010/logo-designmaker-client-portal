@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { getAccountSetupData, updateUserProfile } from '../../../services/api.service';
 import { updateFormData } from '../../../store/accountSlice';
 import { toast } from 'react-toastify';
-import { BeatLoader } from 'react-spinners';
+import { BeatLoader} from 'react-spinners';
 
 const EditProfile = () => {
     const dispatch = useDispatch();
@@ -14,7 +14,7 @@ const EditProfile = () => {
     const [previewImage, setPreviewImage] = useState('/img/profile.jpg');
     const [loading, setLoading] = useState(false);
 
-    const { data, isLoading, isError } = useQuery({
+    const { data } = useQuery({
         queryKey: ['getAccountSetupData'],
         queryFn: getAccountSetupData,
     });
@@ -128,8 +128,8 @@ const EditProfile = () => {
         setIsEditing(false);
     };
 
-    if (isLoading) return <div>Loading...</div>;
-    if (isError) return <div>Error loading data!</div>;
+    // if (isLoading) return <div className='flex justify-center items-center h-[80vh]'><BounceLoader size={40} color='#5CFF85' /></div>;
+    // if (isError) return <div>Error loading data!</div>;
 
     return (
         <div className="relative">

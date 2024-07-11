@@ -17,10 +17,13 @@ export const CustomDropdown = ({ options, selectedOption, setSelectedOption }) =
   return (
     <div className="relative">
       <button
-        className="bg-secondaryBlack text-white text-xs font-medium px-4 py-2 rounded border-primaryGreen border-2 focus:border-primaryGreen w-40 flex justify-between"
+        className="bg-secondaryBlack text-white text-xs font-medium px-4 py-2 rounded border-primaryGreen border-2 focus:border-primaryGreen w-[170px] flex justify-between"
         onClick={handleToggle}
       >
+        <div className='flex items-center justify-center'>
+        <span className={`w-2 h-2 rounded-full mr-2 ${selectedOption.color}`}></span>
         {selectedOption.label}
+        </div>
         <span><img src="/img/arrow-down.png" alt="down" /></span>
       </button>
       {isOpen && (
