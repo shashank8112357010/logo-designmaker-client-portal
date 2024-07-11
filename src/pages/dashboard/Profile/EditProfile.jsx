@@ -128,9 +128,6 @@ const EditProfile = () => {
         setIsEditing(false);
     };
 
-    // if (isLoading) return <div className='flex justify-center items-center h-[80vh]'><BounceLoader size={40} color='#5CFF85' /></div>;
-    // if (isError) return <div>Error loading data!</div>;
-
     return (
         <div className="relative">
             {!isEditing && (

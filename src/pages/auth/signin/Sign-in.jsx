@@ -72,7 +72,6 @@ function SignIn() {
   const [password, setPassword] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [showOTP, setShowOTP] = useState(false);
-  // const { handleSubmitLoginAPIService, loading } = useSignIn();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);

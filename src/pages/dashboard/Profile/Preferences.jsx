@@ -85,9 +85,6 @@ const Preferences = () => {
                     label="Promotion"
                 />
             </div>
-            {/* <div className="flex justify-end">
-                <button className="bg-primaryGreen font-bold text-primaryBlack px-12 py-2 rounded">Save</button>
-            </div> */}
         </div>
     );
 };
