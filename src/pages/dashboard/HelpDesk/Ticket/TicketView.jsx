@@ -8,7 +8,7 @@ const TicketView = ({ ticketData, onBack }) => {
     const [showReplyForm, setShowReplyForm] = useState(false);
     const [replyText, setReplyText] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const [loading,SetLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const queryClient = useQueryClient();
 
@@ -18,12 +18,12 @@ const TicketView = ({ ticketData, onBack }) => {
             queryClient.invalidateQueries(['ticket', data?.ticket._id]);
             setShowReplyForm(false);
             setReplyText('');
-            SetLoading(false)
+            setLoading(false);
         },
         onError: (error) => {
             toast.error(error.message);
             setErrorMessage(error.message);
-            SetLoading(false)
+            setLoading(false);
         },
     });
 
@@ -32,10 +32,10 @@ const TicketView = ({ ticketData, onBack }) => {
         onSuccess: (data) => {
             queryClient.invalidateQueries(['ticket', ticketData._id]);
             toast.success(data.message);
-            SetLoading(false)
+            setLoading(false);
         },
         onError: (error) => {
-            SetLoading(false)
+            setLoading(false);
             toast.error(error.message);
         },
     });
@@ -57,12 +57,12 @@ const TicketView = ({ ticketData, onBack }) => {
     const handleReplySubmit = (e) => {
         e.preventDefault();
         setErrorMessage('');
-        SetLoading(true)
-        addReplyMutation.mutate({ ticketId:ticketData._id, replyBody: replyText });
+        setLoading(true);
+        addReplyMutation.mutate({ ticketId: ticketData._id, replyBody: replyText });
     };
 
     const handleCloseTicket = () => {
-        SetLoading(true)
+        setLoading(true);
         closeTicketMutation.mutate(ticketData._id);
     };
 
@@ -70,6 +70,8 @@ const TicketView = ({ ticketData, onBack }) => {
         const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' };
         return new Date(dateString).toLocaleString(undefined, options);
     };
+
+    const isResolved = ticketData?.priorityStatus?.label === 'Resolved Ticket';
 
     return (
         <div className='flex-grow relative'>
@@ -85,20 +87,20 @@ const TicketView = ({ ticketData, onBack }) => {
                                 <span>Posted at {formatDate(ticketData?.postedAt)}</span>
                             </div>
                         </div>
-                        <div className="mt-2">
+                        <div className="mt-6">
                             <h4 className="font-semibold text-white">{ticketData?.title}</h4>
-                            <p className="text-gray-400 text-sm mt-2">{ticketData?.ticketBody}</p>
+                            <p className="text-customGray text-sm mt-2">{ticketData?.ticketBody}</p>
                         </div>
-                        <div className='mt-4'>
-                            <div className='bg-white h-0.5 w-full rounded-full'></div>
-                            <div className="flex items-center space-x-2 mt-4">
-                                <img src="/img/Ellipse.jpg" alt="" className='h-8 w-8 rounded-full' />
-                                <span className='text-white'>{ticketData?.username}</span>
+                        <div className='mt-4 space-y-2'>
+                            <div className="flex items-center space-x-2 mt-4 mb-4">
+                                <img src={ticketData?.profileImg || '/img/profile.jpg'}  alt="" className='h-6 w-6 rounded-full' />
+                                <span className='text-customGray text-sm'>{ticketData?.username || 'Admin'}</span>
                             </div>
+                            <div className='bg-customGray h-0.5 w-full rounded-full'></div>
                         </div>
                         <div className="mt-4">
                             {ticketData?.replies?.map(reply => (
-                                <div key={reply?._id} className="bg-secondaryBlack rounded mt-10">
+                                <div key={reply?._id} className="bg-secondaryBlack rounded mt-4">
                                     <div className="flex justify-between items-start">
                                         <div className="flex items-center space-x-2 text-white">
                                             <div className={`w-4 h-4 rounded-full ${ticketData?.priorityStatus?.color}`}></div>
@@ -108,27 +110,33 @@ const TicketView = ({ ticketData, onBack }) => {
                                             <span>Posted at {formatDate(reply?.postedAt)}</span>
                                         </div>
                                     </div>
-                                    <div className="mt-2">
-                                        <p className="text-gray-400 text-sm mt-2 break-words">{reply?.replyBody}</p>
+                                    <div className="mt-6">
+                                        <p className="text-customGray text-sm mt-2 break-words">{reply?.replyBody}</p>
                                     </div>
-                                    <div className='mt-10'>
-                                        <div className='bg-white h-0.5 w-full rounded-full'></div>
-                                        <div className="flex items-center space-x-2 mt-4">
-                                            <img src="/img/Ellipse.jpg" alt="" className='h-8 w-8 rounded-full' />
-                                            <span className='text-white'>{reply?.username}</span>
+                                    <div className='mt-4'>
+                                        <div className="flex items-center space-x-2 mt-4 mb-4">
+                                            <img src={reply?.profileImg || '/img/profile.jpg'} alt="" className='h-6 w-6 rounded-full' />
+                                            <span className='text-customGray text-sm'>{reply?.username || 'Admin'}</span>
                                         </div>
+                                        <div className='bg-customGray h-0.5 w-full rounded-full'></div>
                                     </div>
                                 </div>
                             ))}
                         </div>
                         <div className="flex justify-end items-center mt-4">
                             <div className='flex space-x-4'>
-                                <button onClick={handleReplyClick} className="border-primaryGreen border text-white font-medium py-2 px-6 rounded flex items-center gap-3">
-                                    <img src="/img/Reply.png" alt="" />Reply
-                                </button>
-                                <button onClick={onBack} className="border-primaryGreen border text-white font-bold py-2 px-6 rounded mx-10">Back</button>
-                                <button onClick={handleCloseTicket} className="bg-primaryGreen font-medium rounded px-4 w-32">
-                                    {loading ?   <BeatLoader size={8} color={"#000"} /> : 'Close Ticket'}
+                                {!isResolved && (
+                                    <button onClick={handleReplyClick} className="border-primaryGreen border text-white font-medium py-2 px-6 rounded flex items-center gap-3">
+                                        <img src="/img/Reply.png" alt="" />Reply
+                                    </button>
+                                )}
+                                <button onClick={onBack} className="border-primaryGreen border text-white font-bold py-2 px-6 rounded">Back</button>
+                                <button
+                                    onClick={handleCloseTicket}
+                                    className={`bg-primaryGreen font-medium rounded px-4 w-32 ${isResolved ? 'hover:bg-customGray cursor-not-allowed' : ''}`}
+                                    disabled={isResolved}
+                                >
+                                    {loading ? <BeatLoader size={8} color={"#000"} /> : 'Close Ticket'}
                                 </button>
                             </div>
                         </div>
@@ -181,9 +189,9 @@ const TicketView = ({ ticketData, onBack }) => {
                                     ></textarea>
                                 </div>
                             </div>
-                            
+
                             <div className="flex justify-end items-center space-x-4">
-                            {errorMessage && <div className="text-red-500 ">{errorMessage}</div>}
+                                {errorMessage && <div className="text-red-500 ">{errorMessage}</div>}
                                 <button
                                     type="button"
                                     onClick={handleCloseReplyForm}
@@ -193,7 +201,7 @@ const TicketView = ({ ticketData, onBack }) => {
                                 <button
                                     type="submit"
                                     className="bg-primaryGreen  text-primaryBlack font-medium rounded-md  py-2 px-2 w-36">
-                                    {loading ?   <BeatLoader size={8} color={"#000"} /> : 'Submit Reply'}
+                                    {loading ? <BeatLoader size={8} color={"#000"} /> : 'Submit Reply'}
                                 </button>
                             </div>
                         </form>

@@ -6,17 +6,12 @@ import { createTicket } from '../../../../services/api.service';
 import { BeatLoader } from 'react-spinners';
 
 const CreateTicket = ({ onBack, onSuccess }) => {
-  const [priority, setPriority] = useState(null);
   const [title, setTitle] = useState('');
   const [requestType, setRequestType] = useState('');
   const [ticketBody, setTicketBody] = useState('');
   const [loading,setLoading] =useState(false);
 
-  const options = [
-    { label: "New Ticket", color: "bg-blue-500" },
-    { label: "On-Going Ticket", color: "bg-yellow-500" },
-    { label: "Resolved Ticket", color: "bg-green-500" }
-  ];
+  const options = ["Finance","Design","Service"];
 
   const mutation = useMutation({
     mutationFn: createTicket,
@@ -38,7 +33,6 @@ const CreateTicket = ({ onBack, onSuccess }) => {
     mutation.mutate({
       title,
       ticketType: requestType,
-      priorityStatus: priority,
       ticketBody
     });
   };
@@ -49,7 +43,7 @@ const CreateTicket = ({ onBack, onSuccess }) => {
         <h2 className="text-xl font-semibold text-white mb-4">Create Ticket</h2>
         <p className="text-gray-400 mb-6">Write and address new queries and issues</p>
         <form onSubmit={handleSubmit}>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-28 mb-6">
             <div className='flex flex-col'>
               <label htmlFor="title" className='text-white text-lg mb-2'>Title</label>
               <input
@@ -63,23 +57,11 @@ const CreateTicket = ({ onBack, onSuccess }) => {
               />
             </div>
             <div className='flex flex-col'>
-              <label htmlFor="request" className='text-white text-lg mb-2'>Request Ticket Type</label>
-              <input
-                id='request'
-                type="text"
-                required
-                value={requestType}
-                onChange={(e) => setRequestType(e.target.value)}
-                placeholder="Type Request Type"
-                className="p-4 bg-primaryBlack text-white rounded placeholder:text-customGray"
-              />
-            </div>
-            <div className='flex flex-col'>
-              <label className='text-white text-lg mb-2'>Priority Status</label>
+              <label className='text-white text-lg mb-2'>Request Ticket Type</label>
               <Dropdown
                 options={options}
-                value={priority}
-                onChange={setPriority}
+                value={requestType}
+                onChange={setRequestType}
                 placeholder="Please choose one option"
                 textColor="white"
               />
@@ -91,7 +73,7 @@ const CreateTicket = ({ onBack, onSuccess }) => {
             value={ticketBody}
             required
             onChange={(e) => setTicketBody(e.target.value)}
-            placeholder="Type ticket issue here.."
+            placeholder="Type ticket issue here..."
             className="w-full p-4 bg-primaryBlack text-white rounded mt-2 mb-6 border-none resize-none placeholder:text-customGray"
             rows="6"
           ></textarea>

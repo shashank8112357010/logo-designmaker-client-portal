@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TicketCard = ({ticketId,userId, username, title,ticketType,priorityStatus,ticketBody,postedAt, onOpenTicket }) => {
+const TicketCard = ({ticketId,userId, username, title,ticketType,priorityStatus,ticketBody,postedAt,profileImg, onOpenTicket }) => {
 
     const formatDate = (dateString) => {
         const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' };
@@ -20,15 +20,15 @@ const TicketCard = ({ticketId,userId, username, title,ticketType,priorityStatus,
                 </div>
             </div>
             <div className="mt-2">
-                <h4 className="font-semibold text-white">{title}</h4>
+                <h4 className="font-semibold text-stone-200">{title}</h4>
                 <p className="text-gray-400 text-sm mt-2">{ticketBody}</p>
             </div>
             <div className='mt-4'>
-                <div className='bg-white h-0.5 w-full rounded-full'></div>
+                <div className='bg-customGray h-0.5 w-full rounded-full'></div>
             </div>
             <div className="flex justify-between items-center mt-4">
                 <div className="flex items-center space-x-2">
-                    <img src="/img/profile.jpg" alt=" " className='h-8 w-8 rounded-full' />
+                    <img src={profileImg || '/img/profile.jpg'} alt=" " className='h-8 w-8 rounded-full' />
                     <span className='text-white'>{username}</span>
                 </div>
                 <button 

@@ -12,17 +12,11 @@ const TicketMain = () => {
     const ticketOptions = [
         { label: 'All Tickets', value: '', color: 'bg-gray-500' },
         { label: 'New Tickets', value: 'New Ticket', color: 'bg-blue-500' },
-        { label: 'On-Going Tickets', value: 'On-Going Ticket', color: 'bg-yellow-500' },
-        { label: 'Resolved Tickets', value: 'Resolved Ticket', color: 'bg-green-500' },
-    ];
-
-    const timeframeOptions = [
-        { label: 'This Week', value: 'This Week' },
-        { label: 'This Month', value: 'This Month' },
+        { label: 'On-Going Tickets', value: 'On-Going Ticket', color: 'bg-yellow-300' },
+        { label: 'Resolved Tickets', value: 'Resolved Ticket', color: 'bg-green-300' },
     ];
 
     const [selectedPriority, setSelectedPriority] = useState(ticketOptions[0]);
-    const [selectedTimeframe, setSelectedTimeframe] = useState(timeframeOptions[0]);
     const [openedTicketId, setOpenedTicketId] = useState(null);
     const [showCreateTicket, setShowCreateTicket] = useState(false);
     const [pageNum, setPageNum] = useState(1);
@@ -42,7 +36,10 @@ const TicketMain = () => {
 
     const { data: ticketData, isLoading: isLoadingTicket, isError: isErrorTicket, error: errorTicket } = useQuery({
         queryKey: ['ticket', openedTicketId],
-        queryFn: () => getTicketById(openedTicketId),
+        queryFn: async () => {
+            const response = await getTicketById(openedTicketId);
+            return response.ticket[0];
+        },
         enabled: !!openedTicketId,
     });
 
@@ -61,7 +58,7 @@ const TicketMain = () => {
         } else {
             refetch();
         }
-    }, [searchInput, pageNum, selectedPriority, selectedTimeframe, refetchSearch, refetch]);
+    }, [searchInput, pageNum, selectedPriority, refetchSearch, refetch]);
 
     useEffect(() => {
         if (searchData && searchInput !== '') {
@@ -109,7 +106,7 @@ const TicketMain = () => {
 
     useEffect(() => {
         setPageNum(1);
-    }, [selectedPriority, selectedTimeframe]);
+    }, [selectedPriority]);
 
     console.log(totalTickets)
     const pageButtons = [pageNum, pageNum + 1].filter((num) => num <= Math.ceil(totalTickets / 3));
@@ -119,8 +116,8 @@ const TicketMain = () => {
         <div className="ticket-main-container px-4 pt-12">
             <div className={`fade ${!openedTicketId && !showCreateTicket ? 'fade-enter-active' : 'fade-exit-active'}`}>
                 {!openedTicketId && !showCreateTicket && (
-                    <main className="main">
-                        <div className='bg-secondaryBlack mr-4 p-4'>
+                    <main className="main ">
+                        <div className='bg-secondaryBlack mr-4 p-4 min-h-[75vh] relative'>
                             <div className="flex justify-between items-center mb-6">
                                 <div className="relative w-full lg:w-1/3">
                                     <input
@@ -140,13 +137,6 @@ const TicketMain = () => {
                                             setSelectedOption={setSelectedPriority}
                                         />
                                     </div>
-                                    <div className="relative w-40">
-                                        <CustomDropdown
-                                            options={timeframeOptions}
-                                            selectedOption={selectedTimeframe}
-                                            setSelectedOption={setSelectedTimeframe}
-                                        />
-                                    </div>
                                     <button
                                         onClick={handleNewTicketClick}
                                         className="bg-primaryGreen text-primaryBlack px-4 py-2 rounded font-bold flex items-center gap-1"
@@ -157,12 +147,13 @@ const TicketMain = () => {
                                 </div>
                             </div>
                             {isLoadingTickets || isSearching ? (
-                                <div className="flex justify-center items-center h-full">
+                                <div className=" h-[60vh] flex items-center justify-center ">
                                     <BounceLoader color={"#36D7B7"} />
                                 </div>
                             ) : tickets.length > 0 ? (
                                 <>
-                                    {tickets.map(ticket => (
+                                   <div className='mb-16'>
+                                   {tickets.map(ticket => (
                                         <TicketCard
                                             key={ticket._id}
                                             ticketId={ticket._id}
@@ -173,10 +164,12 @@ const TicketMain = () => {
                                             priorityStatus={ticket.priorityStatus}
                                             ticketBody={ticket.ticketBody}
                                             postedAt={ticket.postedAt}
+                                            profileImg={ticket?.profileImg}
                                             onOpenTicket={handleOpenTicket}
                                         />
                                     ))}
-                                    <div className="flex justify-end items-center space-x-4 mt-4">
+                                   </div>
+                                    <div className="flex justify-end items-center space-x-4 mt-4 absolute bottom-1 right-4">
                                         <button
                                             onClick={handlePreviousClick}
                                             className={` text-white px-4 py-2 rounded ${pageNum === 1 ? 'invisible' : ''}`}
@@ -212,8 +205,8 @@ const TicketMain = () => {
             <div className={`fade ${openedTicketId ? 'fade-enter-active' : 'fade-exit-active'}`}>
                 {openedTicketId && (
                     <TicketView
-                        key={ticketData?.ticket?._id}
-                        ticketData={ticketData?.ticket}
+                        key={ticketData?._id}
+                        ticketData={ticketData}
                         isLoading={isLoadingTicket}
                         isError={isErrorTicket}
                         error={errorTicket}
