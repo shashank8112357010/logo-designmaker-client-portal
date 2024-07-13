@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { BounceLoader } from 'react-spinners';
 import { CustomDropdown } from '../../../../components/CustomSelect';
 import TicketCard from './TicketCard';
 import TicketView from './TicketView';
 import CreateTicket from './CreateTicket';
-import NoData from './NoData'; // Import the NoData component
-import { getAllTickets, getTicketById } from '../../../../services/api.service';
+import NoData from './NoData';
+import { getAllTickets, getTicketById, searchTickets } from '../../../../services/api.service';
 
 const TicketMain = () => {
     const ticketOptions = [
         { label: 'All Tickets', value: '', color: 'bg-gray-500' },
         { label: 'New Tickets', value: 'New Ticket', color: 'bg-blue-500' },
-        { label: 'On-Going Tickets', value: 'On-Going Ticket', color: 'bg-orange-500' },
+        { label: 'On-Going Tickets', value: 'On-Going Ticket', color: 'bg-yellow-500' },
         { label: 'Resolved Tickets', value: 'Resolved Ticket', color: 'bg-green-500' },
     ];
 
@@ -26,27 +27,51 @@ const TicketMain = () => {
     const [showCreateTicket, setShowCreateTicket] = useState(false);
     const [pageNum, setPageNum] = useState(1);
     const [totalTickets, setTotalTickets] = useState(0);
+    const [searchInput, setSearchInput] = useState('');
+    const [searchResults, setSearchResults] = useState(null);
 
     const queryClient = useQueryClient();
 
-    const { data: ticketsData, refetch } = useQuery({
+    const { data: ticketsData, isLoading: isLoadingTickets, refetch } = useQuery({
         queryKey: ['tickets', { pageNum, status: selectedPriority?.value }],
         queryFn: async () => {
             const response = await getAllTickets({ pageNum, status: selectedPriority?.value });
-            setTotalTickets(response.ticketCount);
             return response;
         },
     });
-
-    useEffect(() => {
-        refetch();
-    }, [selectedPriority, pageNum, selectedTimeframe]);
 
     const { data: ticketData, isLoading: isLoadingTicket, isError: isErrorTicket, error: errorTicket } = useQuery({
         queryKey: ['ticket', openedTicketId],
         queryFn: () => getTicketById(openedTicketId),
         enabled: !!openedTicketId,
     });
+
+    const { data: searchData, isLoading: isSearching, refetch: refetchSearch } = useQuery({
+        queryKey: ['searchTickets', searchInput],
+        queryFn: async () => {
+            const response = await searchTickets({ ticketTitle: searchInput, ticketNumber: searchInput, pageNum, status: selectedPriority?.value });
+            return response;
+        },
+        enabled: false,
+    });
+
+    useEffect(() => {
+        if (searchInput !== '') {
+            refetchSearch();
+        } else {
+            refetch();
+        }
+    }, [searchInput, pageNum, selectedPriority, selectedTimeframe, refetchSearch, refetch]);
+
+    useEffect(() => {
+        if (searchData && searchInput !== '') {
+            setSearchResults(searchData.tickets);
+            setTotalTickets(searchData.ticketCount);
+        } else if (ticketsData) {
+            setSearchResults(null);
+            setTotalTickets(ticketsData.ticketCount);
+        }
+    }, [searchData, ticketsData, searchInput]);
 
     const handleOpenTicket = (ticketId) => {
         setOpenedTicketId(ticketId);
@@ -58,32 +83,49 @@ const TicketMain = () => {
 
     const handleBackFromCreateTicket = () => {
         setShowCreateTicket(false);
+        setPageNum(1);
+        // if (searchData && searchInput !== '') {
+        //     setSearchResults(searchData.tickets);
+        //     setTotalTickets(searchData.ticketCount);
+        // } else refetch();
     };
 
     const handleBackFromTicketView = () => {
         setOpenedTicketId(null);
+        refetch();
     };
 
     const refetchTickets = () => {
         queryClient.invalidateQueries(['tickets']);
+        // queryClient.invalidateQueries(['searchTickets']);
     };
 
     const handleNextClick = () => {
         if (pageNum < Math.ceil(totalTickets / 3)) {
-            setPageNum(prev => prev + 1);
+            setPageNum((prev) => prev + 1);
         }
     };
 
     const handlePreviousClick = () => {
-        setPageNum(prev => Math.max(prev - 1, 1));
+        setPageNum((prev) => Math.max(prev - 1, 1));
     };
+
+    // const handleSearch = () => {
+    //     if (searchInput !== '') {
+    //         refetchSearch();
+    //     } else {
+    //         refetch();
+    //     }
+    // };
+
 
     useEffect(() => {
         setPageNum(1);
     }, [selectedPriority, selectedTimeframe]);
 
-    const pageButtons = [pageNum, pageNum + 1].filter(num => num <= Math.ceil(totalTickets / 3));
-    const tickets = ticketsData?.tickets || [];
+    console.log(totalTickets)
+    const pageButtons = [pageNum, pageNum + 1].filter((num) => num <= Math.ceil(totalTickets / 3));
+    const tickets = searchResults || ticketsData?.tickets || [];
 
     return (
         <div className="ticket-main-container px-4 pt-12">
@@ -96,9 +138,12 @@ const TicketMain = () => {
                                     <input
                                         type="text"
                                         placeholder="Search for ticket"
+                                        value={searchInput}
+                                        onChange={(e) => setSearchInput(e.target.value)}
                                         className="bg-primaryBlack text-white px-4 py-2 rounded-full w-3/4 pl-10"
                                     />
                                     <img src='/img/search-normal.png' alt='search' className="absolute top-3 left-3 text-gray-500" />
+                                    {/* <button onClick={handleSearch} className="bg-primaryGreen text-primaryBlack px-4 py-2 rounded ml-2">Search</button> */}
                                 </div>
                                 <div className="flex items-center space-x-4">
                                     <div className="relative">
@@ -124,7 +169,11 @@ const TicketMain = () => {
                                     </button>
                                 </div>
                             </div>
-                            {tickets.length > 0 ? (
+                            {isLoadingTickets || isSearching ? (
+                                <div className="flex justify-center items-center h-full">
+                                    <BounceLoader color={"#36D7B7"} />
+                                </div>
+                            ) : tickets.length > 0 ? (
                                 <>
                                     {tickets.map(ticket => (
                                         <TicketCard
@@ -140,48 +189,51 @@ const TicketMain = () => {
                                             onOpenTicket={handleOpenTicket}
                                         />
                                     ))}
-                                    <div className="flex justify-end items-center mt-4 space-x-6">
-                                        <button className="text-customGray" onClick={handlePreviousClick}>Previous</button>
-                                        <div className="flex space-x-2 w-28">
-                                            {pageButtons.map((num) => (
-                                                <button
-                                                    key={num}
-                                                    className={`text-center px-4 py-2 rounded-lg font-bold ${pageNum === num ? 'bg-primaryGreen text-primaryBlack' : 'text-white border-white border-2'}`}
-                                                    onClick={() => setPageNum(num)}
-                                                >
-                                                    {num}
-                                                </button>
-                                            ))}
-                                        </div>
-                                        <button className="text-customGray" onClick={handleNextClick} disabled={pageNum >= Math.ceil(totalTickets / 3)}>Next</button>
+                                    <div className="flex justify-end items-center space-x-4 mt-4">
+                                        <button
+                                            onClick={handlePreviousClick}
+                                            className={` text-white px-4 py-2 rounded ${pageNum === 1 ? 'invisible' : ''}`}
+                                            disabled={pageNum === 1}
+                                        >
+                                            Previous
+                                        </button>
+                                        {pageButtons.map(page => (
+                                            <button
+                                                key={page}
+                                                onClick={() => setPageNum(page)}
+                                                className={` font-medium px-5 py-2 rounded ${pageNum === page ? 'bg-primaryGreen text-primaryBlack' : 'border text-white border-white'}`}
+                                            >
+                                                {page}
+                                            </button>
+                                        ))}
+                                        <button
+                                            onClick={handleNextClick}
+                                            className={` text-white px-4 py-2 rounded ${pageNum >= Math.ceil(totalTickets / 3) ? 'invisible' : ''}`}
+                                            disabled={pageNum >= Math.ceil(totalTickets / 3)}
+                                        >
+                                            Next
+                                        </button>
                                     </div>
                                 </>
                             ) : (
-                                <NoData /> // Display NoData component when there are no tickets
+                                <NoData message="No tickets found" />
                             )}
                         </div>
                     </main>
                 )}
             </div>
-
             <div className={`fade ${openedTicketId ? 'fade-enter-active' : 'fade-exit-active'}`}>
-                {openedTicketId && !isLoadingTicket && ticketData && (
+                {openedTicketId && (
                     <TicketView
-                        ticketId={ticketData?.ticket._id}
-                        username={ticketData?.ticket.username}
-                        priorityStatus={ticketData?.ticket.priorityStatus}
-                        ticketTitle={ticketData?.ticket.title}
-                        ticketType={ticketData?.ticket.ticketType}
-                        ticketBody={ticketData?.ticket.ticketBody}
-                        postedAt={ticketData?.ticket.postedAt}
-                        replies={ticketData?.ticket.replies}
+                        key={ticketData?.ticket?._id}
+                        ticketData={ticketData?.ticket}
+                        isLoading={isLoadingTicket}
+                        isError={isErrorTicket}
+                        error={errorTicket}
                         onBack={handleBackFromTicketView}
                     />
                 )}
-                {isLoadingTicket && <div>Loading...</div>}
-                {isErrorTicket && <div>Error: {errorTicket.message}</div>}
             </div>
-
             <div className={`fade ${showCreateTicket ? 'fade-enter-active' : 'fade-exit-active'}`}>
                 {showCreateTicket && (
                     <CreateTicket onBack={handleBackFromCreateTicket} onSuccess={refetchTickets} />

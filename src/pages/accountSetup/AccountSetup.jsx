@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useMutation } from '@tanstack/react-query';
-import { toast } from 'react-toastify';
+
 import { useNavigate, useLocation } from 'react-router-dom';
 import AccountSetupStep1 from './AccountSetup1';
 import AccountSetupStep2 from './AccountSetup2';
@@ -11,6 +11,7 @@ import AccountSetupStep5 from './AccountSetup5';
 import { setToken, updateProfileField } from '../../store/accountSlice';
 import { accountSetup } from '../../services/api.service';
 import AccountSetupLayout from './Layout';
+import toast from 'react-hot-toast';
 
 function AccountSetup() {
     const location = useLocation();

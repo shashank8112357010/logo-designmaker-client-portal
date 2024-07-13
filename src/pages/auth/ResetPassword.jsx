@@ -5,7 +5,8 @@ import { DotGroup } from "../../components/Dot";
 import { useNavigate, useParams } from "react-router-dom";
 import { resetPassword } from "../../services/api.service";
 import { useMutation } from "@tanstack/react-query";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
+
 
 function ResetPassword() {
   const [newPassword, setNewPassword] = useState("");

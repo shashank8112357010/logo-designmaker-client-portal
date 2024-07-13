@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { toast } from 'react-toastify';
+
 import { Dropdown } from '../../../../components/CustomSelect';
 import { createTicket } from '../../../../services/api.service';
+import toast from 'react-hot-toast';
 
 const CreateTicket = ({ onBack, onSuccess }) => {
   const [priority, setPriority] = useState(null);

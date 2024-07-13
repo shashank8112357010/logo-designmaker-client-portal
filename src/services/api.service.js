@@ -91,3 +91,19 @@ export const addReplyToTicket = async ({ticketId, replyBody}) => {
         throw new Error(error.response?.data?.message || 'Failed to add reply to ticket');
     }
 };
+
+export const searchTickets = async ({ticketTitle,ticketNumber, pageNum, status}) => {
+    try {
+        const response = await axios.get('http://localhost:4000/api/ticket/searchTicket',{
+            params: {ticketTitle,ticketNumber, pageNum, status }
+        });
+        return response.data;
+    } catch (error) {
+        throw new Error(error.response?.data?.message || 'Failed to add reply to ticket');
+    }
+};
+
+export const closeTicket = async (ticketId) => {
+    const response = await axios.put(`http://localhost:4000/api/ticket/close/${ticketId}`);
+    return response.data;
+};

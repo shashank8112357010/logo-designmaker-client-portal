@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import ToggleSwitch from '../../../components/ToggleSwitch';
 import { useMutation } from '@tanstack/react-query';
 import { updatePreferences } from '../../../services/api.service';
-import { toast } from 'react-toastify';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { updateNotification } from '../../../store/accountSlice';
+import toast from 'react-hot-toast';
 
 const Preferences = () => {
     const [currency, setCurrency] = useState('USD');

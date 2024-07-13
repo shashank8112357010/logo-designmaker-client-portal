@@ -4,8 +4,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { updateChoices, getAccountSetupData } from '../../../services/api.service';
 import { setupFields, updateFormData } from '../../../store/accountSlice';
-import { toast } from 'react-toastify';
+
 import { BeatLoader } from 'react-spinners';
+import toast from 'react-hot-toast';
 
 const Choices = () => {
     const dispatch = useDispatch();

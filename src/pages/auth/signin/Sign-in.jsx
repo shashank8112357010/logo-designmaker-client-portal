@@ -7,8 +7,8 @@ import { DotGroup } from "../../../components/Dot";
 import Otp from "./Otp";
 import { signIn } from "../../../services/api.service";
 import { useMutation } from "@tanstack/react-query";
-import { toast } from "react-toastify";
-import { setUser,setupFields } from "../../../store/accountSlice";
+import toast from 'react-hot-toast';
+import { setUser, setupFields } from "../../../store/accountSlice";
 import { useDispatch } from "react-redux";
 import { BeatLoader } from "react-spinners";
 import { setToken } from "../../../helpers/token.helper";
@@ -21,35 +21,34 @@ export const useSignIn = () => {
   const mutation = useMutation({
     mutationFn: signIn,
     onSuccess: (res) => {
-      const { message, isUserReq, user, token,userReq } = res.data;
+      const { message, isUserReq, user, token, userReq } = res.data;
 
       if (message !== "OTP sent successfully") {
-        dispatch(setUser({ user,...res.data }));
+        dispatch(setUser({ user, ...res.data }));
         if (isUserReq) {
-          navigate('/dashboard/overview');
-          const { firstName, lastName, businessName,brandName,slogan, designRequirements, niche, other, fontOptions, colorOptions } = userReq;
+          const { firstName, lastName, businessName, brandName, slogan, designRequirements, niche, other, fontOptions, colorOptions } = userReq;
           dispatch(setupFields({
-              firstName,
-              lastName,
-              businessName,
-              brandName,
-              slogan,
-              designRequirements,
-              niche,
-              other,
-              fontOptions,
-              colorOptions
+            firstName,
+            lastName,
+            businessName,
+            brandName,
+            slogan,
+            designRequirements,
+            niche,
+            other,
+            fontOptions,
+            colorOptions
           }));
+          navigate('/dashboard/overview');
         } else {
           navigate('/accountsetup');
-          dispatch(setToken(token));
         }
         toast.success(message);
         dispatch(setToken(token));
       } else {
         toast.success(message);
         dispatch(setUser({ userId: res.data.userId }));
-        
+
       }
 
       setLoading(false);
@@ -81,11 +80,24 @@ function SignIn() {
   const mutation = useMutation({
     mutationFn: signIn,
     onSuccess: (res) => {
-      const { message, isUserReq, user, token } = res.data;
+      const { message, isUserReq, user, token, userReq } = res.data;
 
       if (message !== "OTP sent successfully") {
         dispatch(setUser({ user, ...res.data }));
         if (isUserReq) {
+          const { firstName, lastName, businessName, brandName, slogan, designRequirements, niche, other, fontOptions, colorOptions } = userReq;
+          dispatch(setupFields({
+            firstName,
+            lastName,
+            businessName,
+            brandName,
+            slogan,
+            designRequirements,
+            niche,
+            other,
+            fontOptions,
+            colorOptions
+          }));
           navigate('/dashboard/overview');
         } else {
           navigate('/accountsetup');
