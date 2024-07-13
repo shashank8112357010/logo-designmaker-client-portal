@@ -1,20 +1,20 @@
 import React from 'react';
 
-const TicketCard = ({ticketId,userId, username, title,ticketType,priorityStatus,ticketBody,postedAt,profileImg, onOpenTicket }) => {
-
+const TicketCard = ({ ticketId, userId, username, title, ticketType, priorityStatus, ticketBody, postedAt, profileImg, onOpenTicket }) => {
     const formatDate = (dateString) => {
         const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' };
         return new Date(dateString).toLocaleString(undefined, options);
     };
+
     return (
-        <div className="bg-primaryBlack p-4 mb-4 rounded-lg ">
+        <div className="bg-primaryBlack p-4 mb-4 rounded-lg">
             <div className="flex justify-between items-start">
                 <div className="flex items-center space-x-2 text-white">
                     <div className={`w-4 h-4 rounded-full ${priorityStatus?.color}`}></div>
                     <h3 className="font-semibold">{`Ticket# ${ticketId}`}</h3>
                 </div>
                 <div className="text-sm flex items-center space-x-2 text-customGray">
-                <div className={`w-2 h-2 rounded-full ${priorityStatus?.color}`}></div>
+                    <div className={`w-2 h-2 rounded-full ${priorityStatus?.color}`}></div>
                     <span>{priorityStatus?.label}</span>
                     <span>Posted at {formatDate(postedAt)}</span>
                 </div>
@@ -28,10 +28,15 @@ const TicketCard = ({ticketId,userId, username, title,ticketType,priorityStatus,
             </div>
             <div className="flex justify-between items-center mt-4">
                 <div className="flex items-center space-x-2">
-                    <img src={profileImg || '/img/profile.jpg'} alt=" " className='h-8 w-8 rounded-full' />
+                    <img
+                        src={profileImg ? profileImg : '/img/profile.jpg'}
+                        alt="profile"
+                        className='h-8 w-8 rounded-full'
+                        onError={(e) => { e.target.onerror = null; e.target.src = '/img/profile.jpg'; }}
+                    />
                     <span className='text-white'>{username}</span>
                 </div>
-                <button 
+                <button
                     onClick={() => onOpenTicket(ticketId)}
                     className="text-blue-500 underline"
                 >

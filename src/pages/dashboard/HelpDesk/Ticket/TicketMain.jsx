@@ -6,14 +6,14 @@ import TicketCard from './TicketCard';
 import TicketView from './TicketView';
 import CreateTicket from './CreateTicket';
 import NoData from './NoData';
-import { getAllTickets, getTicketById, searchTickets } from '../../../../services/api.service';
+import { getAllTickets, getTicketById } from '../../../../services/api.service';
 
 const TicketMain = () => {
     const ticketOptions = [
         { label: 'All Tickets', value: '', color: 'bg-gray-500' },
         { label: 'New Tickets', value: 'New Ticket', color: 'bg-blue-500' },
-        { label: 'On-Going Tickets', value: 'On-Going Ticket', color: 'bg-yellow-300' },
-        { label: 'Resolved Tickets', value: 'Resolved Ticket', color: 'bg-green-300' },
+        { label: 'On-Going Tickets', value: 'On-Going Ticket', color: 'bg-yellow-500' },
+        { label: 'Resolved Tickets', value: 'Resolved Ticket', color: 'bg-green-500' },
     ];
 
     const [selectedPriority, setSelectedPriority] = useState(ticketOptions[0]);
@@ -22,14 +22,13 @@ const TicketMain = () => {
     const [pageNum, setPageNum] = useState(1);
     const [totalTickets, setTotalTickets] = useState(0);
     const [searchInput, setSearchInput] = useState('');
-    const [searchResults, setSearchResults] = useState(null);
 
     const queryClient = useQueryClient();
 
     const { data: ticketsData, isLoading: isLoadingTickets, refetch } = useQuery({
-        queryKey: ['tickets', { pageNum, status: selectedPriority?.value }],
+        queryKey: ['tickets', { pageNum, status: selectedPriority?.value, ticketTitle: searchInput }],
         queryFn: async () => {
-            const response = await getAllTickets({ pageNum, status: selectedPriority?.value });
+            const response = await getAllTickets({ pageNum, status: selectedPriority?.value, ticketTitle: searchInput });
             return response;
         },
     });
@@ -43,32 +42,15 @@ const TicketMain = () => {
         enabled: !!openedTicketId,
     });
 
-    const { data: searchData, isLoading: isSearching, refetch: refetchSearch } = useQuery({
-        queryKey: ['searchTickets', searchInput],
-        queryFn: async () => {
-            const response = await searchTickets({ ticketTitle: searchInput, ticketNumber: searchInput, pageNum, status: selectedPriority?.value });
-            return response;
-        },
-        enabled: false,
-    });
+    useEffect(() => {
+        refetch();
+    }, [searchInput, pageNum, selectedPriority, refetch]);
 
     useEffect(() => {
-        if (searchInput !== '') {
-            refetchSearch();
-        } else {
-            refetch();
-        }
-    }, [searchInput, pageNum, selectedPriority, refetchSearch, refetch]);
-
-    useEffect(() => {
-        if (searchData && searchInput !== '') {
-            setSearchResults(searchData.tickets);
-            setTotalTickets(searchData.ticketCount);
-        } else if (ticketsData) {
-            setSearchResults(null);
+        if (ticketsData) {
             setTotalTickets(ticketsData.ticketCount);
         }
-    }, [searchData, ticketsData, searchInput]);
+    }, [ticketsData]);
 
     const handleOpenTicket = (ticketId) => {
         setOpenedTicketId(ticketId);
@@ -90,7 +72,6 @@ const TicketMain = () => {
 
     const refetchTickets = () => {
         queryClient.invalidateQueries(['tickets']);
-        // queryClient.invalidateQueries(['searchTickets']);
     };
 
     const handleNextClick = () => {
@@ -103,14 +84,12 @@ const TicketMain = () => {
         setPageNum((prev) => Math.max(prev - 1, 1));
     };
 
-
     useEffect(() => {
         setPageNum(1);
     }, [selectedPriority]);
 
-    console.log(totalTickets)
     const pageButtons = [pageNum, pageNum + 1].filter((num) => num <= Math.ceil(totalTickets / 3));
-    const tickets = searchResults || ticketsData?.tickets || [];
+    const tickets = ticketsData?.tickets || [];
 
     return (
         <div className="ticket-main-container px-4 pt-12">
@@ -146,7 +125,7 @@ const TicketMain = () => {
                                     </button>
                                 </div>
                             </div>
-                            {isLoadingTickets || isSearching ? (
+                            {isLoadingTickets ? (
                                 <div className=" h-[60vh] flex items-center justify-center ">
                                     <BounceLoader color={"#36D7B7"} />
                                 </div>

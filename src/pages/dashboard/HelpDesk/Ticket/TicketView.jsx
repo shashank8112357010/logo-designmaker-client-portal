@@ -83,7 +83,7 @@ const TicketView = ({ ticketData, onBack }) => {
                                 <div className={`w-4 h-4 rounded-full ${ticketData?.priorityStatus?.color}`}></div>
                                 <h3 className="font-semibold">{`Ticket# ${ticketData?._id}`}</h3>
                             </div>
-                            <div className="text-sm flex items-center space-x-2 text-customGray">
+                            <div className="text-xs text-customGray">
                                 <span>Posted at {formatDate(ticketData?.postedAt)}</span>
                             </div>
                         </div>
@@ -92,8 +92,13 @@ const TicketView = ({ ticketData, onBack }) => {
                             <p className="text-customGray text-sm mt-2">{ticketData?.ticketBody}</p>
                         </div>
                         <div className='mt-4 space-y-2'>
-                            <div className="flex items-center space-x-2 mt-4 mb-4">
-                                <img src={ticketData?.profileImg || '/img/profile.jpg'}  alt="" className='h-6 w-6 rounded-full' />
+                            <div className="flex items-center justify-end space-x-2 mt-4 mb-4">
+                                <img
+                                    src={ticketData?.profileImg ? ticketData?.profileImg : '/img/profile.jpg'}
+                                    alt="profile"
+                                    className='h-6 w-6 rounded-full'
+                                    onError={(e) => { e.target.onerror = null; e.target.src = '/img/profile.jpg'; }}
+                                />
                                 <span className='text-customGray text-sm'>{ticketData?.username || 'Admin'}</span>
                             </div>
                             <div className='bg-customGray h-0.5 w-full rounded-full'></div>
@@ -106,7 +111,7 @@ const TicketView = ({ ticketData, onBack }) => {
                                             <div className={`w-4 h-4 rounded-full ${ticketData?.priorityStatus?.color}`}></div>
                                             <h4 className="font-semibold">Reply for Ticket# {reply?.ticketId}</h4>
                                         </div>
-                                        <div className="text-sm text-customGray">
+                                        <div className="text-xs text-customGray">
                                             <span>Posted at {formatDate(reply?.postedAt)}</span>
                                         </div>
                                     </div>
@@ -114,7 +119,7 @@ const TicketView = ({ ticketData, onBack }) => {
                                         <p className="text-customGray text-sm mt-2 break-words">{reply?.replyBody}</p>
                                     </div>
                                     <div className='mt-4'>
-                                        <div className="flex items-center space-x-2 mt-4 mb-4">
+                                        <div className="flex items-center justify-end space-x-2 mt-4 mb-4">
                                             <img src={reply?.profileImg || '/img/profile.jpg'} alt="" className='h-6 w-6 rounded-full' />
                                             <span className='text-customGray text-sm'>{reply?.username || 'Admin'}</span>
                                         </div>

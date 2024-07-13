@@ -67,9 +67,9 @@ export const createTicket = async (ticketData) => {
    
 };
 
-export const getAllTickets = async ({ pageNum = 1, status = '' }) => {
+export const getAllTickets = async ({ pageNum = 1, status = '', ticketTitle = '' }) => {
     const response = await axios.get('http://localhost:4000/api/ticket/getAll', {
-        params: { pageNum, status }
+        params: { pageNum, status, ticketTitle }
     });
     return response.data;
 };
