@@ -4,7 +4,7 @@ const NoData = () => {
   return (
     <div className='flex flex-col justify-center items-center'>
         <img src="/img/noData.png" alt="" />
-       <h1 className='text-white text-4xl font-serif'>OOPS! No Data Found</h1>
+       <h1 className='text-white text-5xl font-serif mt-4'>OOPS! No Data Found</h1>
     </div>
   )
 }

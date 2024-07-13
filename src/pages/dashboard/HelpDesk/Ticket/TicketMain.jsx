@@ -88,7 +88,8 @@ const TicketMain = () => {
         setPageNum(1);
     }, [selectedPriority]);
 
-    const pageButtons = [pageNum, pageNum + 1].filter((num) => num <= Math.ceil(totalTickets / 3));
+    const totalPages = Math.ceil(totalTickets / 3);
+    const pageButtons = [pageNum, pageNum + 1].filter((num) => num <= totalPages);
     const tickets = ticketsData?.tickets || [];
 
     return (
@@ -148,30 +149,35 @@ const TicketMain = () => {
                                         />
                                     ))}
                                    </div>
-                                    <div className="flex justify-end items-center space-x-4 mt-4 absolute bottom-1 right-4">
-                                        <button
-                                            onClick={handlePreviousClick}
-                                            className={` text-white px-4 py-2 rounded ${pageNum === 1 ? 'invisible' : ''}`}
-                                            disabled={pageNum === 1}
-                                        >
-                                            Previous
-                                        </button>
-                                        {pageButtons.map(page => (
+                                    <div className="flex justify-between items-center space-x-4 mt-4 absolute bottom-2 left-5 right-4">
+                                        <span className="text-primaryGreen ">
+                                            Page {pageNum} of {totalPages}
+                                        </span>
+                                        <div className="flex space-x-4">
                                             <button
-                                                key={page}
-                                                onClick={() => setPageNum(page)}
-                                                className={` font-medium px-5 py-2 rounded ${pageNum === page ? 'bg-primaryGreen text-primaryBlack' : 'border text-white border-white'}`}
+                                                onClick={handlePreviousClick}
+                                                className={` text-white px-4 py-2 rounded ${pageNum === 1 ? 'invisible' : ''}`}
+                                                disabled={pageNum === 1}
                                             >
-                                                {page}
+                                                Previous
                                             </button>
-                                        ))}
-                                        <button
-                                            onClick={handleNextClick}
-                                            className={` text-white px-4 py-2 rounded ${pageNum >= Math.ceil(totalTickets / 3) ? 'invisible' : ''}`}
-                                            disabled={pageNum >= Math.ceil(totalTickets / 3)}
-                                        >
-                                            Next
-                                        </button>
+                                            {pageButtons.map(page => (
+                                                <button
+                                                    key={page}
+                                                    onClick={() => setPageNum(page)}
+                                                    className={` font-medium px-5 py-2 rounded ${pageNum === page ? 'bg-primaryGreen text-primaryBlack' : 'border text-white border-white'}`}
+                                                >
+                                                    {page}
+                                                </button>
+                                            ))}
+                                            <button
+                                                onClick={handleNextClick}
+                                                className={` text-white px-4 py-2 rounded ${pageNum >= totalPages ? 'invisible' : ''}`}
+                                                disabled={pageNum >= totalPages}
+                                            >
+                                                Next
+                                            </button>
+                                        </div>
                                     </div>
                                 </>
                             ) : (
