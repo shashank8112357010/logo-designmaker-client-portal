@@ -217,6 +217,9 @@ function SignIn() {
                   </div>
                   <button
                     className="mt-4 flex items-center justify-center w-full p-3 bg-white text-primaryBlack font-bold rounded-lg gap-2"
+                    onClick={() => window.open("http://localhost:4000/api/dashboard/auth/google", "_self")}
+
+                  // onClick={() => window.location.href = `http://localhost:4000/api/dashboard/auth/google`}
                   >
                     Sign in with Google <img src="/img/Google.png" alt="" />
                   </button>

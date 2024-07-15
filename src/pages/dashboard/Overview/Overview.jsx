@@ -1,8 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import { useNavigate } from 'react-router-dom';
+import Cookies from "js-cookie";
 
 const Overview = () => {
+    // const navigate = useNavigate();
+
+    // useEffect(() => {
+    //     const token = Cookies.get('authToken');
+
+    //     console.log("error for token")
+    //     console.log(token);
+    //     if (token) {
+    //         localStorage.setItem('authToken', token);
+    //         Cookies.remove('authToken'); // Remove the cookie once read
+    //     } else {
+    //         // Redirect to login if token is not present
+    //         navigate('/login');
+    //     }
+    // }, [navigate]);
     const [date, setDate] = useState(new Date());
     const [selectedTab, setSelectedTab] = useState('All Meets');
 
@@ -130,11 +147,11 @@ const Overview = () => {
                         <table className="w-full  text-gray-400 min-w-max ">
                             <thead className="text-purple">
                                 <tr>
-                                    <th  className="py-2 px-4 text-primarypurple text-left">Description</th>
-                                    <th  className="py-2 text-primarypurple text-left pl-5">Type</th>
-                                    <th  className="py-2 text-primarypurple">Date</th>
-                                    <th  className="py-2 text-primarypurple">Duration</th>
-                                    <th  className="py-2 text-primarypurple">Files</th>
+                                    <th className="py-2 px-4 text-primarypurple text-left">Description</th>
+                                    <th className="py-2 text-primarypurple text-left pl-5">Type</th>
+                                    <th className="py-2 text-primarypurple">Date</th>
+                                    <th className="py-2 text-primarypurple">Duration</th>
+                                    <th className="py-2 text-primarypurple">Files</th>
                                 </tr>
                             </thead>
                             {renderTableContent()}
