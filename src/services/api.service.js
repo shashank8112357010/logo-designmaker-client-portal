@@ -59,6 +59,12 @@ export const updateChoices= async (data) => {
 };
 
 
+// export const loginWithGoogle= async () => {
+//     return await axios.get(`http://localhost:4000/api/dashboard/auth/google`);
+// };
+
+export const googleAuth = (code) => axios.get(`http://localhost:4000/api/dashboard/auth/google?code=${code}`);
+
 
 //ticket api 
 

@@ -11,7 +11,7 @@ const initialState = {
     other: '',
     fontOptions: [],
     colorOptions: [],
-    user: null,
+    user:null,
     token: null
 };
 
@@ -29,16 +29,21 @@ const accountSlice = createSlice({
             state.user = user;
             state.userId = userId;
             state.token = token;
-            localStorage.setItem('token', token);
-            localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('token', token); 
+            localStorage.setItem('user', JSON.stringify(user)); 
+        },
+
+        setUsername: (state, action) => {
+           const username=action.payload;
+           state.user.username=username;
         },
         setupFields: (state, action) => {
-            const { firstName, lastName, designRequirements, businessName, brandName, slogan, niche, other, fontOptions, colorOptions } = action.payload;
+            const { firstName, lastName, designRequirements, businessName,brandName,slogan, niche, other, fontOptions, colorOptions } = action.payload;
             state.firstName = firstName;
             state.lastName = lastName;
-            state.businessName = businessName;
-            state.brandName = brandName;
-            state.slogan = slogan;
+            state.businessName=businessName;
+            state.brandName=brandName;
+            state.slogan=slogan;
             state.designRequirements = designRequirements;
             state.niche = niche;
             state.other = other;
@@ -62,14 +67,8 @@ const accountSlice = createSlice({
             state[field] = value;
         },
 
-        // setToken: (state, action) => {
-        //     const { token } = action.payload;
-        //     state.token = token;
-        //     localStorage.setItem('token', token);
-        // },
-
         setToken: (state, action) => {
-            const token = action.payload;
+            const { token } = action.payload;
             state.token = token;
             localStorage.setItem('token', token);
         },
@@ -85,6 +84,6 @@ const accountSlice = createSlice({
     },
 });
 
-export const { updateFormData, setUser, removeToken, resetFormData, updateProfileField, setToken, updateTwoFactor, updateNotification, setupFields } = accountSlice.actions;
+export const { updateFormData, setUser, removeToken, resetFormData, updateProfileField, setToken ,updateTwoFactor,updateNotification,setupFields} = accountSlice.actions;
 
 export default accountSlice.reducer;
