@@ -7,7 +7,7 @@ import axios from "axios";
 import { getToken } from "./helpers/token.helper"
 import NoPageFound from "./pages/NoPageFound";
 import GoogleAuthCallback from "./pages/auth/signin/GoogleAuthCallback";
-import { GoogleOAuthProvider } from "@react-oauth/google";
+// import { GoogleOAuthProvider } from "@react-oauth/google";
 
 // axios interceptor
 
@@ -29,8 +29,8 @@ function App() {
 
   return (
     <>
-     <GoogleOAuthProvider clientId="74916912845-56421us26j7jke1ia8e9rabrjsum9vq3.apps.googleusercontent.com">
-     <Routes>
+      {/* <GoogleOAuthProvider clientId="624185740596-54nkdg30q57dgm2m9231vggunfkps9f8.apps.googleusercontent.com"> */}
+      <Routes>
         <Route path="/" element={<Navigate to="/auth/sign-in" />} />
         <Route path="*" element={<NoPageFound />} />
         <Route path="/auth/*" element={<Auth />} />
@@ -39,7 +39,7 @@ function App() {
         <Route path="/dashboard/*" element={<Dashboard />} />
         <Route path="/auth/GoogleAuthCallback" element={<GoogleAuthCallback />} />
       </Routes>
-     </GoogleOAuthProvider>
+      {/* </GoogleOAuthProvider> */}
     </>
   );
 }

@@ -5,14 +5,14 @@ import LeftSide from "../../../components/LeftSide";
 import { DotGroup } from "../../../components/Dot";
 
 import Otp from "./Otp";
-import { googleAuth, loginWithGoogle, signIn } from "../../../services/api.service";
+import { loginWithGoogle, signIn } from "../../../services/api.service";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { setUser, setupFields } from "../../../store/accountSlice";
 import { useDispatch } from "react-redux";
 import { BeatLoader } from "react-spinners";
 import { setToken } from "../../../helpers/token.helper";
-import { useGoogleLogin } from "@react-oauth/google";
+// import { useGoogleLogin } from "@react-oauth/google";
 
 export const useSignIn = () => {
   const navigate = useNavigate();
@@ -153,28 +153,28 @@ function SignIn() {
   //      }).catch((error)=> console.log(error))
   // }
 
-  const responseGoogle = async (authResult) => {
-		try {
-			if (authResult["code"]) {
-				console.log(authResult.code);
-				const result = await googleAuth(authResult.code);
-				console.log(result.data);
-				// props.setUser(result.data.data.user);
-				alert("successfuly logged in");
-			} else {
-				console.log(authResult);
-				throw new Error(authResult);
-			}
-		} catch (e) {
-			console.log(e);
-		}
-	};
+  // const responseGoogle = async (authResult) => {
+  //   try {
+  //     if (authResult["code"]) {
+  //       console.log(authResult.code);
+  //       const result = await googleAuth(authResult.code);
+  //       console.log(result.data);
+  //       // props.setUser(result.data.data.user);
+  //       alert("successfuly logged in");
+  //     } else {
+  //       console.log(authResult);
+  //       throw new Error(authResult);
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
-	const googleLogin = useGoogleLogin({
-		onSuccess: responseGoogle,
-		onError: responseGoogle,
-		flow: "auth-code",
-	});
+  // const googleLogin = useGoogleLogin({
+  //   onSuccess: responseGoogle,
+  //   onError: responseGoogle,
+  //   flow: "auth-code",
+  // });
 
   return (
     <section className="bg-secondaryBlack flex flex-col mmd:flex-row">
@@ -247,8 +247,9 @@ function SignIn() {
                   </div>
                   <button
                     className="mt-4 flex items-center justify-center w-full p-3 bg-white text-primaryBlack font-bold rounded-lg gap-2"
-                    onClick={googleLogin}
+                    // onClick={googleLogin}
 
+                    onClick={() => window.open("http://localhost:4000/api/dashboard/auth/google", "_self")}
                   // onClick={() => window.location.href = `http://localhost:4000/api/dashboard/auth/google`}
                   >
                     Sign in with Google <img src="/img/Google.png" alt="" />
@@ -265,7 +266,7 @@ function SignIn() {
           </div>
         </div>
       </div>
-    </section>
+    </section >
   );
 }
 
