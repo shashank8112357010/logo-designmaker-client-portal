@@ -5,14 +5,13 @@ import LeftSide from "../../../components/LeftSide";
 import { DotGroup } from "../../../components/Dot";
 
 import Otp from "./Otp";
-import { googleAuth, loginWithGoogle, signIn } from "../../../services/api.service";
+import { signIn } from "../../../services/api.service";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import { setUser, setupFields } from "../../../store/accountSlice";
+import { setUser, setupFields, setToken, setRefreshToken} from "../../../store/accountSlice";
 import { useDispatch } from "react-redux";
 import { BeatLoader } from "react-spinners";
-import { setToken } from "../../../helpers/token.helper";
-import { useGoogleLogin } from "@react-oauth/google";
+import { saveRefreshToken } from "../../../helpers/token.helper";
 
 export const useSignIn = () => {
   const navigate = useNavigate();
@@ -22,10 +21,11 @@ export const useSignIn = () => {
   const mutation = useMutation({
     mutationFn: signIn,
     onSuccess: (res) => {
-      const { message, isUserReq, user, token, userReq } = res.data;
+      const { message, isUserReq, user, token,refreseToken, userReq } = res.data;
 
       if (message !== "OTP sent successfully") {
         dispatch(setUser({ user, ...res.data }));
+        saveRefreshToken(refreseToken);
         if (isUserReq) {
           const { firstName, lastName, businessName, brandName, slogan, designRequirements, niche, other, fontOptions, colorOptions } = userReq;
           dispatch(setupFields({
@@ -80,10 +80,11 @@ function SignIn() {
   const mutation = useMutation({
     mutationFn: signIn,
     onSuccess: (res) => {
-      const { message, isUserReq, user, token, userReq } = res.data;
+      const { message, isUserReq, user, token,refreshToken, userReq } = res.data;
 
       if (message !== "OTP sent successfully") {
         dispatch(setUser({ user, ...res.data }));
+        dispatch(setRefreshToken(refreshToken));
         if (isUserReq) {
           const { firstName, lastName, businessName, brandName, slogan, designRequirements, niche, other, fontOptions, colorOptions } = userReq;
           dispatch(setupFields({
@@ -99,11 +100,11 @@ function SignIn() {
             colorOptions
           }));
           navigate('/dashboard/overview');
+          dispatch(setToken(token));
         } else {
           navigate('/accountsetup');
         }
         toast.success(message);
-        dispatch(setToken(token));
       } else {
         toast.success(message);
         dispatch(setUser({ userId: res.data.userId }));
@@ -146,35 +147,6 @@ function SignIn() {
       handleSubmitLoginAPIService(workEmail, password);
     }
   };
-
-  // const handleGoogleLogin = async () =>{
-  //      const fetchDetails= await loginWithGoogle().then((res)=>{
-  //       console.log(res)
-  //      }).catch((error)=> console.log(error))
-  // }
-
-  const responseGoogle = async (authResult) => {
-		try {
-			if (authResult["code"]) {
-				console.log(authResult.code);
-				const result = await googleAuth(authResult.code);
-				console.log(result.data);
-				// props.setUser(result.data.data.user);
-				alert("successfuly logged in");
-			} else {
-				console.log(authResult);
-				throw new Error(authResult);
-			}
-		} catch (e) {
-			console.log(e);
-		}
-	};
-
-	const googleLogin = useGoogleLogin({
-		onSuccess: responseGoogle,
-		onError: responseGoogle,
-		flow: "auth-code",
-	});
 
   return (
     <section className="bg-secondaryBlack flex flex-col mmd:flex-row">
@@ -247,7 +219,7 @@ function SignIn() {
                   </div>
                   <button
                     className="mt-4 flex items-center justify-center w-full p-3 bg-white text-primaryBlack font-bold rounded-lg gap-2"
-                    onClick={googleLogin}
+                    onClick={() => window.open("http://localhost:4000/api/dashboard/auth/google", "_self")}
 
                   // onClick={() => window.location.href = `http://localhost:4000/api/dashboard/auth/google`}
                   >

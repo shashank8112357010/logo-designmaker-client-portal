@@ -42,6 +42,7 @@ function AccountSetupStep2({ formData, handleNextStep, handlePreviousStep }) {
                                 type="text"
                                 value={slogan}
                                 onChange={handleSloganChange}
+                                required
                                 placeholder="Please Add your Slogan"
                                 className="w-full p-3 bg-primaryBlack border-none text-white rounded-lg mt-1"
                             />

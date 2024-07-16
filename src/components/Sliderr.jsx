@@ -1,10 +1,10 @@
-import React, { useRef } from "react";
+import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 export default function Sliderr({ slideData }) {
-    let sliderRef = useRef(null);
+    // let sliderRef = useRef(null);
 
     const settings = {
         dots: true,
@@ -23,9 +23,9 @@ export default function Sliderr({ slideData }) {
         <section className="relative bg-primaryBlack mx-auto w-1/2 px-4 sm:px-10 py-8 md:pb-10 md:pt-10">
             <div className="homeSlider absolute left-0 w-[38%] ">
                 <Slider
-                    ref={slider => {
-                        sliderRef = slider;
-                    }}
+                    // ref={slider => {
+                    //     sliderRef = slider;
+                    // }}
                     {...settings}>
                     {slideData.map((item, index) => {
                         return (

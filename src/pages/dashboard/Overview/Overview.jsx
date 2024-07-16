@@ -1,25 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { useNavigate } from 'react-router-dom';
-// import Cookies from "js-cookie";
+
 
 const Overview = () => {
-    // const navigate = useNavigate();
-
-    // useEffect(() => {
-    //     const token = Cookies.get('authToken');
-
-    //     console.log("error for token")
-    //     console.log(token);
-    //     if (token) {
-    //         localStorage.setItem('authToken', token);
-    //         Cookies.remove('authToken'); // Remove the cookie once read
-    //     } else {
-    //         // Redirect to login if token is not present
-    //         navigate('/login');
-    //     }
-    // }, [navigate]);
     const [date, setDate] = useState(new Date());
     const [selectedTab, setSelectedTab] = useState('All Meets');
 

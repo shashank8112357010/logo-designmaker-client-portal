@@ -58,12 +58,14 @@ export const updateChoices= async (data) => {
     return await axios.put(`http://localhost:4000/api/dashboard/editRequirements`, data);
 };
 
+const api = axios.create({
+   
+    baseURL: "http://localhost:4000/api/dashboard",
+    withCredentials: true,
 
-// export const loginWithGoogle= async () => {
-//     return await axios.get(`http://localhost:4000/api/dashboard/auth/google`);
-// };
+});
 
-export const googleAuth = (code) => axios.get(`http://localhost:4000/api/dashboard/auth/google?code=${code}`);
+export const googleAuth = (code) => api.get(`/auth/google?code=${code}`);
 
 
 //ticket api 
