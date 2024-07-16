@@ -4,14 +4,15 @@ import { useMutation } from '@tanstack/react-query';
 import { Dropdown } from '../../../../components/CustomSelect';
 import { createTicket } from '../../../../services/api.service';
 import toast from 'react-hot-toast';
+import { BeatLoader } from 'react-spinners';
 
 const CreateTicket = ({ onBack, onSuccess }) => {
   const [title, setTitle] = useState('');
   const [requestType, setRequestType] = useState('');
   const [ticketBody, setTicketBody] = useState('');
-  const [loading,setLoading] =useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const options = ["Finance","Design","Service"];
+  const options = ["Finance", "Design", "Service"];
 
   const mutation = useMutation({
     mutationFn: createTicket,
@@ -82,7 +83,7 @@ const CreateTicket = ({ onBack, onSuccess }) => {
               type="submit"
               className="bg-primaryGreen text-primaryBlack font-bold py-3 px-6 rounded w-36 "
             >
-             {loading ?   <BeatLoader size={8} color={"#000"} /> : 'Send Ticket'}
+              {loading ? <BeatLoader size={8} color={"#000"} /> : 'Send Ticket'}
             </button>
             <button onClick={onBack} className="border-primaryGreen border text-white font-bold py-3 px-10 rounded">Back</button>
           </div>
