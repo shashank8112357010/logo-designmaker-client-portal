@@ -1,7 +1,4 @@
 import React, { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
-// import {  useDispatch } from 'react-redux';
-// import { resetFormData } from '../../store/accountSlice';
 const ColorPalette = ({ palette, isSelected, onClick }) => (
     <div
         className={`p-4 bg-primaryBlack rounded-lg flex flex-col justify-center cursor-pointer last: ${isSelected ? 'ring-2 ring-primaryGreen' : ''}`}
@@ -18,9 +15,6 @@ const ColorPalette = ({ palette, isSelected, onClick }) => (
 
 function AccountSetupStep5({ formData = {}, handleSubmit }) {
     const [colorOptions, setSelectedPalettes] = useState(formData.colorOptions || []);
-
-    // const navigate=useNavigate();
-    // const dispatch = useDispatch();
 
     const handlePaletteSelect = (paletteName) => {
         setSelectedPalettes(prev =>

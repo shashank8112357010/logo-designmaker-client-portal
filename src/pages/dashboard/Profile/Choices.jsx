@@ -32,20 +32,6 @@ const Choices = () => {
         queryFn: getAccountSetupData,
     });
 
-    // useEffect(() => {
-    //     if (data?.user) {
-    //         const userRequirements = data.user.userRequirements[0];
-    //         setChoices({
-    //             brandName: userRequirements.brandName || '',
-    //             slogan: userRequirements.slogan || '',
-    //             designRequirements: userRequirements.designRequirements || [],
-    //             niche: userRequirements.niche || [],
-    //             fontOptions: userRequirements.fontOptions || [],
-    //             colorOptions: userRequirements.colorOptions || [],
-    //         });
-    //     }
-    // }, [data]);
-
     useEffect(() => {
         if (location.state?.isEditing) {
             setIsEditing(true);
@@ -112,9 +98,6 @@ const Choices = () => {
             [name]: value,
         }));
     };
-
-    // if (isLoading) return <div>Loading...</div>;
-    // if (isError) return <div>Error loading data!</div>;
 
     return (
         <div className="rounded-xl">

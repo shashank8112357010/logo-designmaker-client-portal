@@ -9,14 +9,14 @@ const NotificationsDropdown = ({ notifications, setShowNotifications }) => {
 
     const handleClose = () => {
         setIsVisible(false);
-        setTimeout(() => setShowNotifications(false), 300); // Matches the transition duration
+        setTimeout(() => setShowNotifications(false), 300); 
     };
 
     return (
         <div
             style={{
                 position: 'absolute',
-                top: '50px', // Adjusted to avoid overlap with the bell icon
+                top: '50px', 
                 right: '10px',
                 width: '500px',
                 backgroundColor: '#182736',
@@ -27,7 +27,6 @@ const NotificationsDropdown = ({ notifications, setShowNotifications }) => {
                 transition: 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out',
                 opacity: isVisible ? 1 : 0,
                 transform: isVisible ? 'translateY(0)' : 'translateY(-10px)',
-                // border: '1px solid #32CD32', // Border for differentiation
             }}
         >
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '8px' }}>

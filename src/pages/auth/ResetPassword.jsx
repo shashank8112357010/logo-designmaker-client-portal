@@ -17,7 +17,6 @@ function ResetPassword() {
   const [errorMessage] = useState("");
 
   const { token } = useParams();
-  // console.log(token)
   const navigate = useNavigate();
 
   const handleNewPasswordChange = (e) => {
@@ -53,10 +52,6 @@ function ResetPassword() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // if (!passwordsMatch) {
-    //   setErrorMessage("Passwords do not match!");
-    //   return;
-    // }
     mutation.mutate({ token, newPassword, confirmPassword });
   };
 

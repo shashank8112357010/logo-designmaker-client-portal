@@ -9,6 +9,7 @@ const TicketView = ({ ticketData, onBack }) => {
     const [showReplyForm, setShowReplyForm] = useState(false);
     const [replyText, setReplyText] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const queryClient = useQueryClient();
 
@@ -18,13 +19,16 @@ const TicketView = ({ ticketData, onBack }) => {
             queryClient.invalidateQueries(['ticket', data?.ticket._id]);
             setShowReplyForm(false);
             setReplyText('');
+            setLoading(false);
         },
         onError: (error) => {
             toast.error(error.message);
             setErrorMessage(error.message);
+            setLoading(false);
         },
     });
 
+    
     const closeTicketMutation = useMutation({
         mutationFn: closeTicket,
         onSuccess: (data) => {
@@ -53,10 +57,12 @@ const TicketView = ({ ticketData, onBack }) => {
     const handleReplySubmit = (e) => {
         e.preventDefault();
         setErrorMessage('');
-        addReplyMutation.mutate({ ticketId:ticketData._id, replyBody: replyText });
+        setLoading(true);
+        addReplyMutation.mutate({ ticketId: ticketData._id, replyBody: replyText });
     };
 
     const handleCloseTicket = () => {
+        setLoading(true);
         closeTicketMutation.mutate(ticketData._id);
     };
 
@@ -64,6 +70,8 @@ const TicketView = ({ ticketData, onBack }) => {
         const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' };
         return new Date(dateString).toLocaleString(undefined, options);
     };
+
+    const isResolved = ticketData?.priorityStatus?.label === 'Resolved Ticket';
 
     return (
         <div className='flex-grow relative'>
@@ -75,54 +83,65 @@ const TicketView = ({ ticketData, onBack }) => {
                                 <div className={`w-4 h-4 rounded-full ${ticketData?.priorityStatus?.color}`}></div>
                                 <h3 className="font-semibold">{`Ticket# ${ticketData?._id}`}</h3>
                             </div>
-                            <div className="text-sm flex items-center space-x-2 text-customGray">
+                            <div className="text-xs text-customGray">
                                 <span>Posted at {formatDate(ticketData?.postedAt)}</span>
                             </div>
                         </div>
-                        <div className="mt-2">
+                        <div className="mt-6">
                             <h4 className="font-semibold text-white">{ticketData?.title}</h4>
-                            <p className="text-gray-400 text-sm mt-2">{ticketData?.ticketBody}</p>
+                            <p className="text-customGray text-sm mt-2">{ticketData?.ticketBody}</p>
                         </div>
-                        <div className='mt-4'>
-                            <div className='bg-white h-0.5 w-full rounded-full'></div>
-                            <div className="flex items-center space-x-2 mt-4">
-                                <img src="/img/Ellipse.jpg" alt="" className='h-8 w-8 rounded-full' />
-                                <span className='text-white'>{ticketData?.username}</span>
+                        <div className='mt-4 space-y-2'>
+                            <div className="flex items-center justify-end space-x-2 mt-4 mb-4">
+                                <img
+                                    src={ticketData?.profileImg ? ticketData?.profileImg : '/img/profile.jpg'}
+                                    alt="profile"
+                                    className='h-6 w-6 rounded-full'
+                                    onError={(e) => { e.target.onerror = null; e.target.src = '/img/profile.jpg'; }}
+                                />
+                                <span className='text-customGray text-sm'>{ticketData?.username || 'Admin'}</span>
                             </div>
+                            <div className='bg-customGray h-0.5 w-full rounded-full'></div>
                         </div>
                         <div className="mt-4">
                             {ticketData?.replies?.map(reply => (
-                                <div key={reply?._id} className="bg-secondaryBlack rounded mt-10">
+                                <div key={reply?._id} className="bg-secondaryBlack rounded mt-4">
                                     <div className="flex justify-between items-start">
                                         <div className="flex items-center space-x-2 text-white">
                                             <div className={`w-4 h-4 rounded-full ${ticketData?.priorityStatus?.color}`}></div>
                                             <h4 className="font-semibold">Reply for Ticket# {reply?.ticketId}</h4>
                                         </div>
-                                        <div className="text-sm text-customGray">
+                                        <div className="text-xs text-customGray">
                                             <span>Posted at {formatDate(reply?.postedAt)}</span>
                                         </div>
                                     </div>
-                                    <div className="mt-2">
-                                        <p className="text-gray-400 text-sm mt-2 break-words">{reply?.replyBody}</p>
+                                    <div className="mt-6">
+                                        <p className="text-customGray text-sm mt-2 break-words">{reply?.replyBody}</p>
                                     </div>
-                                    <div className='mt-10'>
-                                        <div className='bg-white h-0.5 w-full rounded-full'></div>
-                                        <div className="flex items-center space-x-2 mt-4">
-                                            <img src="/img/Ellipse.jpg" alt="" className='h-8 w-8 rounded-full' />
-                                            <span className='text-white'>{reply?.username}</span>
+                                    <div className='mt-4'>
+                                        <div className="flex items-center justify-end space-x-2 mt-4 mb-4">
+                                            <img src={reply?.profileImg || '/img/profile.jpg'} alt="" className='h-6 w-6 rounded-full' />
+                                            <span className='text-customGray text-sm'>{reply?.username || 'Admin'}</span>
                                         </div>
+                                        <div className='bg-customGray h-0.5 w-full rounded-full'></div>
                                     </div>
                                 </div>
                             ))}
                         </div>
                         <div className="flex justify-end items-center mt-4">
                             <div className='flex space-x-4'>
-                                <button onClick={handleReplyClick} className="border-primaryGreen border text-white font-medium p-2 rounded flex items-center gap-3">
-                                    <img src="/img/Reply.png" alt="" />Reply
-                                </button>
-                                <button onClick={onBack} className="border-primaryGreen border text-white font-bold py-3 px-6 rounded mx-10">Back</button>
-                                <button onClick={handleCloseTicket} className="bg-primaryGreen font-medium rounded px-4" disabled={closeTicketMutation.isLoading}>
-                                    {closeTicketMutation.isLoading ?   <BeatLoader size={8} color={"#000"} /> : 'Close Ticket'}
+                                {!isResolved && (
+                                    <button onClick={handleReplyClick} className="border-primaryGreen border text-white font-medium py-2 px-6 rounded flex items-center gap-3">
+                                        <img src="/img/Reply.png" alt="" />Reply
+                                    </button>
+                                )}
+                                <button onClick={onBack} className="border-primaryGreen border text-white font-bold py-2 px-6 rounded">Back</button>
+                                <button
+                                    onClick={handleCloseTicket}
+                                    className={`bg-primaryGreen font-medium rounded px-4 w-32 ${isResolved ? 'hover:bg-customGray cursor-not-allowed' : ''}`}
+                                    disabled={isResolved}
+                                >
+                                    {loading ? <BeatLoader size={8} color={"#000"} /> : 'Close Ticket'}
                                 </button>
                             </div>
                         </div>
@@ -175,18 +194,19 @@ const TicketView = ({ ticketData, onBack }) => {
                                     ></textarea>
                                 </div>
                             </div>
-                            {errorMessage && <div className="text-red-500 mb-4">{errorMessage}</div>}
-                            <div className="flex justify-end space-x-4">
+
+                            <div className="flex justify-end items-center space-x-4">
+                                {errorMessage && <div className="text-red-500 ">{errorMessage}</div>}
                                 <button
                                     type="button"
                                     onClick={handleCloseReplyForm}
-                                    className=" text-white py-2 px-6 border-2 rounded-md border-primaryGreen">
+                                    className=" text-white py-2 px-8 border rounded-md border-primaryGreen">
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
-                                    className="bg-primaryGreen  text-primaryBlack font-medium rounded-md px-4 py-2">
-                                    Submit Reply
+                                    className="bg-primaryGreen  text-primaryBlack font-medium rounded-md  py-2 px-2 w-36">
+                                    {loading ? <BeatLoader size={8} color={"#000"} /> : 'Submit Reply'}
                                 </button>
                             </div>
                         </form>

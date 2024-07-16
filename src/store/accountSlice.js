@@ -29,8 +29,13 @@ const accountSlice = createSlice({
             state.user = user;
             state.userId = userId;
             state.token = token;
-            localStorage.setItem('token', token); // persist token in localStorage
-            localStorage.setItem('user', JSON.stringify(user)); // persist user in localStorage
+            localStorage.setItem('token', token); 
+            localStorage.setItem('user', JSON.stringify(user)); 
+        },
+
+        setUsername: (state, action) => {
+           const username=action.payload;
+           state.user.username=username;
         },
         setupFields: (state, action) => {
             const { firstName, lastName, designRequirements, businessName,brandName,slogan, niche, other, fontOptions, colorOptions } = action.payload;

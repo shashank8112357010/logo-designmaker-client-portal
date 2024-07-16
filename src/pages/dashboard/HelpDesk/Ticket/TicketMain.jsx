@@ -6,7 +6,7 @@ import TicketCard from './TicketCard';
 import TicketView from './TicketView';
 import CreateTicket from './CreateTicket';
 import NoData from './NoData';
-import { getAllTickets, getTicketById, searchTickets } from '../../../../services/api.service';
+import { getAllTickets, getTicketById } from '../../../../services/api.service';
 
 const TicketMain = () => {
     const ticketOptions = [
@@ -16,13 +16,7 @@ const TicketMain = () => {
         { label: 'Resolved Tickets', value: 'Resolved Ticket', color: 'bg-green-500' },
     ];
 
-    const timeframeOptions = [
-        { label: 'This Week', value: 'This Week' },
-        { label: 'This Month', value: 'This Month' },
-    ];
-
     const [selectedPriority, setSelectedPriority] = useState(ticketOptions[0]);
-    const [selectedTimeframe, setSelectedTimeframe] = useState(timeframeOptions[0]);
     const [openedTicketId, setOpenedTicketId] = useState(null);
     const [showCreateTicket, setShowCreateTicket] = useState(false);
     const [pageNum, setPageNum] = useState(1);
@@ -33,45 +27,31 @@ const TicketMain = () => {
     const queryClient = useQueryClient();
 
     const { data: ticketsData, isLoading: isLoadingTickets, refetch } = useQuery({
-        queryKey: ['tickets', { pageNum, status: selectedPriority?.value }],
+        queryKey: ['tickets', { pageNum, status: selectedPriority?.value, ticketTitle: searchInput }],
         queryFn: async () => {
-            const response = await getAllTickets({ pageNum, status: selectedPriority?.value });
+            const response = await getAllTickets({ pageNum, status: selectedPriority?.value, ticketTitle: searchInput });
             return response;
         },
     });
 
     const { data: ticketData, isLoading: isLoadingTicket, isError: isErrorTicket, error: errorTicket } = useQuery({
         queryKey: ['ticket', openedTicketId],
-        queryFn: () => getTicketById(openedTicketId),
+        queryFn: async () => {
+            const response = await getTicketById(openedTicketId);
+            return response.ticket[0];
+        },
         enabled: !!openedTicketId,
     });
 
-    const { data: searchData, isLoading: isSearching, refetch: refetchSearch } = useQuery({
-        queryKey: ['searchTickets', searchInput],
-        queryFn: async () => {
-            const response = await searchTickets({ ticketTitle: searchInput, ticketNumber: searchInput, pageNum, status: selectedPriority?.value });
-            return response;
-        },
-        enabled: false,
-    });
+    useEffect(() => {
+        refetch();
+    }, [searchInput, pageNum, selectedPriority, refetch]);
 
     useEffect(() => {
-        if (searchInput !== '') {
-            refetchSearch();
-        } else {
-            refetch();
-        }
-    }, [searchInput, pageNum, selectedPriority, selectedTimeframe, refetchSearch, refetch]);
-
-    useEffect(() => {
-        if (searchData && searchInput !== '') {
-            setSearchResults(searchData.tickets);
-            setTotalTickets(searchData.ticketCount);
-        } else if (ticketsData) {
-            setSearchResults(null);
+        if (ticketsData) {
             setTotalTickets(ticketsData.ticketCount);
         }
-    }, [searchData, ticketsData, searchInput]);
+    }, [ticketsData]);
 
     const handleOpenTicket = (ticketId) => {
         setOpenedTicketId(ticketId);
@@ -84,10 +64,6 @@ const TicketMain = () => {
     const handleBackFromCreateTicket = () => {
         setShowCreateTicket(false);
         setPageNum(1);
-        // if (searchData && searchInput !== '') {
-        //     setSearchResults(searchData.tickets);
-        //     setTotalTickets(searchData.ticketCount);
-        // } else refetch();
     };
 
     const handleBackFromTicketView = () => {
@@ -121,18 +97,18 @@ const TicketMain = () => {
 
     useEffect(() => {
         setPageNum(1);
-    }, [selectedPriority, selectedTimeframe]);
+    }, [selectedPriority]);
 
-    console.log(totalTickets)
-    const pageButtons = [pageNum, pageNum + 1].filter((num) => num <= Math.ceil(totalTickets / 3));
-    const tickets = searchResults || ticketsData?.tickets || [];
+    const totalPages = Math.ceil(totalTickets / 3);
+    const pageButtons = [pageNum, pageNum + 1].filter((num) => num <= totalPages);
+    const tickets = ticketsData?.tickets || [];
 
     return (
         <div className="ticket-main-container px-4 pt-12">
             <div className={`fade ${!openedTicketId && !showCreateTicket ? 'fade-enter-active' : 'fade-exit-active'}`}>
                 {!openedTicketId && !showCreateTicket && (
-                    <main className="main">
-                        <div className='bg-secondaryBlack mr-4 p-4'>
+                    <main className="main ">
+                        <div className='bg-secondaryBlack mr-4 p-4 min-h-[75vh] relative'>
                             <div className="flex justify-between items-center mb-6">
                                 <div className="relative w-full lg:w-1/3">
                                     <input
@@ -153,13 +129,6 @@ const TicketMain = () => {
                                             setSelectedOption={setSelectedPriority}
                                         />
                                     </div>
-                                    <div className="relative w-40">
-                                        <CustomDropdown
-                                            options={timeframeOptions}
-                                            selectedOption={selectedTimeframe}
-                                            setSelectedOption={setSelectedTimeframe}
-                                        />
-                                    </div>
                                     <button
                                         onClick={handleNewTicketClick}
                                         className="bg-primaryGreen text-primaryBlack px-4 py-2 rounded font-bold flex items-center gap-1"
@@ -169,13 +138,14 @@ const TicketMain = () => {
                                     </button>
                                 </div>
                             </div>
-                            {isLoadingTickets || isSearching ? (
-                                <div className="flex justify-center items-center h-full">
+                            {isLoadingTickets ? (
+                                <div className=" h-[60vh] flex items-center justify-center ">
                                     <BounceLoader color={"#36D7B7"} />
                                 </div>
                             ) : tickets.length > 0 ? (
                                 <>
-                                    {tickets.map(ticket => (
+                                   <div className='mb-16'>
+                                   {tickets.map(ticket => (
                                         <TicketCard
                                             key={ticket._id}
                                             ticketId={ticket._id}
@@ -186,33 +156,40 @@ const TicketMain = () => {
                                             priorityStatus={ticket.priorityStatus}
                                             ticketBody={ticket.ticketBody}
                                             postedAt={ticket.postedAt}
+                                            profileImg={ticket?.profileImg}
                                             onOpenTicket={handleOpenTicket}
                                         />
                                     ))}
-                                    <div className="flex justify-end items-center space-x-4 mt-4">
-                                        <button
-                                            onClick={handlePreviousClick}
-                                            className={` text-white px-4 py-2 rounded ${pageNum === 1 ? 'invisible' : ''}`}
-                                            disabled={pageNum === 1}
-                                        >
-                                            Previous
-                                        </button>
-                                        {pageButtons.map(page => (
+                                   </div>
+                                    <div className="flex justify-between items-center space-x-4 mt-4 absolute bottom-2 left-5 right-4">
+                                        <span className="text-primaryGreen ">
+                                            Page {pageNum} of {totalPages}
+                                        </span>
+                                        <div className="flex space-x-4">
                                             <button
-                                                key={page}
-                                                onClick={() => setPageNum(page)}
-                                                className={` font-medium px-5 py-2 rounded ${pageNum === page ? 'bg-primaryGreen text-primaryBlack' : 'border text-white border-white'}`}
+                                                onClick={handlePreviousClick}
+                                                className={` text-white px-4 py-2 rounded ${pageNum === 1 ? 'invisible' : ''}`}
+                                                disabled={pageNum === 1}
                                             >
-                                                {page}
+                                                Previous
                                             </button>
-                                        ))}
-                                        <button
-                                            onClick={handleNextClick}
-                                            className={` text-white px-4 py-2 rounded ${pageNum >= Math.ceil(totalTickets / 3) ? 'invisible' : ''}`}
-                                            disabled={pageNum >= Math.ceil(totalTickets / 3)}
-                                        >
-                                            Next
-                                        </button>
+                                            {pageButtons.map(page => (
+                                                <button
+                                                    key={page}
+                                                    onClick={() => setPageNum(page)}
+                                                    className={` font-medium px-5 py-2 rounded ${pageNum === page ? 'bg-primaryGreen text-primaryBlack' : 'border text-white border-white'}`}
+                                                >
+                                                    {page}
+                                                </button>
+                                            ))}
+                                            <button
+                                                onClick={handleNextClick}
+                                                className={` text-white px-4 py-2 rounded ${pageNum >= totalPages ? 'invisible' : ''}`}
+                                                disabled={pageNum >= totalPages}
+                                            >
+                                                Next
+                                            </button>
+                                        </div>
                                     </div>
                                 </>
                             ) : (
@@ -225,8 +202,8 @@ const TicketMain = () => {
             <div className={`fade ${openedTicketId ? 'fade-enter-active' : 'fade-exit-active'}`}>
                 {openedTicketId && (
                     <TicketView
-                        key={ticketData?.ticket?._id}
-                        ticketData={ticketData?.ticket}
+                        key={ticketData?._id}
+                        ticketData={ticketData}
                         isLoading={isLoadingTicket}
                         isError={isErrorTicket}
                         error={errorTicket}

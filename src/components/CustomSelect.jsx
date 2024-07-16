@@ -75,15 +75,12 @@ export const Dropdown = ({ options, value, onChange, placeholder, textColor }) =
   return (
     <div className="relative w-full" ref={dropdownRef}>
       <div
-        className="bg-primaryBlack text-customGray h-[56px] rounded flex items-center justify-between px-4 cursor-pointer"
+        className="bg-primaryBlack text-customGray h-[56px] rounded-lg flex items-center justify-between px-4 cursor-pointer"
         onClick={() => setMenuOpen((prev) => !prev)}
       >
         {selectedValue ? (
           <div className="flex items-center" style={{ color: textColor }}>
-            {selectedValue.color && (
-              <span className={`inline-block w-3 h-3 mr-2 rounded-full ${selectedValue.color}`}></span>
-            )}
-            {selectedValue.label}
+            {selectedValue}
           </div>
         ) : (
           <span className='text-customGray'>{placeholder}</span>
@@ -99,10 +96,7 @@ export const Dropdown = ({ options, value, onChange, placeholder, textColor }) =
               onClick={() => handleOptionClick(option)}
               style={{ color: textColor }}
             >
-              {option.color && (
-                <span className={`inline-block w-3 h-3 mr-2 rounded-full ${option.color}`}></span>
-              )}
-              {option.label}
+              {option}
             </li>
           ))}
         </ul>
