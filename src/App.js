@@ -14,7 +14,7 @@ const refreshAuthLogic = async () => {
   if (!refreshToken) {
     throw new Error("No refresh token available");
   }
-  const response = await axios.post('/token', { refreshToken });
+  const response = await axios.post('http://localhost:4000/api/dashboard/token', { refreshToken });
   saveToken(response.data.token);
   dispatchEvent(setToken(response.data.token))
   saveRefreshToken(response.data.refreshToken);
@@ -42,7 +42,7 @@ axios.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
-    if (error.response.status === 401 && !originalRequest._retry) {
+    if (error.response.data.message === 'Token is not valid' && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
         const newAccessToken = await refreshAuthLogic();

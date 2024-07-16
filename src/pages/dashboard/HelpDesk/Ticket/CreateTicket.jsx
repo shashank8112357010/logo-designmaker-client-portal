@@ -4,32 +4,41 @@ import { useMutation } from '@tanstack/react-query';
 import { Dropdown } from '../../../../components/CustomSelect';
 import { createTicket } from '../../../../services/api.service';
 import toast from 'react-hot-toast';
+import { BeatLoader } from 'react-spinners';
 
 const CreateTicket = ({ onBack, onSuccess }) => {
   const [title, setTitle] = useState('');
   const [requestType, setRequestType] = useState('');
   const [ticketBody, setTicketBody] = useState('');
-  const [loading,setLoading] =useState(false);
+  const [loading, setLoading] = useState(false);
+  const [showError, setShowError] = useState(false);
 
-  const options = ["Finance","Design","Service"];
+  const options = ["Finance", "Design", "Service"];
 
   const mutation = useMutation({
     mutationFn: createTicket,
-    onSuccess: (data) => {
-      toast.success('Ticket created successfully!');
-      setLoading(false)
+    onSuccess: (res) => {
+      // console.log(data)
+      toast.success(res.data.message);
+      setLoading(false);
       onSuccess();
       onBack();
     },
     onError: (error) => {
-      setLoading(false)
-      toast.error(error.message || 'An error occurred');
+      // console.log(error.response.data.message)
+      setLoading(false);
+      toast.error(error.response.data.message || 'An error occurred');
     }
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true)
+    // if (!requestType) {
+    //   setShowError(true);
+    //   setLoading(false);
+    //   return;
+    // }
+    setLoading(true);
     mutation.mutate({
       title,
       ticketType: requestType,
@@ -38,7 +47,7 @@ const CreateTicket = ({ onBack, onSuccess }) => {
   };
 
   return (
-    <main className="flex-grow  overflow-y-auto ">
+    <main className="flex-grow overflow-y-auto">
       <div className="bg-secondaryBlack p-6 rounded-lg shadow-lg">
         <h2 className="text-xl font-semibold text-white mb-4">Create Ticket</h2>
         <p className="text-gray-400 mb-6">Write and address new queries and issues</p>
@@ -65,6 +74,7 @@ const CreateTicket = ({ onBack, onSuccess }) => {
                 placeholder="Please choose one option"
                 textColor="white"
               />
+              {showError && !requestType && <p className="text-red-500 text-sm mt-2">This field is required.</p>}
             </div>
           </div>
           <label htmlFor='body' className='text-white text-lg mb-4'>Ticket Body</label>
@@ -80,9 +90,9 @@ const CreateTicket = ({ onBack, onSuccess }) => {
           <div className="flex justify-end items-center gap-6">
             <button
               type="submit"
-              className="bg-primaryGreen text-primaryBlack font-bold py-3 px-6 rounded w-36 "
+              className="bg-primaryGreen text-primaryBlack font-bold py-3 px-6 rounded w-36"
             >
-             {loading ?   <BeatLoader size={8} color={"#000"} /> : 'Send Ticket'}
+              {loading ? <BeatLoader size={8} color={"#000"} /> : 'Send Ticket'}
             </button>
             <button onClick={onBack} className="border-primaryGreen border text-white font-bold py-3 px-10 rounded">Back</button>
           </div>

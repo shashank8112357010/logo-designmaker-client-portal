@@ -21,11 +21,11 @@ export const useSignIn = () => {
   const mutation = useMutation({
     mutationFn: signIn,
     onSuccess: (res) => {
-      const { message, isUserReq, user, token,refreseToken, userReq } = res.data;
+      const { message, isUserReq, user, token,refreshToken, userReq } = res.data;
 
       if (message !== "OTP sent successfully") {
         dispatch(setUser({ user, ...res.data }));
-        saveRefreshToken(refreseToken);
+        dispatch(setRefreshToken(refreshToken));
         if (isUserReq) {
           const { firstName, lastName, businessName, brandName, slogan, designRequirements, niche, other, fontOptions, colorOptions } = userReq;
           dispatch(setupFields({
@@ -114,6 +114,7 @@ function SignIn() {
       setLoading(false);
     },
     onError: (error) => {
+      console.log(error)
       setLoading(false);
       toast.error(error.response.data.message);
     }
