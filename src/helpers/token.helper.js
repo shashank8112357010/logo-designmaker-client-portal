@@ -2,12 +2,19 @@
 
 export const getToken = () => {
   return localStorage.getItem('token');
-}
+};
 
-// set token to local storage
-export const setToken = (token) => {
+export const getRefreshToken = () => {
+  return localStorage.getItem('refreshToken');
+};
+
+export const saveToken = (token) => {
   localStorage.setItem('token', token);
-}
+};
+
+export const saveRefreshToken = (refreshToken) => {
+  localStorage.setItem('refreshToken', refreshToken);
+};
 
 // set data to local storage
 export const setData = (data) => {

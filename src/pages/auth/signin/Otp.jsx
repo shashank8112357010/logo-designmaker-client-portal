@@ -5,8 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { BeatLoader } from 'react-spinners';
 import { signInOTPVerification } from '../../../services/api.service';
-import { setupFields, setUser } from '../../../store/accountSlice';
-import { setToken } from '../../../helpers/token.helper';
+import { setupFields, setUser,setToken } from '../../../store/accountSlice';
 import {useSignIn} from './Sign-in';
 import toast from 'react-hot-toast';
 
