@@ -2,11 +2,12 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useMutation } from '@tanstack/react-query';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
+
 import { BeatLoader } from 'react-spinners';
 import { signInOTPVerification } from '../../../services/api.service';
 import { setupFields, setUser,setToken } from '../../../store/accountSlice';
 import {useSignIn} from './Sign-in';
+import toast from 'react-hot-toast';
 
 const Otp = ({ workEmail, password }) => {
     const [otpDigits, setOTPDigits] = useState(["", "", "", ""]);

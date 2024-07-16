@@ -19,7 +19,7 @@ export const resetPassword = async ({ token, newPassword, confirmPassword }) => 
     return await axios.post(`http://localhost:4000/api/dashboard/resetPassword/${token}`, { newPassword, confirmPassword });
 };
 export const accountSetup = async (data) => {
-    const response =await axios.post(`http://localhost:4000/api/dashboard/requirements/${data.userId}`, data);
+    const response = await axios.post(`http://localhost:4000/api/dashboard/requirements/${data.userId}`, data);
     return response;
 };
 
@@ -32,15 +32,15 @@ export const updateUserProfile = async (data) => {
         throw error;
     }
 };
-export const updatePassword = async ({currentPassword, newPassword}) => {
-    return await axios.put(`http://localhost:4000/api/dashboard/changePassword`, {currentPassword, newPassword});
+export const updatePassword = async ({ currentPassword, newPassword }) => {
+    return await axios.put(`http://localhost:4000/api/dashboard/changePassword`, { currentPassword, newPassword });
 };
 
 export const toggleTwoFactorAuth = async (isEnabled) => {
     return await axios.post(`http://localhost:4000/api/dashboard/enableTwoFactor?twoFactor=${isEnabled}`);
 };
 
-export const updatePreferences= async ({isGeneralNotification,isPlatformUpdates,isPromotions}) => {
+export const updatePreferences = async ({ isGeneralNotification, isPlatformUpdates, isPromotions }) => {
     return await axios.put(`http://localhost:4000/api/dashboard/setPreferences?generalNotification=${isGeneralNotification}&promotion=${isPromotions}&platformUpdates=${isPlatformUpdates}`);
 };
 
@@ -54,7 +54,7 @@ export const getAccountSetupData = async () => {
     }
 };
 
-export const updateChoices= async (data) => {
+export const updateChoices = async (data) => {
     return await axios.put(`http://localhost:4000/api/dashboard/editRequirements`, data);
 };
 
@@ -72,7 +72,7 @@ export const googleAuth = (code) => api.get(`/auth/google?code=${code}`);
 
 export const createTicket = async (ticketData) => {
     return await axios.post('http://localhost:4000/api/ticket/createTicket', ticketData);
-   
+
 };
 
 export const getAllTickets = async ({ pageNum = 1, status = '', ticketTitle = '' }) => {
@@ -91,7 +91,7 @@ export const getTicketById = async (ticket) => {
     }
 };
 
-export const addReplyToTicket = async ({ticketId, replyBody}) => {
+export const addReplyToTicket = async ({ ticketId, replyBody }) => {
     try {
         const response = await axios.post('http://localhost:4000/api/ticket/reply', { ticketId, replyBody });
         return response.data;
@@ -100,10 +100,10 @@ export const addReplyToTicket = async ({ticketId, replyBody}) => {
     }
 };
 
-export const searchTickets = async ({ticketTitle,ticketNumber, pageNum, status}) => {
+export const searchTickets = async ({ ticketTitle, ticketNumber, pageNum, status }) => {
     try {
-        const response = await axios.get('http://localhost:4000/api/ticket/searchTicket',{
-            params: {ticketTitle,ticketNumber, pageNum, status }
+        const response = await axios.get('http://localhost:4000/api/ticket/searchTicket', {
+            params: { ticketTitle, ticketNumber, pageNum, status }
         });
         return response.data;
     } catch (error) {

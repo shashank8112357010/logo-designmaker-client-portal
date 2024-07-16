@@ -5,8 +5,9 @@ import { DotGroup } from "../../../components/Dot";
 import { resetPasswordLinkSend } from "../../../services/api.service";
 import EmailSent from "./EmailSent";
 import { useMutation } from "@tanstack/react-query";
-import { toast } from "react-toastify";
+
 import { BeatLoader } from "react-spinners";
+import toast from "react-hot-toast";
 
 function ForgotPassword() {
     const [workEmail, setEmail] = useState("");

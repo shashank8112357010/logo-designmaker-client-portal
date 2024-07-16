@@ -6,8 +6,9 @@ import { DotGroup } from "../../../components/Dot.jsx";
 import { useMutation } from "@tanstack/react-query";
 import LeftSide from "../../../components/LeftSide.jsx";
 import { signUp } from "../../../services/api.service.js";
-import { toast } from "react-toastify";
+
 import { BeatLoader } from "react-spinners";
+import toast from "react-hot-toast";
 
 
 export function SignUp() {

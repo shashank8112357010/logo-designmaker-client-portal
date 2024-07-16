@@ -7,7 +7,7 @@ import { DotGroup } from "../../../components/Dot";
 import Otp from "./Otp";
 import { signIn } from "../../../services/api.service";
 import { useMutation } from "@tanstack/react-query";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { setUser, setupFields, setToken, setRefreshToken} from "../../../store/accountSlice";
 import { useDispatch } from "react-redux";
 import { BeatLoader } from "react-spinners";
@@ -220,8 +220,6 @@ function SignIn() {
                   <button
                     className="mt-4 flex items-center justify-center w-full p-3 bg-white text-primaryBlack font-bold rounded-lg gap-2"
                     onClick={() => window.open("http://localhost:4000/api/dashboard/auth/google", "_self")}
-
-                  // onClick={() => window.location.href = `http://localhost:4000/api/dashboard/auth/google`}
                   >
                     Sign in with Google <img src="/img/Google.png" alt="" />
                   </button>
@@ -237,7 +235,7 @@ function SignIn() {
           </div>
         </div>
       </div>
-    </section>
+    </section >
   );
 }
 
