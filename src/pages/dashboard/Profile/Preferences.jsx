@@ -36,14 +36,12 @@ const Preferences = () => {
     });
 
     const handleNotificationChange = (type) => {
-        setPreferences(prevState => ({
-            ...prevState,
-            [type]: !prevState[type]
-        }));
-        mutation.mutate({
+        const newPreferences = {
             ...preferences,
             [type]: !preferences[type]
-        });
+        };
+        setPreferences(newPreferences);
+        mutation.mutate(newPreferences);
     };
 
     return (
