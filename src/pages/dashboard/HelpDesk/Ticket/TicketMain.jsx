@@ -132,23 +132,23 @@ const TicketMain = () => {
                                 </div>
                             ) : tickets.length > 0 ? (
                                 <>
-                                   <div className='mb-16'>
-                                   {tickets.map(ticket => (
-                                        <TicketCard
-                                            key={ticket._id}
-                                            ticketId={ticket._id}
-                                            username={ticket.username}
-                                            userId={ticket.userId}
-                                            title={ticket.title}
-                                            ticketType={ticket.ticketType}
-                                            priorityStatus={ticket.priorityStatus}
-                                            ticketBody={ticket.ticketBody}
-                                            postedAt={ticket.postedAt}
-                                            profileImg={ticket?.profileImg}
-                                            onOpenTicket={handleOpenTicket}
-                                        />
-                                    ))}
-                                   </div>
+                                    <div className='mb-16'>
+                                        {tickets.map(ticket => (
+                                            <TicketCard
+                                                key={ticket._id}
+                                                ticketId={ticket._id}
+                                                username={ticket.username}
+                                                userId={ticket.userId}
+                                                title={ticket.title}
+                                                ticketType={ticket.ticketType}
+                                                priorityStatus={ticket.priorityStatus}
+                                                ticketBody={ticket.ticketBody}
+                                                postedAt={ticket.postedAt}
+                                                profileImg={ticket?.profileImg}
+                                                onOpenTicket={handleOpenTicket}
+                                            />
+                                        ))}
+                                    </div>
                                     <div className="flex justify-between items-center space-x-4 mt-4 absolute bottom-2 left-5 right-4">
                                         <span className="text-primaryGreen ">
                                             Page {pageNum} of {totalPages}
