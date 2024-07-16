@@ -22,6 +22,7 @@ const TicketMain = () => {
     const [pageNum, setPageNum] = useState(1);
     const [totalTickets, setTotalTickets] = useState(0);
     const [searchInput, setSearchInput] = useState('');
+    const [searchResults, setSearchResults] = useState(null);
 
     const queryClient = useQueryClient();
 
@@ -72,6 +73,7 @@ const TicketMain = () => {
 
     const refetchTickets = () => {
         queryClient.invalidateQueries(['tickets']);
+        // queryClient.invalidateQueries(['searchTickets']);
     };
 
     const handleNextClick = () => {
@@ -83,6 +85,15 @@ const TicketMain = () => {
     const handlePreviousClick = () => {
         setPageNum((prev) => Math.max(prev - 1, 1));
     };
+
+    // const handleSearch = () => {
+    //     if (searchInput !== '') {
+    //         refetchSearch();
+    //     } else {
+    //         refetch();
+    //     }
+    // };
+
 
     useEffect(() => {
         setPageNum(1);
@@ -108,6 +119,7 @@ const TicketMain = () => {
                                         className="bg-primaryBlack text-white px-4 py-2 rounded-full w-3/4 pl-10"
                                     />
                                     <img src='/img/search-normal.png' alt='search' className="absolute top-3 left-3 text-gray-500" />
+                                    {/* <button onClick={handleSearch} className="bg-primaryGreen text-primaryBlack px-4 py-2 rounded ml-2">Search</button> */}
                                 </div>
                                 <div className="flex items-center space-x-4">
                                     <div className="relative">

@@ -7,7 +7,7 @@ import { DotGroup } from "../../../components/Dot";
 import Otp from "./Otp";
 import { loginWithGoogle, signIn } from "../../../services/api.service";
 import { useMutation } from "@tanstack/react-query";
-import { toast } from "react-toastify";
+import toast from 'react-hot-toast';
 import { setUser, setupFields } from "../../../store/accountSlice";
 import { useDispatch } from "react-redux";
 import { BeatLoader } from "react-spinners";

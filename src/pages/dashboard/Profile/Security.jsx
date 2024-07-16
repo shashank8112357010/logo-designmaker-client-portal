@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import ToggleSwitch from '../../../components/ToggleSwitch';
 import { useMutation } from '@tanstack/react-query';
 import { toggleTwoFactorAuth, updatePassword } from '../../../services/api.service';
-import { toast } from 'react-toastify';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { updateTwoFactor } from '../../../store/accountSlice';
 import { BeatLoader } from 'react-spinners';
+import toast from 'react-hot-toast';
 
 const Security = () => {
     const dispatch = useDispatch();

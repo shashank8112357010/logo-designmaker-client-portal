@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { addReplyToTicket, closeTicket } from '../../../../services/api.service';
-import { toast } from 'react-toastify';
+
 import { BeatLoader } from 'react-spinners';
+import toast from 'react-hot-toast';
 
 const TicketView = ({ ticketData, onBack }) => {
     const [showReplyForm, setShowReplyForm] = useState(false);
@@ -27,15 +28,14 @@ const TicketView = ({ ticketData, onBack }) => {
         },
     });
 
+    
     const closeTicketMutation = useMutation({
         mutationFn: closeTicket,
         onSuccess: (data) => {
             queryClient.invalidateQueries(['ticket', ticketData._id]);
             toast.success(data.message);
-            setLoading(false);
         },
         onError: (error) => {
-            setLoading(false);
             toast.error(error.message);
         },
     });

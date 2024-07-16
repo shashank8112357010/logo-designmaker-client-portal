@@ -8,8 +8,7 @@ import { store, persistor } from './store/store';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { PersistGate } from 'redux-persist/integration/react';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; // Import React Toastify CSS
+import { Toaster } from 'react-hot-toast';
 
 const queryClient = new QueryClient();
 
@@ -21,12 +20,17 @@ root.render(
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <App />
-            <ToastContainer autoClose={3000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              position="top-center"
-              theme="dark"
-            /> {/* Add ToastContainer here */}
+            {/* Add ToastContainer here */}
+
+            <Toaster 
+              toastOptions={{
+                style: {
+                  background: 'black',
+                  color: 'white',
+                },
+              }}
+            />
+
           </PersistGate>
         </Provider>
       </Router>
