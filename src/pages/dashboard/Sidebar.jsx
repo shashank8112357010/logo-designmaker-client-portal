@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { HomeIcon, ClipboardDocumentListIcon, RectangleStackIcon, Cog6ToothIcon, QuestionMarkCircleIcon ,ArrowLeftStartOnRectangleIcon} from '@heroicons/react/24/solid';
+import { HomeIcon, ClipboardDocumentListIcon, RectangleStackIcon, Cog6ToothIcon, QuestionMarkCircleIcon, ArrowLeftOnRectangleIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
 import { removeToken } from '../../store/accountSlice';
 import { useDispatch } from 'react-redux';
 import { persistor } from '../../store/store';
@@ -16,7 +16,7 @@ const Sidebar = () => {
         setActivePath(location.pathname);
         if (!location.pathname.includes('/dashboard/help')) {
             setHelpdeskOpen(false);
-        } 
+        }
     }, [location]);
 
     const handleLinkClick = (path) => {
@@ -30,7 +30,7 @@ const Sidebar = () => {
 
     const handleHelpdeskClick = () => {
         toggleHelpdesk();
-        
+
         const helpdeskPath = '/dashboard/help';
         setActivePath(helpdeskPath);
         navigate(helpdeskPath);
@@ -38,7 +38,7 @@ const Sidebar = () => {
 
     const getLinkClasses = (path) => {
         const isActive = activePath === path || (helpdeskOpen && path.includes('/dashboard/help'));
-        const baseClasses = `relative flex items-center space-x-5 h-10 w-full pl-4`;
+        const baseClasses = `relative flex items-center space-x-5 h-10 w-full pl-4 menu-item`;
         const activeClasses = `text-primaryGreen bg-black bg-opacity-15`;
         const inactiveClasses = `text-white`;
 
@@ -53,7 +53,7 @@ const Sidebar = () => {
     const handleLogout = () => {
         dispatch(removeToken());
         persistor.purge();
-        navigate('/auth/sign-in'); 
+        navigate('/auth/sign-in');
     };
 
     return (
@@ -113,24 +113,24 @@ const Sidebar = () => {
                                 <div className={`ml-auto mt-2 ${helpdeskOpen ? 'triangle-up' : (activePath === '/dashboard/help hi' ? 'triangle-down-green' : 'triangle-down-white')}`} />
                             </div>
                         </button>
-                        {helpdeskOpen && (
-                            <div className=" w-full pl-20 mb-4 gap-2 flex flex-col ">
-                                <Link
-                                    to="/dashboard/help"
-                                    className={`mt-4 ${activePath === '/dashboard/help ' ? 'text-primaryGreen' : 'text-customGray'}`}
-                                    onClick={() => handleLinkClick('/dashboard/help')}
-                                >
-                                    <span>Tickets</span>
-                                </Link>
-                                <Link
-                                    to="/dashboard/help/refunds"
-                                    className={`${activePath === '/dashboard/help/refunds' ? 'text-primaryGreen' : 'text-customGray'}`}
-                                    onClick={() => handleLinkClick('/dashboard/help/refunds')}
-                                >
-                                    <span>Refunds</span>
-                                </Link>
-                            </div>
-                        )}
+                        <div className={`helpdesk-submenu flex flex-col justify-center pl-20 ${helpdeskOpen ? 'open' : ''}`}>
+                            <Link
+                                to="/dashboard/help"
+                                className={`mt-4 mb-2 flex items-center ${activePath === '/dashboard/help' ? 'link-active' : 'link-inactive'}`}
+                                onClick={() => handleLinkClick('/dashboard/help')}
+                            >
+                                <ChevronRightIcon className={`h-4 w-4 mr-1 chevron-icon ${activePath === '/dashboard/help' ? 'chevron-icon-active' : 'chevron-icon-inactive'}`} />
+                                <span>Tickets</span>
+                            </Link>
+                            <Link
+                                to="/dashboard/help/refunds"
+                                className={`flex items-center ${activePath === '/dashboard/help/refunds' ? 'link-active' : 'link-inactive'}`}
+                                onClick={() => handleLinkClick('/dashboard/help/refunds')}
+                            >
+                                <ChevronRightIcon className={`h-4 w-4 mr-1 chevron-icon ${activePath === '/dashboard/help/refunds' ? 'chevron-icon-active' : 'chevron-icon-inactive'}`} />
+                                <span>Refunds</span>
+                            </Link>
+                        </div>
                     </div>
                     <Link
                         to="/dashboard/settings"
@@ -143,15 +143,14 @@ const Sidebar = () => {
                     </Link>
                 </nav>
                 <button
-                    className="relative py-2 font-medium w-fit  mx-5 text-red-500 px-4 hover:border hover:border-red-500 rounded-lg "
+                    className="relative py-2 font-medium w-fit mx-5 text-red-500 px-4 hover:border hover:border-red-500 rounded-lg"
                     onClick={handleLogout}
                 >
-                    <div className=' flex items-center gap-5 pr-4 w-fit rounded-lg '>
-                    <ArrowLeftStartOnRectangleIcon className="h-6 w-6" />
-                    <span>Logout</span>
+                    <div className='flex items-center gap-5 pr-4 w-fit rounded-lg'>
+                        <ArrowLeftOnRectangleIcon className="h-6 w-6" />
+                        <span>Logout</span>
                     </div>
                 </button>
-
             </div>
         </aside>
     );

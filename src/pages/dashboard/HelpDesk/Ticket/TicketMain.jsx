@@ -7,6 +7,7 @@ import TicketView from './TicketView';
 import CreateTicket from './CreateTicket';
 import NoData from './NoData';
 import { getAllTickets, getTicketById } from '../../../../services/api.service';
+import { XCircleIcon } from '@heroicons/react/24/outline';
 
 const TicketMain = () => {
     const ticketOptions = [
@@ -86,13 +87,9 @@ const TicketMain = () => {
         setPageNum((prev) => Math.max(prev - 1, 1));
     };
 
-    // const handleSearch = () => {
-    //     if (searchInput !== '') {
-    //         refetchSearch();
-    //     } else {
-    //         refetch();
-    //     }
-    // };
+    const handleClearInput = () => {
+      setSearchInput('');
+    };
 
 
     useEffect(() => {
@@ -116,8 +113,17 @@ const TicketMain = () => {
                                         placeholder="Search for ticket"
                                         value={searchInput}
                                         onChange={(e) => setSearchInput(e.target.value)}
-                                        className="bg-primaryBlack text-white px-4 py-2 rounded-full w-3/4 pl-10"
+                                        className="bg-primaryBlack text-white px-4 py-2 rounded-full w-full pl-10"
                                     />
+                                    {searchInput && (
+                                        <button
+                                            type="button"
+                                            onClick={handleClearInput}
+                                            className="absolute right-3 top-2.5"
+                                        >
+                                            <XCircleIcon className="w-6 h-6 text-white" />
+                                        </button>
+                                    )}
                                     <img src='/img/search-normal.png' alt='search' className="absolute top-3 left-3 text-gray-500" />
                                     {/* <button onClick={handleSearch} className="bg-primaryGreen text-primaryBlack px-4 py-2 rounded ml-2">Search</button> */}
                                 </div>
@@ -144,23 +150,23 @@ const TicketMain = () => {
                                 </div>
                             ) : tickets.length > 0 ? (
                                 <>
-                                   <div className='mb-16'>
-                                   {tickets.map(ticket => (
-                                        <TicketCard
-                                            key={ticket._id}
-                                            ticketId={ticket._id}
-                                            username={ticket.username}
-                                            userId={ticket.userId}
-                                            title={ticket.title}
-                                            ticketType={ticket.ticketType}
-                                            priorityStatus={ticket.priorityStatus}
-                                            ticketBody={ticket.ticketBody}
-                                            postedAt={ticket.postedAt}
-                                            profileImg={ticket?.profileImg}
-                                            onOpenTicket={handleOpenTicket}
-                                        />
-                                    ))}
-                                   </div>
+                                    <div className='mb-16'>
+                                        {tickets.map(ticket => (
+                                            <TicketCard
+                                                key={ticket._id}
+                                                ticketId={ticket._id}
+                                                username={ticket.username}
+                                                userId={ticket.userId}
+                                                title={ticket.title}
+                                                ticketType={ticket.ticketType}
+                                                priorityStatus={ticket.priorityStatus}
+                                                ticketBody={ticket.ticketBody}
+                                                postedAt={ticket.postedAt}
+                                                profileImg={ticket?.profileImg}
+                                                onOpenTicket={handleOpenTicket}
+                                            />
+                                        ))}
+                                    </div>
                                     <div className="flex justify-between items-center space-x-4 mt-4 absolute bottom-2 left-5 right-4">
                                         <span className="text-primaryGreen ">
                                             Page {pageNum} of {totalPages}

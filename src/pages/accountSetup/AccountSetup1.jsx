@@ -59,6 +59,7 @@ function AccountSetup1({ formData, handleNextStep }) {
                             <input
                                 type="text"
                                 value={businessName}
+                                required
                                 onChange={handleBusinessNameChange}
                                 placeholder="Venturecapitals"
                                 className="w-full p-3 bg-primaryBlack border-none text-white rounded-lg mt-1"

@@ -5,10 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { BeatLoader } from 'react-spinners';
 import { signInOTPVerification } from '../../../services/api.service';
-import { setupFields, setUser } from '../../../store/accountSlice';
-import { setToken } from '../../../helpers/token.helper';
+import { setupFields, setUser,setToken, setRefreshToken } from '../../../store/accountSlice';
 import {useSignIn} from './Sign-in';
 import toast from 'react-hot-toast';
+import { saveRefreshToken } from '../../../helpers/token.helper';
 
 const Otp = ({ workEmail, password }) => {
     const [otpDigits, setOTPDigits] = useState(["", "", "", ""]);
@@ -36,8 +36,9 @@ const Otp = ({ workEmail, password }) => {
     const otpVerificationMutation = useMutation({
         mutationFn: signInOTPVerification,
         onSuccess: (res) => {
-            const { message, isUserReq, user, token ,userReq } = res.data;
+            const { message, isUserReq, user, token ,refreshToken ,userReq } = res.data;
             dispatch(setUser({ user , ...res.data}));
+            dispatch(setRefreshToken(refreshToken));
             if (isUserReq) {
                 const { firstName, lastName, businessName,brandName,slogan, designRequirements, niche, other, fontOptions, colorOptions } = userReq;
                 dispatch(setupFields({

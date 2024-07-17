@@ -11,8 +11,9 @@ const initialState = {
     other: '',
     fontOptions: [],
     colorOptions: [],
-    user:null,
-    token: null
+    user: null,
+    token: null,
+    refreshToken: null,
 };
 
 const accountSlice = createSlice({
@@ -22,57 +23,56 @@ const accountSlice = createSlice({
         updateFormData: (state, action) => {
             return { ...state, ...action.payload };
         },
-
-
         setUser: (state, action) => {
-            const { user, token, userId } = action.payload;
+            const { user, token,refreshToken } = action.payload;
             state.user = user;
-            state.userId = userId;
             state.token = token;
+            state.refreshToken= refreshToken;
             localStorage.setItem('token', token); 
+            localStorage.setItem('refreshToken', refreshToken); 
             localStorage.setItem('user', JSON.stringify(user)); 
         },
-
         setUsername: (state, action) => {
-           const username=action.payload;
-           state.user.username=username;
+           const username = action.payload;
+           state.user.username = username;
         },
         setupFields: (state, action) => {
-            const { firstName, lastName, designRequirements, businessName,brandName,slogan, niche, other, fontOptions, colorOptions } = action.payload;
+            const { firstName, lastName, designRequirements, businessName, brandName, slogan, niche, other, fontOptions, colorOptions } = action.payload;
             state.firstName = firstName;
             state.lastName = lastName;
-            state.businessName=businessName;
-            state.brandName=brandName;
-            state.slogan=slogan;
+            state.businessName = businessName;
+            state.brandName = brandName;
+            state.slogan = slogan;
             state.designRequirements = designRequirements;
             state.niche = niche;
             state.other = other;
             state.fontOptions = fontOptions;
             state.colorOptions = colorOptions;
         },
-
         removeToken: (state) => {
             state.token = null;
+            state.refreshToken=null;
             state.user = null;
-            state.userId = null;
             Object.assign(state, initialState);
             localStorage.removeItem('token');
+            localStorage.removeItem('refreseToken');
             localStorage.removeItem('user');
         },
-
         resetFormData: () => initialState,
-
         updateProfileField: (state, action) => {
             const { field, value } = action.payload;
             state[field] = value;
         },
-
         setToken: (state, action) => {
-            const { token } = action.payload;
+            const token = action.payload;
             state.token = token;
             localStorage.setItem('token', token);
         },
-
+        setRefreshToken: (state, action) => {
+            const refreshToken = action.payload;
+            state.refreshToken = refreshToken;
+            localStorage.setItem('refreshToken', refreshToken);
+        },
         updateTwoFactor: (state, action) => {
             state.user.twoFactor = action.payload;
         },
@@ -84,6 +84,6 @@ const accountSlice = createSlice({
     },
 });
 
-export const { updateFormData, setUser, removeToken, resetFormData, updateProfileField, setToken ,updateTwoFactor,updateNotification,setupFields} = accountSlice.actions;
+export const { updateFormData, setUser, removeToken, resetFormData, updateProfileField, setToken, setRefreshToken, updateTwoFactor, updateNotification, setupFields } = accountSlice.actions;
 
 export default accountSlice.reducer;

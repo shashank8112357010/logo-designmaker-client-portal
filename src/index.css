@@ -221,3 +221,46 @@ input:focus {
   background: #BDBDBD80; /* Thumb background */
   border-radius: 10px; /* Rounded corners */
 }
+
+
+.helpdesk-submenu {
+  transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.helpdesk-submenu.open {
+  transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  max-height: 200px;
+  opacity: 1;
+}
+
+.menu-item {
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+
+.link-active {
+  color: #5CFF85;
+  transition: color 0.3s ease-in-out;
+}
+
+.link-inactive {
+  color:#BDBDBD80 ;
+  transition: color 0.3s ease-in-out;
+}
+
+.chevron-icon {
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.chevron-icon-active {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.chevron-icon-inactive {
+  transform: translateX(-10px);
+  opacity: 0;
+}
