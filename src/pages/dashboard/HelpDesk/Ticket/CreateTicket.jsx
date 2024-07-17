@@ -4,6 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Dropdown } from '../../../../components/CustomSelect';
 import { createTicket } from '../../../../services/api.service';
 import toast from 'react-hot-toast';
+import { BeatLoader } from 'react-spinners';
 
 const CreateTicket = ({ onBack, onSuccess }) => {
   const [title, setTitle] = useState('');
