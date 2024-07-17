@@ -51,6 +51,7 @@ const accountSlice = createSlice({
         },
         removeToken: (state) => {
             state.token = null;
+            state.refreshToken=null;
             state.user = null;
             Object.assign(state, initialState);
             localStorage.removeItem('token');
