@@ -6,19 +6,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BeatLoader } from 'react-spinners';
 import { signInOTPVerification } from '../../../services/api.service';
 import { setupFields, setUser,setToken, setRefreshToken } from '../../../store/accountSlice';
-import {useSignIn} from './Sign-in';
+// import {useSignIn} from './Sign-in';
 import toast from 'react-hot-toast';
 
-const Otp = ({ workEmail, password,keepLoggedIn }) => {
+const Otp = ({ workEmail, password,keepLoggedIn ,handleSubmitLoginAPIService }) => {
     const [otpDigits, setOTPDigits] = useState(["", "", "", ""]);
     const [timer, setTimer] = useState(60);
     const [isResendEnabled, setIsResendEnabled] = useState(false);
     const navigate = useNavigate();
     const otpRefs = useRef([]);
     const dispatch = useDispatch();
-    const { userId } = useSelector((state) => state.account);
+    const userId = useSelector((state) => state.account.userId);
     const [loading, setLoading] = useState(false);
-    const { handleSubmitLoginAPIService } = useSignIn();
+    // const { handleSubmitLoginAPIService } = useSignIn();
 
     useEffect(() => {
         let interval;
@@ -100,7 +100,7 @@ const Otp = ({ workEmail, password,keepLoggedIn }) => {
 
     const handleResendClick = () => {
         if (isResendEnabled) {
-            handleSubmitLoginAPIService(workEmail, password,keepLoggedIn);
+            handleSubmitLoginAPIService();
             setTimer(60);
             setIsResendEnabled(false);
         }

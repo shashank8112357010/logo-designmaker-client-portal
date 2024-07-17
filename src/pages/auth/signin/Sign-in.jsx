@@ -7,63 +7,10 @@ import Otp from "./Otp";
 import { signIn } from "../../../services/api.service";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
-import { setUser, setupFields, setToken, setRefreshToken } from "../../../store/accountSlice";
+import { setUser, setupFields, setToken, setRefreshToken, setUserId } from "../../../store/accountSlice";
 import { useDispatch } from "react-redux";
 import { BeatLoader } from "react-spinners";
 
-export const useSignIn = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
-
-  const mutation = useMutation({
-    mutationFn: signIn,
-    onSuccess: (res) => {
-      const { message, isUserReq, user, token, refreshToken, userReq } = res.data;
-
-      if (message !== "OTP sent successfully") {
-        dispatch(setUser({ user, ...res.data }));
-        dispatch(setRefreshToken(refreshToken));
-        if (isUserReq) {
-          const { firstName, lastName, businessName, brandName, slogan, designRequirements, niche, other, fontOptions, colorOptions } = userReq;
-          dispatch(setupFields({
-            firstName,
-            lastName,
-            businessName,
-            brandName,
-            slogan,
-            designRequirements,
-            niche,
-            other,
-            fontOptions,
-            colorOptions
-          }));
-          navigate('/dashboard/overview');
-        } else {
-          navigate('/accountsetup');
-        }
-        toast.success(message);
-        dispatch(setToken(token));
-      } else {
-        toast.success(message);
-        dispatch(setUser({ userId: res.data.userId }));
-      }
-
-      setLoading(false);
-    },
-    onError: (error) => {
-      setLoading(false);
-      toast.error(error.response.data.message);
-    }
-  });
-
-  const handleSubmitLoginAPIService = (workEmail, password, keepLoggedIn) => {
-    setLoading(true);
-    mutation.mutate({ workEmail, password, keepLoggedIn });
-  };
-
-  return { handleSubmitLoginAPIService, loading };
-}
 
 function SignIn() {
   const [workEmail, setWorkEmail] = useState("");
@@ -105,7 +52,7 @@ function SignIn() {
         toast.success(message);
       } else {
         toast.success(message);
-        dispatch(setUser({ userId: res.data.userId }));
+        dispatch(setUserId({ userId: res.data.userId }));
         setShowOTP(true);
       }
 
@@ -239,7 +186,7 @@ function SignIn() {
                 </form>
               </div>
             ) : (
-              <Otp workEmail={workEmail} password={password} keepLoggedIn={keepLoggedIn} />
+              <Otp workEmail={workEmail} password={password} keepLoggedIn={keepLoggedIn} handleSubmitLoginAPIService={() => handleSubmitLoginAPIService(workEmail, password, keepLoggedIn)}  />
             )}
           </div>
         </div>

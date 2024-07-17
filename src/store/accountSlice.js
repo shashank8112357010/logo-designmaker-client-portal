@@ -12,6 +12,7 @@ const initialState = {
     fontOptions: [],
     colorOptions: [],
     user: null,
+    userId:null,
     token: null,
     refreshToken: null,
 };
@@ -23,18 +24,22 @@ const accountSlice = createSlice({
         updateFormData: (state, action) => {
             return { ...state, ...action.payload };
         },
+        setUserId: (state, action) => {
+            const { userId } = action.payload;
+            state.userId = userId;
+        },
         setUser: (state, action) => {
-            const { user, token,refreshToken } = action.payload;
+            const { user, token, refreshToken } = action.payload;
             state.user = user;
             state.token = token;
-            state.refreshToken= refreshToken;
-            localStorage.setItem('token', token); 
-            localStorage.setItem('refreshToken', refreshToken); 
-            localStorage.setItem('user', JSON.stringify(user)); 
+            state.refreshToken = refreshToken;
+            localStorage.setItem('token', token);
+            localStorage.setItem('refreshToken', refreshToken);
+            localStorage.setItem('user', JSON.stringify(user));
         },
         setUsername: (state, action) => {
-           const username = action.payload;
-           state.user.username = username;
+            const username = action.payload;
+            state.user.username = username;
         },
         setupFields: (state, action) => {
             const { firstName, lastName, designRequirements, businessName, brandName, slogan, niche, other, fontOptions, colorOptions } = action.payload;
@@ -51,7 +56,7 @@ const accountSlice = createSlice({
         },
         removeToken: (state) => {
             state.token = null;
-            state.refreshToken=null;
+            state.refreshToken = null;
             state.user = null;
             Object.assign(state, initialState);
             localStorage.removeItem('token');
@@ -84,6 +89,6 @@ const accountSlice = createSlice({
     },
 });
 
-export const { updateFormData, setUser, removeToken, resetFormData, updateProfileField, setToken, setRefreshToken, updateTwoFactor, updateNotification, setupFields } = accountSlice.actions;
+export const { updateFormData, setUser,setUserId, removeToken, resetFormData, updateProfileField, setToken, setRefreshToken, updateTwoFactor, updateNotification, setupFields } = accountSlice.actions;
 
 export default accountSlice.reducer;
