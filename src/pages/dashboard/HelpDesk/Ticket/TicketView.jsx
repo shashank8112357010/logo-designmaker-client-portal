@@ -34,9 +34,11 @@ const TicketView = ({ ticketData, onBack }) => {
         onSuccess: (data) => {
             queryClient.invalidateQueries(['ticket', ticketData._id]);
             toast.success(data.message);
+            setLoading(false)
         },
         onError: (error) => {
             toast.error(error.message);
+            setLoading(false)
         },
     });
 

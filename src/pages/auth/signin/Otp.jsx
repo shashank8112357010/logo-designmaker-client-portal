@@ -8,9 +8,8 @@ import { signInOTPVerification } from '../../../services/api.service';
 import { setupFields, setUser,setToken, setRefreshToken } from '../../../store/accountSlice';
 import {useSignIn} from './Sign-in';
 import toast from 'react-hot-toast';
-import { saveRefreshToken } from '../../../helpers/token.helper';
 
-const Otp = ({ workEmail, password }) => {
+const Otp = ({ workEmail, password,keepLoggedIn }) => {
     const [otpDigits, setOTPDigits] = useState(["", "", "", ""]);
     const [timer, setTimer] = useState(60);
     const [isResendEnabled, setIsResendEnabled] = useState(false);
@@ -101,7 +100,7 @@ const Otp = ({ workEmail, password }) => {
 
     const handleResendClick = () => {
         if (isResendEnabled) {
-            handleSubmitLoginAPIService(workEmail, password);
+            handleSubmitLoginAPIService(workEmail, password,keepLoggedIn);
             setTimer(60);
             setIsResendEnabled(false);
         }
