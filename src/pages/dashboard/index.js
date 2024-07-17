@@ -7,3 +7,4 @@ export { default as Services } from "./Services/Services";
 export { default as Setting } from "./Profile/Setting";
 export {default as File} from "./Files/File"
 export {default as Transaction} from "./Transactions/Transaction"
+export {default as ScheduleMeeting} from "./ScheduleMeet/ScheduleMeeting"
