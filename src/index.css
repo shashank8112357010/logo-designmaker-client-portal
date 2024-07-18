@@ -247,3 +247,32 @@ input:focus {
   transform: translateX(-10px);
   opacity: 0;
 }
+
+
+/* calender */
+
+.rdp {
+  --rdp-background-color: #222;
+  --rdp-cell-size: 2.5em;
+}
+
+.rdp .rdp-day_selected {
+  background-color: #ff0000;
+  color: white;
+}
+
+.rdp .rdp-caption {
+  color: white;
+}
+
+.rdp .rdp-head {
+  color: white;
+}
+
+.rdp .rdp-cell {
+  border: none;
+}
+
+.rdp .rdp-button {
+  color: white;
+}

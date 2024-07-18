@@ -7,6 +7,7 @@ import axios from "axios";
 import { getToken, getRefreshToken, saveToken, saveRefreshToken } from "./helpers/token.helper";
 import NoPageFound from "./pages/NoPageFound";
 import { setToken } from "./store/accountSlice";
+import { getState } from './helpers/storeHelper'; // Import the utility function
 
 // Function to refresh the token
 const refreshAuthLogic = async () => {
@@ -16,7 +17,7 @@ const refreshAuthLogic = async () => {
   }
   const response = await axios.post('http://localhost:4000/api/dashboard/token', { refreshToken });
   saveToken(response.data.token);
-  dispatchEvent(setToken(response.data.token))
+  // dispatchEvent(setToken(response.data.token))
   saveRefreshToken(response.data.refreshToken);
   return response.data.token;
 };
@@ -42,6 +43,26 @@ axios.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
+    
+    // Get userId from Redux store
+    const state = getState();
+    const userId = state.account.userId; // Adjust based on your store structure
+
+    console.log(originalRequest.url);
+
+    // checking if status code 401 is coming from sign-in
+    if (originalRequest.url.includes('/login') && error.response.status === 401) {
+      return Promise.reject(error);
+    }
+
+    if (originalRequest.url.includes('/changePassword') && error.response.status === 401) {
+      return Promise.reject(error);
+    }
+
+    if (originalRequest.url.includes(`/verifyOTP/${userId}`) && error.response.status === 401) {
+      return Promise.reject(error);
+    }
+
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
