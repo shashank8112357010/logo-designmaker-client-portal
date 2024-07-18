@@ -8,7 +8,8 @@ const ScheduleMeeting = ({ onCancel }) => {
     const [topic, setTopic] = useState('');
     const [service, setService] = useState('');
     const [selectedDate, setSelectedDate] = useState(null);
-    const [time, setTime] = useState({ hour: 12, minute: 0, second: 0, period: 'AM' });
+    const [time, setTime] = useState({ hour: 12, minute: 0, period: 'AM' });
+    const [tempTime, setTempTime] = useState({ hour: 12, minute: 0, period: 'AM' });
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
     const [isTimePickerOpen, setIsTimePickerOpen] = useState(false);
 
@@ -17,17 +18,24 @@ const ScheduleMeeting = ({ onCancel }) => {
     };
 
     const handleTimeChange = (field, value) => {
-        setTime((prevTime) => ({ ...prevTime, [field]: value }));
+        setTempTime((prevTime) => ({ ...prevTime, [field]: value }));
     };
 
     const handleScroll = (field, direction) => {
-        setTime((prevTime) => {
-            const maxValues = { hour: 12, minute: 59, second: 59 };
-            const minValue = 0;
+        setTempTime((prevTime) => {
+            const maxValues = { hour: 12, minute: 59 };
+            const minValue = field === 'hour' ? 1 : 0;
             const newValue = prevTime[field] + direction;
             const adjustedValue = newValue > maxValues[field] ? minValue : newValue < minValue ? maxValues[field] : newValue;
             return { ...prevTime, [field]: adjustedValue };
         });
+    };
+
+    const togglePeriod = () => {
+        setTempTime((prevTime) => ({
+            ...prevTime,
+            period: prevTime.period === 'AM' ? 'PM' : 'AM'
+        }));
     };
 
     const handleSchedule = () => {
@@ -39,6 +47,7 @@ const ScheduleMeeting = ({ onCancel }) => {
     };
 
     const toggleTimePicker = () => {
+        setTempTime(time); // Set tempTime to the current time when opening the time picker
         setIsTimePickerOpen(!isTimePickerOpen);
     };
 
@@ -52,25 +61,34 @@ const ScheduleMeeting = ({ onCancel }) => {
     };
 
     const handleSaveTime = () => {
+        setTime(tempTime);
         setIsTimePickerOpen(false);
     };
 
     const handleCancelTime = () => {
-        setTime({ hour: 12, minute: 0, second: 0, period: 'AM' });
+        setTempTime(time);
         setIsTimePickerOpen(false);
     };
 
-    const renderScrollPicker = (field, maxValue) => (
-        <div className="relative w-16 bg-primaryBlack text-white text-center rounded h-24 flex flex-col items-center justify-center overflow-hidden">
-            <div
-                className="absolute top-0 w-full h-8 flex-col items-center justify-center"
-                style={{ transform: `translateY(${-(time[field] * 100 / maxValue)}%)` }}
-                onWheel={(e) => handleScroll(field, e.deltaY > 0 ? 1 : -1)}
+    const renderTimeInput = (field, maxValue) => (
+        <div className="relative flex flex-col items-center">
+            <button
+                type="button"
+                onClick={() => handleScroll(field, -1)}
+                className="text-white"
             >
-                <div className="text-sm opacity-50">{(time[field] - 1 + maxValue + 1) % (maxValue + 1)}</div>
-                <div className="text-lg">{time[field]}</div>
-                <div className="text-sm opacity-50">{(time[field] + 1) % (maxValue + 1)}</div>
+                ▲
+            </button>
+            <div className="bg-primaryBlack text-white text-lg w-16 h-10 flex items-center justify-center rounded">
+                {String(tempTime[field]).padStart(2, '0')}
             </div>
+            <button
+                type="button"
+                onClick={() => handleScroll(field, 1)}
+                className="text-white"
+            >
+                ▼
+            </button>
         </div>
     );
 
@@ -112,7 +130,7 @@ const ScheduleMeeting = ({ onCancel }) => {
                 </div>
                 <div className="mb-10 flex items-center">
                     <label className="block text-white w-[28%]">Date and Time *</label>
-                    <div className='flex flex-col space-y-4'>
+                    <div className='flex space-x-4'>
                         <input
                             type="text"
                             value={selectedDate ? format(selectedDate, 'PPP') : ''}
@@ -153,7 +171,7 @@ const ScheduleMeeting = ({ onCancel }) => {
                         )}
                         <input
                             type="text"
-                            value={`${String(time.hour).padStart(2, '0')}:${String(time.minute).padStart(2, '0')}:${String(time.second).padStart(2, '0')} ${time.period}`}
+                            value={`${String(time.hour).padStart(2, '0')}:${String(time.minute).padStart(2, '0')} ${time.period}`}
                             onFocus={toggleTimePicker}
                             readOnly
                             className="w-full p-2 h-12 bg-primaryBlack text-white rounded cursor-pointer"
@@ -163,22 +181,36 @@ const ScheduleMeeting = ({ onCancel }) => {
                             <div className="fixed inset-0 flex items-center justify-center z-50">
                                 <div className="absolute inset-0 bg-white bg-opacity-50"></div>
                                 <div className="relative bg-primaryBlack p-4 rounded-lg z-10">
-                                    {/* Custom Scrollable Time Picker Component */}
                                     <div className="flex flex-col items-center">
-                                        <div className="flex space-x-2">
-                                            {renderScrollPicker('hour', 11)}
-                                            <span className="text-white">:</span>
-                                            {renderScrollPicker('minute', 59)}
-                                            <span className="text-white">:</span>
-                                            {renderScrollPicker('second', 59)}
-                                            <select
-                                                value={time.period}
-                                                onChange={(e) => handleTimeChange('period', e.target.value)}
-                                                className="w-16 bg-primaryBlack text-white text-center rounded h-24 overflow-y-scroll"
-                                            >
-                                                <option value="AM">AM</option>
-                                                <option value="PM">PM</option>
-                                            </select>
+                                        <div className="flex items-center space-x-2">
+                                            {renderTimeInput('hour', 12)}
+                                            <div className="text-white text-lg flex items-center justify-center">
+                                                :
+                                            </div>
+                                            {renderTimeInput('minute', 59)}
+                                            <div className="relative flex flex-col items-center justify-center">
+                                                {tempTime.period === 'PM' ? (
+                                                    <button
+                                                        type="button"
+                                                        onClick={togglePeriod}
+                                                        className="text-white mb-1"
+                                                    >
+                                                        ▲
+                                                    </button> 
+                                                ) : <div className='bg-white h-5'></div>}
+                                                <div className="bg-primaryBlack text-white bg-red-500 text-lg w-16 h-10 flex items-center justify-center rounded">
+                                                    {tempTime.period}
+                                                </div>
+                                                {tempTime.period === 'AM' ? (
+                                                    <button
+                                                        type="button"
+                                                        onClick={togglePeriod}
+                                                        className="text-white mt-1 "
+                                                    >
+                                                        ▼
+                                                    </button>
+                                                ) : <div className='bg-white h-5'></div> }
+                                            </div>
                                         </div>
                                         <div className="flex justify-between mt-4">
                                             <button
