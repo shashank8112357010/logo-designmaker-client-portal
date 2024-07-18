@@ -11,7 +11,7 @@ const CreateTicket = ({ onBack, onSuccess }) => {
   const [requestType, setRequestType] = useState('');
   const [ticketBody, setTicketBody] = useState('');
   const [loading, setLoading] = useState(false);
-  const [showError, setShowError] = useState(false);
+  // const [showError, setShowError] = useState(false);
 
   const options = ["Finance", "Design", "Service"];
 
@@ -74,7 +74,7 @@ const CreateTicket = ({ onBack, onSuccess }) => {
                 placeholder="Please choose one option"
                 textColor="white"
               />
-              {showError && !requestType && <p className="text-red-500 text-sm mt-2">This field is required.</p>}
+              {/* {showError && !requestType && <p className="text-red-500 text-sm mt-2">This field is required.</p>} */}
             </div>
           </div>
           <label htmlFor='body' className='text-white text-lg mb-4'>Ticket Body</label>

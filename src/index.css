@@ -257,7 +257,7 @@ input:focus {
 }
 
 .rdp .rdp-day_selected {
-  background-color: #ff0000;
+  background-color: #ff0000 !important;
   color: white;
 }
 
@@ -275,4 +275,14 @@ input:focus {
 
 .rdp .rdp-button {
   color: white;
+}
+
+.rdp .rdp-day:hover {
+  background-color: transparent !important;
+  color: white !important;
+}
+
+.rdp .rdp-day_selected:hover {
+  background-color: #ff0000 !important;
+  color: white !important;
 }

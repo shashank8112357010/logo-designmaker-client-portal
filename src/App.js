@@ -6,8 +6,8 @@ import ResetPassword from "./pages/auth/ResetPassword";
 import axios from "axios";
 import { getToken, getRefreshToken, saveToken, saveRefreshToken } from "./helpers/token.helper";
 import NoPageFound from "./pages/NoPageFound";
-import { setToken } from "./store/accountSlice";
-import { getState } from './helpers/storeHelper'; // Import the utility function
+// import { setToken } from "./store/accountSlice";
+import { getState, useLogout } from './helpers/store.helper';
 
 // Function to refresh the token
 const refreshAuthLogic = async () => {
@@ -43,12 +43,14 @@ axios.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
-    
+    console.log(error.response)
+
     // Get userId from Redux store
     const state = getState();
-    const userId = state.account.userId; // Adjust based on your store structure
+    const userId = state.account.userId;
 
     console.log(originalRequest.url);
+    console.log(error.response.data.message);
 
     // checking if status code 401 is coming from sign-in
     if (originalRequest.url.includes('/login') && error.response.status === 401) {
@@ -60,6 +62,13 @@ axios.interceptors.response.use(
     }
 
     if (originalRequest.url.includes(`/verifyOTP/${userId}`) && error.response.status === 401) {
+      return Promise.reject(error);
+    }
+
+    if (error.response.status === 401 && error.response.data.message === 'Refresh token is expired or invalid') {
+      console.log('Pagging logout')
+      const logout = useLogout();
+      logout();
       return Promise.reject(error);
     }
 
@@ -79,6 +88,7 @@ axios.interceptors.response.use(
 );
 
 function App() {
+
   return (
     <>
       <Routes>

@@ -23,7 +23,6 @@ const TicketMain = () => {
     const [pageNum, setPageNum] = useState(1);
     const [totalTickets, setTotalTickets] = useState(0);
     const [searchInput, setSearchInput] = useState('');
-    const [searchResults, setSearchResults] = useState(null);
 
     const queryClient = useQueryClient();
 
