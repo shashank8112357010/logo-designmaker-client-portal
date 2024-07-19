@@ -211,7 +211,7 @@ const ScheduleMeeting = ({ onCancel }) => {
                                                     >
                                                         ▲
                                                     </button>
-                                                ) : <div className="text-white"> </div>}
+                                                ) : <div className="text-white h-6"> </div>}
                                                 <div className="bg-primaryBlack text-white text-lg w-16 h-10 flex items-center justify-center rounded">
                                                     {tempTime.period}
                                                 </div>
@@ -223,7 +223,7 @@ const ScheduleMeeting = ({ onCancel }) => {
                                                     >
                                                         ▼
                                                     </button>
-                                                ) : <div className="text-white"> </div>}
+                                                ) : <div className="text-white h-6"> </div>}
                                             </div>
                                         </div>
                                         <div className="flex gap-2 mt-8 w-full">
@@ -252,14 +252,14 @@ const ScheduleMeeting = ({ onCancel }) => {
                     <button
                         type="button"
                         onClick={onCancel}
-                        className="border border-primaryGreen text-white rounded-full px-8 py-2 w-1/3 font-medium"
+                        className="border border-primaryGreen text-white rounded-lg px-8 py-2 w-1/5 font-medium"
                     >
                         Cancel
                     </button>
                     <button
                         type="button"
                         onClick={handleSchedule}
-                        className="bg-primaryGreen text-primaryBlack rounded-full px-8 py-2 w-1/3 font-medium"
+                        className="bg-primaryGreen text-primaryBlack rounded-lg px-8 py-2 w-1/5 font-medium"
                     >
                         Schedule
                     </button>
