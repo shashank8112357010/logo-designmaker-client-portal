@@ -7,7 +7,7 @@ import axios from "axios";
 import { getToken, getRefreshToken, saveToken, saveRefreshToken } from "./helpers/token.helper";
 import NoPageFound from "./pages/NoPageFound";
 // import { setToken } from "./store/accountSlice";
-import { getState, useLogout } from './helpers/store.helper';
+import { getState, useLogout,logout } from './helpers/store.helper';
 
 // Function to refresh the token
 const refreshAuthLogic = async () => {
@@ -67,7 +67,7 @@ axios.interceptors.response.use(
 
     if (error.response.status === 401 && error.response.data.isTokenInvalid === true) {
       console.log('Pagging logout')
-      const logout = useLogout();
+      // const logout = useLogout();
       logout();
       return Promise.reject(error);
     }

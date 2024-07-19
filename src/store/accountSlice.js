@@ -60,7 +60,7 @@ const accountSlice = createSlice({
             state.user = null;
             Object.assign(state, initialState);
             localStorage.removeItem('token');
-            localStorage.removeItem('refreseToken');
+            localStorage.removeItem('refreshToken');
             localStorage.removeItem('user');
         },
         resetFormData: () => initialState,

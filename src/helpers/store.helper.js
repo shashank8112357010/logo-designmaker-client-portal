@@ -8,6 +8,9 @@ export const getState = () => {
 };
 
 
+export const logout = () => {
+  store.dispatch(removeToken());
+};
 
 
 export const useLogout = () => {
