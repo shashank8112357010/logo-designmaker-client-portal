@@ -4,7 +4,7 @@ import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import LeftSide from '../../components/LeftSide';
 import { useNavigate } from 'react-router-dom';
 
-const AccountSetupLayout = ({ stepNumber, children, handlePreviousStep }) => {
+const AccountSetupLayout = ({ stepNumber, children, handlePreviousStep,isEditing }) => {
     const navigate = useNavigate();
     const progressWidth = `${(stepNumber / 5) * 100}%`;
 
@@ -33,7 +33,7 @@ const AccountSetupLayout = ({ stepNumber, children, handlePreviousStep }) => {
                 <div className="w-full bg-white h-2 mt-4 rounded-lg">
                     <div className="bg-primaryGreen h-2 rounded-lg" style={{ width: progressWidth }}></div>
                 </div>
-                <ArrowLeftIcon className="text-gray-100 w-5 h-5 mt-5 ml-1 cursor-pointer" onClick={handleArrowClick} />
+               {isEditing && stepNumber===2 ? <div className='w-5 h-5 mt-5'></div> : <ArrowLeftIcon className="text-gray-100 w-5 h-5 mt-5 ml-1 cursor-pointer" onClick={handleArrowClick} />}
                 {children}
             </div>
         </section>

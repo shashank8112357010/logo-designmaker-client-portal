@@ -3,13 +3,17 @@ import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import { format, startOfToday } from 'date-fns';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { Dropdown } from '../../../components/CustomSelect';
 
 const ScheduleMeeting = ({ onCancel }) => {
+    const location = useLocation();
+    const initialDate = location.state?.selectedDate || null;
+
     const [topic, setTopic] = useState('');
     const [service, setService] = useState('');
-    const [selectedDate, setSelectedDate] = useState(null);
-    const [initialDate, setInitialDate] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(initialDate);
+    const [initialDateState, setInitialDateState] = useState(initialDate);
     const [time, setTime] = useState({ hour: null, minute: null, period: null });
     const [tempTime, setTempTime] = useState({ hour: 12, minute: 0, period: 'AM' });
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
@@ -46,7 +50,7 @@ const ScheduleMeeting = ({ onCancel }) => {
 
     const toggleCalendar = () => {
         if (!isCalendarOpen) {
-            setInitialDate(selectedDate);
+            setInitialDateState(selectedDate);
         }
         setIsCalendarOpen(true);
     };
@@ -61,7 +65,7 @@ const ScheduleMeeting = ({ onCancel }) => {
     };
 
     const handleCancelDate = () => {
-        setSelectedDate(initialDate);
+        setSelectedDate(initialDateState);
         setIsCalendarOpen(false);
     };
 
@@ -183,7 +187,7 @@ const ScheduleMeeting = ({ onCancel }) => {
                             }
                             onFocus={toggleTimePicker}
                             readOnly
-                             className="w-2/3 px-4 h-12 bg-primaryBlack text-white rounded-lg cursor-pointer placeholder:text-customGray"
+                            className="w-2/3 px-4 h-12 bg-primaryBlack text-white rounded-lg cursor-pointer placeholder:text-customGray"
                             placeholder="Select a time"
                         />
                         {isTimePickerOpen && (
@@ -207,7 +211,7 @@ const ScheduleMeeting = ({ onCancel }) => {
                                                     >
                                                         ▲
                                                     </button>
-                                                ) : <div className='bg-white h-6'></div>}
+                                                ) : <div className="text-white"> </div>}
                                                 <div className="bg-primaryBlack text-white text-lg w-16 h-10 flex items-center justify-center rounded">
                                                     {tempTime.period}
                                                 </div>
@@ -215,14 +219,14 @@ const ScheduleMeeting = ({ onCancel }) => {
                                                     <button
                                                         type="button"
                                                         onClick={togglePeriod}
-                                                        className="text-white "
+                                                        className="text-white"
                                                     >
                                                         ▼
                                                     </button>
-                                                ) : <div className='bg-white h-6'></div>}
+                                                ) : <div className="text-white"> </div>}
                                             </div>
                                         </div>
-                                        <div className="flex gap-2 w-full mt-8">
+                                        <div className="flex gap-2 mt-8 w-full">
                                             <button
                                                 type="button"
                                                 className="border border-primaryGreen w-1/2 text-white px-4 py-2 rounded-lg"
@@ -244,23 +248,21 @@ const ScheduleMeeting = ({ onCancel }) => {
                         )}
                     </div>
                 </div>
-                <div className="flex justify-center">
-                    <div className="flex gap-8 w-[44%]">
-                        <button
-                            type="button"
-                            className="w-full border-2 border-primaryGreen text-white py-2 rounded-md"
-                            onClick={onCancel}
-                        >
-                            Cancel
-                        </button>
-                        <button
-                            type="button"
-                            className="w-full bg-primaryGreen text-primaryBlack font-medium py-2 rounded-md"
-                            onClick={handleSchedule}
-                        >
-                            Schedule
-                        </button>
-                    </div>
+                <div className="flex justify-center space-x-4">
+                    <button
+                        type="button"
+                        onClick={onCancel}
+                        className="border border-primaryGreen text-white rounded-full px-8 py-2 w-1/3 font-medium"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="button"
+                        onClick={handleSchedule}
+                        className="bg-primaryGreen text-primaryBlack rounded-full px-8 py-2 w-1/3 font-medium"
+                    >
+                        Schedule
+                    </button>
                 </div>
             </form>
         </div>
