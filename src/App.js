@@ -50,7 +50,7 @@ axios.interceptors.response.use(
     const userId = state.account.userId;
 
     console.log(originalRequest.url);
-    console.log(error.response.data.message);
+    console.log(error.response.data.isTokenInvalid);
 
     // checking if status code 401 is coming from sign-in
     if (originalRequest.url.includes('/login') && error.response.status === 401) {
@@ -65,7 +65,7 @@ axios.interceptors.response.use(
       return Promise.reject(error);
     }
 
-    if (error.response.status === 401 && error.response.data.message === 'Refresh token is expired or invalid') {
+    if (error.response.status === 401 && error.response.data.isTokenInvalid === true) {
       console.log('Pagging logout')
       const logout = useLogout();
       logout();
