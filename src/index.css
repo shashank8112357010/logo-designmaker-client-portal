@@ -73,6 +73,21 @@ input:focus {
   transform: translateY(-50%);
 }
 
+.helpdesk-submenu{
+  transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.helpdesk-submenu.open{
+  transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  max-height: 200px;
+  opacity: 1;
+  
+}
+
+.menu
 .slick-slide {
   transition: transform 0.5s ease;
 }
@@ -154,6 +169,8 @@ input:focus {
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
   border-top: 7px solid #5CFF85;
+  
+  
 }
 
 .custom-scrollbar::-webkit-scrollbar {
@@ -212,6 +229,55 @@ input:focus {
 .chevron-icon-inactive {
   transform: translateX(-10px);
   opacity: 0;
+}
+
+.pop-circle{
+  width: 80px;
+  height: 80px;
+  margin-top: 25px;
+}
+
+.container-ticket-pop{
+  width: 600px;
+  height: 317px;
+  background-color: #182736;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+}
+
+.container-ticket-pop p{
+  font-family: 'Montserrat';
+  font-weight: 600;
+  font-size: 18px;
+  
+}
+
+.pop-button{
+  display: flex;
+  width: 322px;
+  gap: 10px;
+}
+
+.pop-button button{
+  width: 322px;
+  height: 44px;
+  border-radius: 4px;
+  border: 1px solid #5CFF85;
+  font-family: 'Montserrat';
+  color: black;
+  font-weight: 600;
+  
+}
+
+.pop-button .btn-2{
+   background-color: #5CFF85; 
+}
+
+.pop-button .btn-1{
+  color: white;
 }
 
 
