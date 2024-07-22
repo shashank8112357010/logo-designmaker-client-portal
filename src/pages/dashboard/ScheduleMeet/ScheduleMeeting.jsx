@@ -144,7 +144,7 @@ const ScheduleMeeting = ({ onCancel }) => {
                             value={selectedDate ? format(selectedDate, 'PPP') : ''}
                             onFocus={toggleCalendar}
                             readOnly
-                            className="w-2/3 px-4 h-12 bg-primaryBlack text-white rounded-lg cursor-pointer placeholder:text-customGray"
+                            className="w-2/3 min-w-40 px-4 h-12 bg-primaryBlack text-white rounded-lg cursor-pointer placeholder:text-customGray"
                             placeholder="Select a date"
                         />
                         {isCalendarOpen && (
@@ -187,7 +187,7 @@ const ScheduleMeeting = ({ onCancel }) => {
                             }
                             onFocus={toggleTimePicker}
                             readOnly
-                            className="w-2/3 px-4 h-12 bg-primaryBlack text-white rounded-lg cursor-pointer placeholder:text-customGray"
+                            className="w-2/3 min-w-40 px-4 h-12 bg-primaryBlack text-white rounded-lg cursor-pointer placeholder:text-customGray"
                             placeholder="Select a time"
                         />
                         {isTimePickerOpen && (

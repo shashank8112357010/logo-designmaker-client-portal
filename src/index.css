@@ -67,40 +67,6 @@ input:focus {
   font-family: 'Merriweather', serif;
 }
 
-/* calendar.css */
-.react-calendar {
-  background-color: #182736; /*  secondaryBlack color */
-  color: #FFFFFF; /* White text */
-  border: none;
- 
-}
-
-.react-calendar__tile {
-  color: #9CA3AF; /* Gray-400 text */
-  background-color: none;
-  transform-style: none;
-}
-
-.react-calendar__tile--now {
-  background: none; /*  primaryGreen color */
-  color: white; /* Primary black text */
-  position: relative;
-}
-.react-calendar__tile--active {
-  background: none;
-}
-
-.react-calendar__tile--now::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 23px;
-  width: 4px;
-  height: 4px;
-  background-color: red; /* Red color for the active tile indicator */
-  border-radius: 0;
-}
-
 .homeSlider {
   position: fixed;
   top: 60%;
@@ -251,9 +217,50 @@ input:focus {
 
 /* calender */
 
+.rdp-months {
+  margin: 0.4em 1em;
+}
+
+.rdp-caption {
+  padding-top: 0.8em;
+  font-size: 1em;
+}
+
+.rdp-head_cell, .rdp-day {
+  width: 1.9em;
+  line-height: 1.9em;
+  margin: 0.166em;
+}
+
+.rdp-nav {
+  top: 1em;
+  line-height: 1.7em;
+  border: 0.45em solid transparent;
+}
+
+.rdp-nav_prev {
+  border-right-color: #ccc;
+  left: 1em;
+}
+
+.rdp-nav_next {
+  border-left-color: #ccc;
+  right: 1em;
+}
 .rdp {
   --rdp-background-color: #222;
-  --rdp-cell-size: 2.5em;
+  --rdp-cell-size: 3.5em;
+  font-size: 1.1em;
+}
+
+.rdp-table {
+  width: 100%;
+  max-width: 100%;
+}
+
+.rdp-cell {
+  width: 100%;
+  max-width: 100%;
 }
 
 .rdp .rdp-day_selected {
@@ -279,10 +286,73 @@ input:focus {
 
 .rdp .rdp-day:hover {
   background-color: transparent !important;
-  color: white !important;
+  color: rgb(0, 0, 0) !important;
 }
 
 .rdp .rdp-day_selected:hover {
   background-color: #ff0000 !important;
   color: white !important;
+}
+
+
+
+.responsive-calendar {
+  /* by setting font-size, all the elements will correspond */
+  font-size: 22px !important; /* default to 10px */
+}
+
+@media (max-width: 2000px) {
+  .responsive-calendar {
+    font-size: 20px !important;
+  }
+}
+
+@media (max-width: 1800px) {
+  .responsive-calendar {
+    font-size: 18px !important;
+  }
+}
+
+@media (max-width: 1700px) {
+  .responsive-calendar {
+    font-size: 16px !important;
+  }
+}
+
+@media (max-width: 1600px) {
+  .responsive-calendar {
+    font-size: 15px !important;
+  }
+}
+
+
+@media (max-width: 1500px) {
+  .responsive-calendar {
+    font-size: 14px !important;
+  }
+}
+
+@media (max-width: 1400px) {
+  .responsive-calendar {
+    font-size: 13px !important;
+  }
+}
+
+@media (max-width: 1300px) {
+  .responsive-calendar {
+    font-size: 11px !important;
+  }
+}
+
+@media (max-width: 1200px) {
+  .responsive-calendar {
+    font-size: 10px !important;
+  }
+
+}
+
+@media (max-width: 1100px) {
+  .responsive-calendar {
+    font-size: 8px !important;
+  }
 }

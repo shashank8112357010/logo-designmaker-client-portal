@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
-import {startOfToday } from 'date-fns';
+import { startOfToday } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 
 const Overview = () => {
@@ -113,18 +113,17 @@ const Overview = () => {
                         </div>
                     </div>
                 </section>
-                <section className="bg-secondaryBlack p-6 rounded-lg">
-                    <h2 className="text-white text-xl font-semibold mb-4">Calendar</h2>
-                    <div className='bg-secondaryBlack'>
-                        <DayPicker
-                            mode="single"
-                            selected={date}
-                            onSelect={setDate}
-                            disabled={{ before: startOfToday() }}
-                            className="text-white"
-                            style={{ '--rdp-cell-size': '2.5em' }}
-                        />
-                    </div>
+                <section className="bg-secondaryBlack flex-col justify-center items-center   p-4 rounded-lg">
+                    <h2 className="text-white text-xl text-center font-semibold mb-4">Calendar</h2>
+                    <DayPicker
+                        mode="single"
+                        selected={date}
+                        onSelect={setDate}
+                        disabled={{ before: startOfToday() }}
+                        fromMonth={startOfToday()}
+                        className="text-white responsive-calendar"
+                        style={{ '--rdp-cell-size': '2.5em' }}
+                    />
                     <button
                         className="bg-primaryGreen text-primaryBlack px-4 py-2 mt-4 rounded w-full font-bold"
                         onClick={handleScheduleMeetClick1}
