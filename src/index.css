@@ -314,3 +314,41 @@ input:focus {
   color: white;
 }
 
+
+/* calender */
+
+.rdp {
+  --rdp-background-color: #222;
+  --rdp-cell-size: 2.5em;
+}
+
+.rdp .rdp-day_selected {
+  background-color: #ff0000 !important;
+  color: white;
+}
+
+.rdp .rdp-caption {
+  color: white;
+}
+
+.rdp .rdp-head {
+  color: white;
+}
+
+.rdp .rdp-cell {
+  border: none;
+}
+
+.rdp .rdp-button {
+  color: white;
+}
+
+.rdp .rdp-day:hover {
+  background-color: transparent !important;
+  color: white !important;
+}
+
+.rdp .rdp-day_selected:hover {
+  background-color: #ff0000 !important;
+  color: white !important;
+}

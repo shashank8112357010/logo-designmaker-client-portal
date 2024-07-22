@@ -3,76 +3,21 @@ import { Link, useNavigate } from "react-router-dom";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import LeftSide from "../../../components/LeftSide";
 import { DotGroup } from "../../../components/Dot";
-
 import Otp from "./Otp";
 import { signIn } from "../../../services/api.service";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
-import { setUser, setupFields, setToken, setRefreshToken} from "../../../store/accountSlice";
+import { setUser, setupFields, setToken, setRefreshToken, setUserId } from "../../../store/accountSlice";
 import { useDispatch } from "react-redux";
 import { BeatLoader } from "react-spinners";
-import { saveRefreshToken } from "../../../helpers/token.helper";
 
-export const useSignIn = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
-
-  const mutation = useMutation({
-    mutationFn: signIn,
-    onSuccess: (res) => {
-      const { message, isUserReq, user, token,refreshToken, userReq } = res.data;
-
-      if (message !== "OTP sent successfully") {
-        dispatch(setUser({ user, ...res.data }));
-        dispatch(setRefreshToken(refreshToken));
-        if (isUserReq) {
-          const { firstName, lastName, businessName, brandName, slogan, designRequirements, niche, other, fontOptions, colorOptions } = userReq;
-          dispatch(setupFields({
-            firstName,
-            lastName,
-            businessName,
-            brandName,
-            slogan,
-            designRequirements,
-            niche,
-            other,
-            fontOptions,
-            colorOptions
-          }));
-          navigate('/dashboard/overview');
-        } else {
-          navigate('/accountsetup');
-        }
-        toast.success(message);
-        dispatch(setToken(token));
-      } else {
-        toast.success(message);
-        dispatch(setUser({ userId: res.data.userId }));
-
-      }
-
-      setLoading(false);
-    },
-    onError: (error) => {
-      setLoading(false);
-      toast.error(error.response.data.message);
-    }
-  });
-
-  const handleSubmitLoginAPIService = (workEmail, password) => {
-    setLoading(true);
-    mutation.mutate({ workEmail, password });
-  };
-
-  return { handleSubmitLoginAPIService, loading };
-}
 
 function SignIn() {
   const [workEmail, setWorkEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [showOTP, setShowOTP] = useState(false);
+  const [keepLoggedIn, setKeepLoggedIn] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
@@ -80,7 +25,7 @@ function SignIn() {
   const mutation = useMutation({
     mutationFn: signIn,
     onSuccess: (res) => {
-      const { message, isUserReq, user, token,refreshToken, userReq } = res.data;
+      const { message, isUserReq, user, token, refreshToken, userReq } = res.data;
 
       if (message !== "OTP sent successfully") {
         dispatch(setUser({ user, ...res.data }));
@@ -107,22 +52,22 @@ function SignIn() {
         toast.success(message);
       } else {
         toast.success(message);
-        dispatch(setUser({ userId: res.data.userId }));
-        setShowOTP(true)
+        dispatch(setUserId({ userId: res.data.userId }));
+        setShowOTP(true);
       }
 
       setLoading(false);
     },
     onError: (error) => {
-      console.log(error)
+      console.log(error);
       setLoading(false);
       toast.error(error.response.data.message);
     }
   });
 
-  const handleSubmitLoginAPIService = (workEmail, password) => {
+  const handleSubmitLoginAPIService = (workEmail, password, keepLoggedIn) => {
     setLoading(true);
-    mutation.mutate({ workEmail, password });
+    mutation.mutate({ workEmail, password,  keepLoggedIn });
   };
 
   const handleUsernameChange = (e) => {
@@ -131,6 +76,10 @@ function SignIn() {
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
+  };
+
+  const handleKeepMeLoggedInChange = (e) => {
+    setKeepLoggedIn(e.target.checked);
   };
 
   const togglePasswordVisibility = () => {
@@ -145,7 +94,7 @@ function SignIn() {
     e.preventDefault();
     setLoading(true);
     if (isFormValid()) {
-      handleSubmitLoginAPIService(workEmail, password);
+      handleSubmitLoginAPIService(workEmail, password, keepLoggedIn);
     }
   };
 
@@ -205,7 +154,13 @@ function SignIn() {
                   </div>
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center justify-center">
-                      <input type="checkbox" id="keep-me" className="mr-2" />
+                      <input
+                        type="checkbox"
+                        id="keep-me"
+                        className="mr-2"
+                        checked={keepLoggedIn}
+                        onChange={handleKeepMeLoggedInChange}
+                      />
                       <label htmlFor="keep-me" className="text-customGray text-sm">Keep me Logged in</label>
                     </div>
                     <Link to="/auth/forget-password" className="text-primaryGreen text-sm">Forgot Password?</Link>
@@ -231,7 +186,7 @@ function SignIn() {
                 </form>
               </div>
             ) : (
-              <Otp workEmail={workEmail} password={password} />
+              <Otp workEmail={workEmail} password={password} keepLoggedIn={keepLoggedIn} handleSubmitLoginAPIService={() => handleSubmitLoginAPIService(workEmail, password, keepLoggedIn)}  />
             )}
           </div>
         </div>

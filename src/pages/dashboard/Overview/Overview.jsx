@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
-
+import { DayPicker } from 'react-day-picker';
+import 'react-day-picker/dist/style.css';
+import {startOfToday } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
 
 const Overview = () => {
     const [date, setDate] = useState(new Date());
     const [selectedTab, setSelectedTab] = useState('All Meets');
-
-    const getFirstDayOfMonth = (date) => {
-        return new Date(date.getFullYear(), date.getMonth(), 1);
-    };
+    const navigate = useNavigate();
 
     const renderTableContent = () => {
         switch (selectedTab) {
@@ -81,6 +79,13 @@ const Overview = () => {
         }
     };
 
+    const handleScheduleMeetClick1 = () => {
+        navigate('/dashboard/schedule-meeting', { state: { selectedDate: date } });
+    };
+    const handleScheduleMeetClick2 = () => {
+        navigate('/dashboard/schedule-meeting');
+    };
+
     return (
         <div>
             <main className="ml-10 mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8 p-6 mr-6">
@@ -92,7 +97,10 @@ const Overview = () => {
                                 Logo Design Maker wasn’t born out of a boardroom meeting or a desire to replicate the status quo. It stemmed from a genuine passion for design and a frustration with the limitations of AI-generated logos.
                             </p>
                             <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4">
-                                <button className="bg-primaryGreen text-primaryBlack px-4 py-2 font-bold rounded-lg">
+                                <button
+                                    className="bg-primaryGreen text-primaryBlack px-4 py-2 font-bold rounded-lg"
+                                    onClick={handleScheduleMeetClick2}
+                                >
                                     Schedule Meet
                                 </button>
                                 <button className="border border-primaryGreen text-white px-4 py-2 rounded-lg">
@@ -108,13 +116,19 @@ const Overview = () => {
                 <section className="bg-secondaryBlack p-6 rounded-lg">
                     <h2 className="text-white text-xl font-semibold mb-4">Calendar</h2>
                     <div className='bg-secondaryBlack'>
-                        <Calendar
-                            onChange={setDate}
-                            value={getFirstDayOfMonth(date)}
-                            tileClassName={({ activeStartDate, date, view }) => (view === 'month' && date.getDay() === 0 ? 'text-red-600' : null)}
+                        <DayPicker
+                            mode="single"
+                            selected={date}
+                            onSelect={setDate}
+                            disabled={{ before: startOfToday() }}
+                            className="text-white"
+                            style={{ '--rdp-cell-size': '2.5em' }}
                         />
                     </div>
-                    <button className="bg-primaryGreen text-primaryBlack px-4 py-2 mt-4 rounded w-full font-bold">
+                    <button
+                        className="bg-primaryGreen text-primaryBlack px-4 py-2 mt-4 rounded w-full font-bold"
+                        onClick={handleScheduleMeetClick1}
+                    >
                         Schedule Your Meet
                     </button>
                 </section>
@@ -127,15 +141,15 @@ const Overview = () => {
                         <button onClick={() => setSelectedTab('Scheduled')} className={`pb-2 ${selectedTab === 'Scheduled' ? 'text-primaryGreen border-b-2 border-primaryGreen' : 'text-white'}`}>Scheduled</button>
                         <button onClick={() => setSelectedTab('Cancelled')} className={`pb-2 ${selectedTab === 'Cancelled' ? 'text-primaryGreen border-b-2 border-primaryGreen' : 'text-white'}`}>Cancelled</button>
                     </nav>
-                    <div className='bg-secondaryBlack px-4 rounded-xl'>
-                        <table className="w-full  text-gray-400 min-w-max ">
-                            <thead className="text-purple">
-                                <tr>
-                                    <th className="py-2 px-4 text-primarypurple text-left">Description</th>
-                                    <th className="py-2 text-primarypurple text-left pl-5">Type</th>
-                                    <th className="py-2 text-primarypurple">Date</th>
-                                    <th className="py-2 text-primarypurple">Duration</th>
-                                    <th className="py-2 text-primarypurple">Files</th>
+                    <div className='bg-secondaryBlack'>
+                        <table className="table-auto w-full">
+                            <thead>
+                                <tr className='text-gray-400'>
+                                    <th className="py-2 px-4 text-left">Service</th>
+                                    <th className="py-2 text-left">Description</th>
+                                    <th className="py-2 text-center">Date & Time</th>
+                                    <th className="py-2 text-center">Duration</th>
+                                    <th className="py-2 text-center">Files</th>
                                 </tr>
                             </thead>
                             {renderTableContent()}

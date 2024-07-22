@@ -4,6 +4,7 @@ import { HomeIcon, ClipboardDocumentListIcon, RectangleStackIcon, Cog6ToothIcon,
 import { removeToken } from '../../store/accountSlice';
 import { useDispatch } from 'react-redux';
 import { persistor } from '../../store/store';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 const Sidebar = () => {
     const location = useLocation();
@@ -55,6 +56,31 @@ const Sidebar = () => {
         persistor.purge();
         navigate('/auth/sign-in');
     };
+
+    const handleBackClick = () => {
+        navigate(-1);
+    };
+
+    if (location.pathname === '/dashboard/schedule-meeting') {
+        return (
+            <aside className="w-[16.7%] bg-primaryBlack fixed top-0 overflow-y-auto h-screen custom-scrollbar">
+                <div className='flex flex-col justify-center w-full mb-4'>
+                    <div className='m-6'>
+                        <img src="/img/Logo.png" className="h-10 w-64 mb-10" alt="Logo" />
+                    </div>
+                    <button
+                        className="relative font-medium w-fit mx-5 text-white px-4"
+                        onClick={handleBackClick}
+                    >
+                        <div className='flex items-center gap-5 pr-4 w-fit rounded-lg'>
+                            <ArrowLeftIcon className="h-5 w-5" />
+                            <span>Back</span>
+                        </div>
+                    </button>
+                </div>
+            </aside>
+        );
+    }
 
     return (
         <aside className="w-[16.7%] bg-primaryBlack fixed top-0 overflow-y-auto h-screen custom-scrollbar">

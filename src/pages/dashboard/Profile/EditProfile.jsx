@@ -42,7 +42,6 @@ const EditProfile = () => {
     const mutation = useMutation({
         mutationFn: updateUserProfile,
         onSuccess: (res) => {
-            console.log(res)
             const user=res.user;
             const updatedData = {  
                 user,
@@ -94,7 +93,7 @@ const EditProfile = () => {
                     formData.append(`${key}[${subKey}]`, subValue);
                 });
             } else {
-                formData.append(key, value);
+                formData.append(key, value === undefined || value === null ? '' : value);
             }
         });
 
@@ -102,6 +101,7 @@ const EditProfile = () => {
         // for (let [key, value] of formData.entries()) {
         //     console.log(key, value);
         // }
+        console.log(formData);
         setLoading(true);
         mutation.mutate(formData);
     };

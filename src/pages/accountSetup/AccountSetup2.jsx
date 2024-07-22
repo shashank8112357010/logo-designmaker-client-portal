@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function AccountSetupStep2({ formData, handleNextStep, handlePreviousStep }) {
+function AccountSetupStep2({ formData, handleNextStep }) {
     const [brandName, setBrandName] = useState(formData?.brandName);
     const [slogan, setSlogan] = useState(formData?.slogan);
 

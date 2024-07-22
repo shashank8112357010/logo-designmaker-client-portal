@@ -66,7 +66,6 @@ function AccountSetup() {
     };
 
     const handleSubmit = (updatedFormData) => {
-        console.log('isEditing:', isEditing); // Debug log
         Object.keys(updatedFormData).forEach((key) => {
             dispatch(updateProfileField({ field: key, value: updatedFormData[key] }));
         });
@@ -74,7 +73,6 @@ function AccountSetup() {
             ...formData,
             ...updatedFormData,
         };
-        console.log(payload)
         if (!isEditing) {
             mutation.mutate(payload);
         } else {
@@ -83,9 +81,9 @@ function AccountSetup() {
     };
 
     return (
-        <AccountSetupLayout stepNumber={step} handlePreviousStep={handlePreviousStep}>
+        <AccountSetupLayout stepNumber={step} handlePreviousStep={handlePreviousStep} isEditing={isEditing}>
             {step === 1 && <AccountSetupStep1 formData={formData} handleNextStep={handleNextStep} />}
-            {step === 2 && <AccountSetupStep2 formData={formData} handleNextStep={handleNextStep} />}
+            {step === 2 && <AccountSetupStep2 formData={formData} handleNextStep={handleNextStep}  />}
             {step === 3 && <AccountSetupStep3 formData={formData} handleNextStep={handleNextStep} />}
             {step === 4 && <AccountSetupStep4 formData={formData} handleNextStep={handleNextStep} />}
             {step === 5 && <AccountSetupStep5 formData={formData} handleSubmit={handleSubmit} />}
