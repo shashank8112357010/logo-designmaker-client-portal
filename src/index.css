@@ -223,22 +223,35 @@ input:focus {
 }
 
 
-.helpdesk-submenu {
+/* .helpdesk-submenu {
   transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
   max-height: 0;
   opacity: 0;
   overflow: hidden;
 }
 
-.helpdesk-submenu.open {
+.helpdesk-submenu .open {
   transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  max-height: 200px;
+  opacity: 1;
+} */
+
+.helpdesk-submenu {
+  transition: 0.5s ease;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.helpdesk-submenu .open {
+  transition:  0.5s ease ;
   max-height: 200px;
   opacity: 1;
 }
 
-.menu-item {
+/* .menu-item {
   transition: color 0.3s ease, background-color 0.3s ease;
-}
+} */
 
 
 .link-active {
@@ -312,6 +325,71 @@ input:focus {
 
 .pop-button .btn-1{
   color: white;
+}
+
+/* .close-btn{
+  position: relative;
+}
+
+.ticketview-close-msg {
+  color: black;
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  position: absolute;
+  top: -77px;
+  left: 7px;
+  font-size: smaller;
+  width: 100px;
+  font-family: 'Montserrat';
+  padding: 5px;
+  font-weight: 600;
+  border: 15px solid;
+  border-color: transparent rgba(255, 255, 255, 0) rgba(255, 255, 255, 0) rgba(255, 255, 255, 0);
+  display: block;
+  transition: opacity 0.5s ease;
+}
+
+.close-btn:hover .ticketview-close-msg {
+  display: block;
+  transition: 0.5s ease;
+  
+} */
+
+
+
+.close-btn {
+  position: relative;
+}
+
+.ticketview-close-msg {
+  color: black;
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  position: absolute;
+  top: -77px;
+  left: 7px;
+  font-size: smaller;
+  width: 100px;
+  font-family: 'Montserrat';
+  padding: 5px;
+  font-weight: 600;
+  opacity: 0; 
+  transition: opacity 0.5s ease
+
+}
+
+.ticketview-close-msg::after {
+  content: "";
+  position: absolute;
+  bottom: -25px;
+  left: 35%;
+  border: 15px , solid;
+  border-color:white transparent transparent transparent; 
+}
+
+.close-btn:hover .ticketview-close-msg {
+  opacity: 1; 
+  
 }
 
 

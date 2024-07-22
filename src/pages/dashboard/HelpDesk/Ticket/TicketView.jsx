@@ -151,10 +151,12 @@ const TicketView = ({ ticketData, onBack }) => {
                                 <button onClick={onBack} className="border-primaryGreen border text-white font-bold py-2 px-6 rounded">Back</button>
                                 <button
                                     onClick={loading ? '' : (confirmClose ? '' : handleConfirmClose)}
-                                    className={`bg-primaryGreen font-medium rounded px-4 w-32 ${isResolved ? 'hover:bg-customGray cursor-not-allowed' : ''}`}
+                                    className={`bg-primaryGreen close-btn font-medium rounded px-4 w-32 ${isResolved ? 'hover:bg-customGray cursor-not-allowed' : ''}`}
                                     disabled={isResolved} 
+
                                 >
-                                    {loading ? <BeatLoader size={8} color={"#000"} />  : (isResolved ? 'Closed' : 'Close ticket')}
+                                    {isResolved ?  <p className='ticketview-close-msg'>this ticket is closed</p> : '' }
+                                    {loading ? <BeatLoader size={8} color={"#000"} />  : 'Close ticket'}
                                 </button>
                                 
 
