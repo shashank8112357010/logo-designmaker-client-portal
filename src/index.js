@@ -9,6 +9,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Toaster } from 'react-hot-toast';
+import ConfirmClosePop from './pages/dashboard/HelpDesk/Ticket/ConfirmClosePop';
 
 const queryClient = new QueryClient();
 
@@ -36,4 +37,5 @@ root.render(
       </Router>
     </QueryClientProvider>
   </React.StrictMode>
+  
 );
