@@ -162,7 +162,7 @@ const TicketView = ({ ticketData, onBack }) => {
 
                             </div>
                         </div>
-                        <div>
+                        <div className={`${confirmClose ? 'fade-enter-active' : 'fade-exit-active'}`}>
                         {confirmClose && (
                                     <ConfirmClosePop handleBack={handleBack} handleCloseTicket= {handleCloseTicket}/>            
                                 )}

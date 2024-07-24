@@ -153,14 +153,14 @@ input:focus {
 }
 .fade-enter-active {
   opacity: 1;
-  transition: opacity 0.5s ease-in;
+  transition: opacity 0.4s ease-in;
 }
 .fade-exit {
   opacity: 1;
 }
 .fade-exit-active {
   opacity: 0;
-  transition: opacity 0.5s ease-out;
+  transition: opacity 0.4s ease-out;
 }
 
 @keyframes fadeIn {
