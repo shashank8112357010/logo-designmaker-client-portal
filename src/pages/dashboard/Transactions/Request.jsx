@@ -58,13 +58,15 @@ const Request = ({ isVisible, onClose, onSubmit, serviceType }) => {
                         ></textarea>
                     </div>
                     <div className="flex justify-center space-x-4 mt-10">
-                        <button
-                            type="button"
-                            onClick={onClose}
-                            className=" text-white border-2 border-primaryGreen px-10 py-2 rounded"
-                        >
-                            Cancel
-                        </button>
+                        
+                            <button
+                                type="button"
+                                onClick={onClose}
+                                className=" text-white border-2 border-primaryGreen px-10 py-2 rounded"
+                            >
+                                Cancel
+                            </button>
+                        
                         <button type="submit" className="bg-primaryGreen text-primaryBlack font-medium px-10 py-2 rounded">
                             Request
                         </button>

@@ -4,8 +4,10 @@ const Transaction = () => {
     const [activeTab, setActiveTab] = useState('All Transaction');
     const [showRefundModal, setShowRefundModal] = useState(false);
     const [selectedService, setSelectedService] = useState(null);
+    
 
     const handleTabClick = (tab) => setActiveTab(tab);
+
     const handleRefundClick = (service) => {
         setSelectedService(service);
         setShowRefundModal(true);
@@ -88,8 +90,9 @@ const Transaction = () => {
                                 <td className="py-3 text-center">{transaction.amount}</td>
                                 <td className="py-3 text-center">
                                     <button
-                                        className="border border-primaryGreen text-primaryGreen px-4 py-1 rounded-full"
+                                        className="border border-primaryGreen text-primaryGreen px-4 py-1 rounded-full "
                                         onClick={() => handleRefundClick(transaction.service)}
+                                        
                                     >
                                         {transaction.refund}
                                     </button>
@@ -99,12 +102,16 @@ const Transaction = () => {
                     </tbody>
                 </table>
             </div>
-            <Request
-                isVisible={showRefundModal}
-                onClose={handleModalClose}
-                onSubmit={handleRefundSubmit}
-                serviceType={selectedService}
-            />
+            <div className={`${showRefundModal ? 'fade-enter-active' : 'fade-exit-active'}`}>
+                {showRefundModal && (
+                    <Request
+                        isVisible={showRefundModal}
+                        onClose={handleModalClose}
+                        onSubmit={handleRefundSubmit}
+                        serviceType={selectedService}
+                    />
+                )}
+            </div>
         </div>
     );
 };

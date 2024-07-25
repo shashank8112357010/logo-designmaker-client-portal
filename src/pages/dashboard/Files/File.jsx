@@ -119,31 +119,33 @@ const Files = () => {
                 <button className="text-customGray">Next</button>
             </div>
 
-            {showForm && (
-                <div className="fixed inset-0 left-[16.7%] top-24 flex items-center justify-center z-10">
-                    <div className="absolute inset-0 bg-customGray bg-opacity-10 h-full"></div>
-                    <div className="bg-secondaryBlack  rounded w-[50%] z-20 h-[310px]">
-                        <div className='flex justify-start relative'>
-                            <img src='/img/Elot.png' alt='elot' className='w-1/2 h-[310px] p-3' />
-                            <div className='flex flex-col items-end'>
-                                <img
-                                    src="/img/Cross.png"
-                                    alt="Close"
-                                    className='w-5 h-5 cursor-pointer m-2 absolute top-0 right-0'
-                                    onClick={handleCloseForm}
-                                />
-                                <div className='mt-4'>
-                                    <h4 className='text-white'>Service : <span className='text-customGray'>{formData.service}</span></h4>
-                                    <h4 className='text-white'> Format : <span className='text-customGray'>{formData.format}</span></h4>
-                                    <h4 className='text-white'> Upload Date : <span className='text-customGray'>{formData.uploadDate}</span></h4>
-                                    <h4 className='text-white mt-10'>Any Issue? <span className='text-primaryGreen cursor-pointer'>Report Content</span></h4>
-                                    <button className='bg-primaryGreen text-primaryBlack py-2 px-6 mt-10 rounded font-medium'>Download</button>
+            <div className={`${showForm ? 'fade-enter-active' : 'fade-exit-active'}`}>
+                {showForm && (
+                    <div className="fixed inset-0 left-[16.7%] top-24 flex items-center justify-center z-10">
+                        <div className="absolute inset-0 bg-customGray bg-opacity-10 h-full"></div>
+                        <div className="bg-secondaryBlack  rounded w-[50%] z-20 h-[310px]">
+                            <div className='flex justify-start relative'>
+                                <img src='/img/Elot.png' alt='elot' className='w-1/2 h-[310px] p-3' />
+                                <div className='flex flex-col items-end'>
+                                    <img
+                                        src="/img/Cross.png"
+                                        alt="Close"
+                                        className='w-5 h-5 cursor-pointer m-2 absolute top-0 right-0'
+                                        onClick={handleCloseForm}
+                                    />
+                                    <div className='mt-4'>
+                                        <h4 className='text-white'>Service : <span className='text-customGray'>{formData.service}</span></h4>
+                                        <h4 className='text-white'> Format : <span className='text-customGray'>{formData.format}</span></h4>
+                                        <h4 className='text-white'> Upload Date : <span className='text-customGray'>{formData.uploadDate}</span></h4>
+                                        <h4 className='text-white mt-10'>Any Issue? <span className='text-primaryGreen cursor-pointer'>Report Content</span></h4>
+                                        <button className='bg-primaryGreen text-primaryBlack py-2 px-6 mt-10 rounded font-medium'>Download</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            )}
+                )}
+            </div>
         </div>
     );
 };

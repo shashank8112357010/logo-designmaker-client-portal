@@ -67,6 +67,40 @@ input:focus {
   font-family: 'Merriweather', serif;
 }
 
+/* calendar.css */
+.react-calendar {
+  background-color: #182736; /*  secondaryBlack color */
+  color: #FFFFFF; /* White text */
+  border: none;
+ 
+}
+
+.react-calendar__tile {
+  color: #9CA3AF; /* Gray-400 text */
+  background-color: none;
+  transform-style: none;
+}
+
+.react-calendar__tile--now {
+  background: none; /*  primaryGreen color */
+  color: white; /* Primary black text */
+  position: relative;
+}
+.react-calendar__tile--active {
+  background: none;
+}
+
+.react-calendar__tile--now::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 23px;
+  width: 4px;
+  height: 4px;
+  background-color: red; /* Red color for the active tile indicator */
+  border-radius: 0;
+}
+
 .homeSlider {
   position: fixed;
   top: 60%;
@@ -119,14 +153,14 @@ input:focus {
 }
 .fade-enter-active {
   opacity: 1;
-  transition: opacity 0.5s ease-in;
+  transition: opacity 0.4s ease-in;
 }
 .fade-exit {
   opacity: 1;
 }
 .fade-exit-active {
   opacity: 0;
-  transition: opacity 0.5s ease-out;
+  transition: opacity 0.4s ease-out;
 }
 
 @keyframes fadeIn {
@@ -189,22 +223,35 @@ input:focus {
 }
 
 
-.helpdesk-submenu {
+/* .helpdesk-submenu {
   transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
   max-height: 0;
   opacity: 0;
   overflow: hidden;
 }
 
-.helpdesk-submenu.open {
+.helpdesk-submenu .open {
   transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  max-height: 200px;
+  opacity: 1;
+} */
+
+.helpdesk-submenu {
+  transition: 0.5s ease;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.helpdesk-submenu .open {
+  transition:  0.5s ease ;
   max-height: 200px;
   opacity: 1;
 }
 
-.menu-item {
+/* .menu-item {
   transition: color 0.3s ease, background-color 0.3s ease;
-}
+} */
 
 
 .link-active {
@@ -280,53 +327,77 @@ input:focus {
   color: white;
 }
 
+/* .close-btn{
+  position: relative;
+}
+
+.ticketview-close-msg {
+  color: black;
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  position: absolute;
+  top: -77px;
+  left: 7px;
+  font-size: smaller;
+  width: 100px;
+  font-family: 'Montserrat';
+  padding: 5px;
+  font-weight: 600;
+  border: 15px solid;
+  border-color: transparent rgba(255, 255, 255, 0) rgba(255, 255, 255, 0) rgba(255, 255, 255, 0);
+  display: block;
+  transition: opacity 0.5s ease;
+}
+
+.close-btn:hover .ticketview-close-msg {
+  display: block;
+  transition: 0.5s ease;
+  
+} */
+
+
+
+.close-btn {
+  position: relative;
+}
+
+.ticketview-close-msg {
+  color: black;
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  position: absolute;
+  top: -77px;
+  left: 7px;
+  font-size: smaller;
+  width: 100px;
+  font-family: 'Montserrat';
+  padding: 5px;
+  font-weight: 600;
+  opacity: 0; 
+  transition: opacity 0.5s ease
+
+}
+
+.ticketview-close-msg::after {
+  content: "";
+  position: absolute;
+  bottom: -25px;
+  left: 35%;
+  border: 15px , solid;
+  border-color:white transparent transparent transparent; 
+}
+
+.close-btn:hover .ticketview-close-msg {
+  opacity: 1; 
+  
+}
+
 
 /* calender */
 
-.rdp-months {
-  margin: 0.4em 1em;
-}
-
-.rdp-caption {
-  padding-top: 0.8em;
-  font-size: 1em;
-}
-
-.rdp-head_cell, .rdp-day {
-  width: 1.9em;
-  line-height: 1.9em;
-  margin: 0.166em;
-}
-
-.rdp-nav {
-  top: 1em;
-  line-height: 1.7em;
-  border: 0.45em solid transparent;
-}
-
-.rdp-nav_prev {
-  border-right-color: #ccc;
-  left: 1em;
-}
-
-.rdp-nav_next {
-  border-left-color: #ccc;
-  right: 1em;
-}
 .rdp {
   --rdp-background-color: #222;
-  --rdp-cell-size: 3.5em;
-  font-size: 1.1em;
-}
-
-.rdp-table {
-  width: 100%;
-  max-width: 100%;
-}
-
-.rdp-cell {
-  width: 100%;
-  max-width: 100%;
+  --rdp-cell-size: 2.5em;
 }
 
 .rdp .rdp-day_selected {
@@ -352,7 +423,7 @@ input:focus {
 
 .rdp .rdp-day:hover {
   background-color: transparent !important;
-  color: rgb(0, 0, 0) !important;
+  color: white !important;
 }
 
 .rdp .rdp-day_selected:hover {
@@ -360,65 +431,6 @@ input:focus {
   color: white !important;
 }
 
+/* refund transactions */
 
-
-.responsive-calendar {
-  /* by setting font-size, all the elements will correspond */
-  font-size: 22px !important; /* default to 10px */
-}
-
-@media (max-width: 2000px) {
-  .responsive-calendar {
-    font-size: 20px !important;
-  }
-}
-
-@media (max-width: 1800px) {
-  .responsive-calendar {
-    font-size: 18px !important;
-  }
-}
-
-@media (max-width: 1700px) {
-  .responsive-calendar {
-    font-size: 16px !important;
-  }
-}
-
-@media (max-width: 1600px) {
-  .responsive-calendar {
-    font-size: 15px !important;
-  }
-}
-
-
-@media (max-width: 1500px) {
-  .responsive-calendar {
-    font-size: 14px !important;
-  }
-}
-
-@media (max-width: 1400px) {
-  .responsive-calendar {
-    font-size: 13px !important;
-  }
-}
-
-@media (max-width: 1300px) {
-  .responsive-calendar {
-    font-size: 11px !important;
-  }
-}
-
-@media (max-width: 1200px) {
-  .responsive-calendar {
-    font-size: 10px !important;
-  }
-
-}
-
-@media (max-width: 1100px) {
-  .responsive-calendar {
-    font-size: 8px !important;
-  }
-}
+ 
