@@ -244,6 +244,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { addReplyToTicket, closeTicket } from '../../../../services/api.service';
 import { BeatLoader } from 'react-spinners';
 import toast from 'react-hot-toast';
+import { Tooltip } from 'react-tooltip';
 import ConfirmClosePop from './ConfirmClosePop'; // Assuming you have this component
 
 const TicketView = ({ ticketData, onBack }) => {
@@ -252,7 +253,6 @@ const TicketView = ({ ticketData, onBack }) => {
     const [errorMessage, setErrorMessage] = useState('');
     const [loading, setLoading] = useState(false);
     const [confirmClose, setConfirmClose] = useState(false);
-    
 
     const queryClient = useQueryClient();
 
@@ -315,7 +315,7 @@ const TicketView = ({ ticketData, onBack }) => {
         setConfirmClose(true);
     };
 
-    const handleBack=()=>{
+    const handleBack = () => {
         setConfirmClose(false)
     }
 
@@ -389,20 +389,23 @@ const TicketView = ({ ticketData, onBack }) => {
                                     </button>
                                 )}
                                 <button onClick={onBack} className="border-primaryGreen border text-white font-bold py-2 px-6 rounded">Back</button>
-                                <button
-                                    onClick={loading ? '' : (confirmClose ? '' : handleConfirmClose)}
-                                    className={`bg-primaryGreen font-medium rounded px-4 w-32 ${isResolved ? 'hover:bg-customGray cursor-not-allowed' : ''}`}
-                                    disabled={isResolved}
-                                >
-                                    {loading ? <BeatLoader size={8} color={"#000"} />  : 'Close Ticket'}
-                                </button>
-                                
-
+                                <div className="relative">
+                                    <button
+                                        onClick={loading ? '' : (confirmClose ? '' : handleConfirmClose)}
+                                        className={`bg-primaryGreen font-medium rounded px-4 py-2 w-32 ${isResolved ? 'hover:bg-customGray cursor-not-allowed' : ''}`}
+                                        disabled={isResolved}
+                                        data-tooltip-id="close-tooltip"
+                                        data-tooltip-content={isResolved ? "This ticket is already Closed" : ""}
+                                    >
+                                        {loading ? <BeatLoader size={8} color={"#000"} />  : 'Close Ticket'}
+                                    </button>
+                                    <Tooltip id="close-tooltip" place="top" type="dark" effect="solid" />
+                                </div>
                             </div>
                         </div>
                         <div>
                         {confirmClose && (
-                                    <ConfirmClosePop handleBack={handleBack} handleCloseTicket= {handleCloseTicket}/>            
+                                    <ConfirmClosePop handleBack={handleBack} handleCloseTicket={handleCloseTicket}/>            
                                 )}
                         </div>
                     </div>
@@ -430,53 +433,44 @@ const TicketView = ({ ticketData, onBack }) => {
                                         <input
                                             readOnly
                                             type="text"
-                                            value={ticketData?.ticketType}
+                                            value={ticketData?.priorityStatus?.label}
                                             className="mt-1 block w-full px-3 py-2 text-customGray rounded-md shadow-sm focus:outline-none bg-primaryBlack"
                                         />
                                     </div>
-                                    <div className="mb-4 w-1/3">
-                                        <label className="block text-sm font-medium text-white">Priority</label>
-                                        <div className="mt-1 w-full px-3 py-2 flex items-center gap-2 text-customGray rounded-md shadow-sm bg-primaryBlack">
-                                            <div className={`w-3 h-3 rounded-full ${ticketData?.priorityStatus?.color}`}></div>
-                                            <span>{ticketData?.priorityStatus?.label}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="mb-4">
-                                    <label className="block text-sm font-medium text-white">Ticket Body</label>
-                                    <textarea
-                                        placeholder='Type Your Reply here...'
-                                        value={replyText}
-                                        onChange={handleReplyChange}
-                                        required
-                                        className="placeholder:text-customGray mt-1 block w-full px-3 py-2 appearance-none resize-none bg-primaryBlack text-white rounded-md shadow-sm break-words"
-                                        rows="5"
-                                    ></textarea>
                                 </div>
                             </div>
-
-                            <div className="flex justify-end items-center space-x-4">
-                                {errorMessage && <div className="text-red-500 ">{errorMessage}</div>}
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-white">Reply</label>
+                                <textarea
+                                    value={replyText}
+                                    onChange={handleReplyChange}
+                                    className="mt-1 block w-full px-3 py-2 text-customGray rounded-md shadow-sm focus:outline-none bg-primaryBlack"
+                                    rows="4"
+                                />
+                                {errorMessage && <p className="text-xs text-customRed mt-2">{errorMessage}</p>}
+                            </div>
+                            <div className="flex justify-end">
                                 <button
                                     type="button"
+                                    className="border-customGray border text-customGray font-medium py-2 px-6 rounded mr-2"
                                     onClick={handleCloseReplyForm}
-                                    className=" text-white py-2 px-8 border rounded-md border-primaryGreen">
+                                >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
-                                    className="bg-primaryGreen  text-primaryBlack font-medium rounded-md  py-2 px-2 w-36">
-                                    {loading ? <BeatLoader size={8} color={"#000"} /> : 'Submit Reply'}
+                                    className="bg-primaryGreen font-medium py-2 px-6 rounded"
+                                    disabled={loading}
+                                >
+                                    {loading ? <BeatLoader size={8} color={"#000"} />  : 'Post Reply'}
                                 </button>
                             </div>
                         </form>
                     </div>
                 </div>
             )}
-           
         </div>
     );
 };
 
 export default TicketView;
-
