@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { useDispatch } from 'react-redux';
+import {TrashIcon}from '@heroicons/react/24/outline';
 import { getAccountSetupData, updateUserProfile } from '../../../services/api.service';
 import { updateFormData } from '../../../store/accountSlice';
 
@@ -86,22 +87,24 @@ const EditProfile = () => {
     const handleSubmit = () => {
         const formData = new FormData();
         Object.entries(localProfile).forEach(([key, value]) => {
-            if (value instanceof Array) {
+            if (key === 'postalCode' && value !== '' && value !== null) {
+                formData.append(key, Number(value));
+            } else if (value instanceof Array) {
                 value.forEach((val, i) => formData.append(`${key}[${i}]`, val));
             } else if (value instanceof Object && !(value instanceof File)) {
                 Object.entries(value).forEach(([subKey, subValue]) => {
                     formData.append(`${key}[${subKey}]`, subValue);
                 });
             } else {
-                formData.append(key, value === undefined || value === null ? '' : value);
+                formData.append(key, value === undefined ? '' : value);
             }
         });
 
-        // // Logging FormData contents for debugging
-        // for (let [key, value] of formData.entries()) {
-        //     console.log(key, value);
-        // }
-        console.log(formData);
+        // Logging FormData contents for debugging
+        for (let [key, value] of formData.entries()) {
+            console.log(key, value);
+        }
+        // console.log(formData);
         setLoading(true);
         mutation.mutate(formData);
     };
@@ -129,6 +132,13 @@ const EditProfile = () => {
         setIsEditing(false);
     };
 
+    const removeProfile =()=>{
+        setLocalProfile((prevState) => ({
+            ...prevState,
+            profileImg: null,
+        }));
+        setPreviewImage('/img/profile.jpg');
+    }
     return (
         <div className="relative">
             {!isEditing && (
@@ -161,6 +171,7 @@ const EditProfile = () => {
                             >
                                 <img src="/img/pencil.png" alt="edit" />
                             </button>
+                            <button onClick={removeProfile} className='border-primaryGreen border mt-4 ml-6 font-medium text-white px-4 py-1 rounded flex gap-2 items-center'><TrashIcon className='w-5 h-5 text-red-500' />Remove</button>
                         </>
                     )}
                 </div>

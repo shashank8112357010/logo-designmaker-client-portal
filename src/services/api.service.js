@@ -115,3 +115,15 @@ export const closeTicket = async (ticketId) => {
     const response = await axios.put(`http://localhost:4000/api/ticket/close/${ticketId}`);
     return response.data;
 };
+
+
+//schedule meeting
+
+export const scheduleMeeting = async (data) => {
+    return await axios.post(`http://localhost:4000/api/dashboard/service/createService`, data);
+};
+
+export const getServices = async () => {
+    const response = await axios.get(`http://localhost:4000/api/dashboard/service/myServices`);
+    return response.data.myServices;
+};

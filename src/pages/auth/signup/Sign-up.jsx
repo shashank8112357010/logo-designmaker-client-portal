@@ -80,7 +80,7 @@ export function SignUp() {
     onSuccess: (res) => {
       console.log(res);
       toast.success(res.data.message);
-       navigate('/auth/sign-in')
+      //  navigate('/auth/sign-in')
       setLoading(false);
        setIsSubmitted(true);
     },

@@ -136,7 +136,7 @@ const Sidebar = () => {
                             <QuestionMarkCircleIcon className="h-6 w-6" />
                             <div className='flex justify-between items-center gap-3 '>
                                 <span>Helpdesk</span>
-                                <div className={`ml-auto mt-2 ${helpdeskOpen ? 'triangle-up' : (activePath === '/dashboard/help hi' ? 'triangle-down-green' : 'triangle-down-white')}`} />
+                                <div className={`ml-auto mt-2 ${helpdeskOpen ? 'triangle-up' : (activePath === '/dashboard/help' ? 'triangle-down-green' : 'triangle-down-white')}`} />
                             </div>
                         </button>
                         <div className={`helpdesk-submenu flex flex-col justify-center pl-20 ${helpdeskOpen ? 'open' : ''}`}>

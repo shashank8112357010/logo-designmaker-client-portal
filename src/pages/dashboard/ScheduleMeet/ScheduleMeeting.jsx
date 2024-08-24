@@ -5,6 +5,9 @@ import { format, startOfToday } from 'date-fns';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { Dropdown } from '../../../components/CustomSelect';
+import {useMutation } from '@tanstack/react-query';
+import { scheduleMeeting } from '../../../services/api.service';
+import toast from 'react-hot-toast';
 
 const ScheduleMeeting = ({ onCancel }) => {
     const location = useLocation();
@@ -44,8 +47,31 @@ const ScheduleMeeting = ({ onCancel }) => {
         }));
     };
 
+    const mutation=useMutation({
+      mutationFn:scheduleMeeting,
+      onSuccess:(res)=>{
+        console.log(res)
+       toast.success(res.data.message)
+      },
+      onError:(error)=>{
+        console.log(error);
+           toast.error(error.response.data.message)
+      }
+    })
+
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'short', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+    };
+    
     const handleSchedule = () => {
-        // Handle the scheduling logic here
+        const formattedTime = {
+            ...time,
+            minute: String(time.minute).padStart(2, '0') // Ensure minutes are in 00 format
+        };
+        console.log(selectedDate)
+        console.log(formattedTime)
+        mutation.mutate({name:firstName+lastName, meetingTopic:topic, service, date:formatDate(selectedDate), time: formattedTime })
     };
 
     const toggleCalendar = () => {

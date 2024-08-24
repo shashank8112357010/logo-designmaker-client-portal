@@ -55,7 +55,7 @@ const Refunds = () => {
                     </tbody>
                 </table>
             </div>
-            <div className={`${showtTicket ? 'fade-enter-active' : 'fade-exit-active'}`}>
+            <div className={` fade ${showtTicket ? 'fade-enter-active' : 'fade-exit-active'}`}>
                 { selectedRefund && (
                     <div className="fixed inset-0 left-[16.7%] top-24 flex items-center justify-center z-10">
                         <div className="absolute inset-0 bg-customGray bg-opacity-50"></div>
